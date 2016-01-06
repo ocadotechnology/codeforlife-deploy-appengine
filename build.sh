@@ -2,5 +2,5 @@
 
 pip install -t lib codeforlife-portal
 
-./webapp/manage.py collectstatic --noinput
+./manage.py collectstatic --noinput
 
