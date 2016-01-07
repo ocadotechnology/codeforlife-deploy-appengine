@@ -1,6 +1,8 @@
 #!/bin/bash -ex
+
+export CLOUDSDK_CORE_DISABLE_PROMPTS=1
 if [ ! -d /var/go/google-cloud-sdk ]; then
-    curl https://sdk.cloud.google.com | CLOUDSDK_CORE_DISABLE_PROMPTS=1 bash
+    curl https://sdk.cloud.google.com | bash
 fi
 /var/go/google-cloud-sdk/bin/gcloud --quiet components update
 /var/go/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file .gcloud-key
