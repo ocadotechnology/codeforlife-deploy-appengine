@@ -1,22 +1,13 @@
 #!/bin/bash -ex
-curl -O -s https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.27.zip
-sudo unzip -qq google_appengine_1.9.27.zip -d /opt/
-rm google_appengine_1.9.27.zip
-export PATH=/opt/google_appengine:$PATH
+curl https://sdk.cloud.google.com | bash
+~/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file .gcloud-key
 
-export DATABASE_NAME=cfl_$1
+export DATABASE_NAME="cfl_$1"
+export CACHE_PREFIX="$1-"
+export VERSION="$2"
 
 ./manage.py migrate --noinput -v 2
 
-appcfg.py update --oauth2_refresh_token=$GAE_OAUTH_TOKEN \
-    -E DATABASE_NAME:$DATABASE_NAME \
-    -E DJANGO_SECRET:$DJANGO_SECRET \
-    -E RECAPTCHA_PRIVATE_KEY:$RECAPTCHA_PRIVATE_KEY \
-    -E RECAPTCHA_PUBLIC_KEY:$RECAPTCHA_PUBLIC_KEY \
-    -E CACHE_PREFIX:$1- \
-    -V $2 \
-    -A $APP_ID \
-    app.yaml
+envsubst <app.yaml.tmpl >app.yaml
 
-
-
+~/google-cloud-sdk/bin/gcloud preview app --quiet --verbosity info deploy app.yaml --project $APP_ID --version $VERSION
