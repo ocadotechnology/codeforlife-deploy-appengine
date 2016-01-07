@@ -178,7 +178,8 @@ else:
                 'ssl': {
                     'ca': 'server-ca.pem',
                     'cert': 'client-cert.pem',
-                    'key': 'client-key.pem'
+                    'cipher': 'AES128-SHA',
+                    'key': 'client-key.pem',
                 }
             }
         }
