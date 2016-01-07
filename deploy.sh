@@ -15,6 +15,7 @@ appcfg.py update --oauth2_access_token=$GAE_OAUTH_TOKEN \
     -E RECAPTCHA_PUBLIC_KEY:$RECAPTCHA_PUBLIC_KEY \
     -E CACHE_PREFIX:$1- \
     -V $2 \
+    -A $APP_ID \
     app.yaml
 
 
