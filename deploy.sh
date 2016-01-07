@@ -2,13 +2,14 @@
 
 export CLOUDSDK_CORE_DISABLE_PROMPTS=1
 export CLOUDSDK_PYTHON_SITEPACKAGES=1
-if [ ! -d ${SNAP_CACHE_DIR}/google-cloud-sdk ]; then
+
+GCLOUD=${SNAP_CACHE_DIR}/google-cloud-sdk/bin/gcloud
+
+if [ ! -x ${GCLOUD} ]; then
     wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-91.0.1-linux-x86_64.tar.gz
     tar zxf google-cloud-sdk-91.0.1-linux-x86_64.tar.gz -C ${SNAP_CACHE_DIR}
     rm google-cloud-sdk-91.0.1-linux-x86_64.tar.gz
 fi
-
-GCLOUD=${SNAP_CACHE_DIR}/google-cloud-sdk/bin/gcloud
 
 ${GCLOUD} --quiet components update
 ${GCLOUD} auth activate-service-account --key-file .gcloud-key
