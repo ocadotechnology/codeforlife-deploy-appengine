@@ -1,5 +1,5 @@
 #!/bin/bash -ex
-curl https://sdk.cloud.google.com | bash
+curl https://sdk.cloud.google.com | CLOUDSDK_CORE_DISABLE_PROMPTS=1 bash
 ~/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file .gcloud-key
 
 export DATABASE_NAME="cfl_$1"
