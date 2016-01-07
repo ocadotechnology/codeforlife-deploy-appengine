@@ -8,7 +8,7 @@ export DATABASE_NAME=cfl_$1
 
 ./manage.py migrate
 
-appcfg.py update --oauth2_access_token=$GAE_OAUTH_TOKEN update \
+appcfg.py update --oauth2_access_token=$GAE_OAUTH_TOKEN \
     -E DATABASE_NAME:$DATABASE_NAME \
     -E DJANGO_SECRET:$DJANGO_SECRET \
     -E RECAPTCHA_PRIVATE_KEY:$RECAPTCHA_PRIVATE_KEY \
