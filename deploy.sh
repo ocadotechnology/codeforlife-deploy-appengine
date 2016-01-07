@@ -6,7 +6,7 @@ export PATH=/opt/google_appengine:$PATH
 
 export DATABASE_NAME=cfl_$1
 
-./manage.py migrate
+./manage.py migrate --noinput -v 2
 
 appcfg.py update --oauth2_access_token=$GAE_OAUTH_TOKEN \
     -E DATABASE_NAME:$DATABASE_NAME \
