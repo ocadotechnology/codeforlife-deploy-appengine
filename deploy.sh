@@ -19,7 +19,7 @@ export DATABASE_NAME="cfl_${MODULE_NAME}"
 export CACHE_PREFIX="${MODULE_NAME}-"
 export VERSION="$2"
 
-./manage.py migrate --noinput -v 2
+./manage.py migrate --noinput
 
 envsubst <app.yaml.tmpl >app.yaml
 
