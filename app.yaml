@@ -43,7 +43,7 @@ handlers:
   secure: always
 
 - url: /.*
-  script: main.application
+  script: webapp.wsgi.application
   secure: always
 
 env_variables:
