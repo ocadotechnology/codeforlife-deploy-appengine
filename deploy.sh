@@ -1,7 +1,5 @@
 #!/bin/bash -ex
 
-${SNAP_CACHE_DIR}
-
 export CLOUDSDK_CORE_DISABLE_PROMPTS=1
 export CLOUDSDK_PYTHON_SITEPACKAGES=1
 if [ ! -d ${SNAP_CACHE_DIR}/google-cloud-sdk ]; then
