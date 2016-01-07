@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 curl -O -s https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.27.zip
-sudo unzip -qq google_appengine_1.9.27.zip /opt/
+sudo unzip -qq google_appengine_1.9.27.zip -d /opt/
 rm google_appengine_1.9.27.zip
 export PATH=/opt/google_appengine:$PATH
 
