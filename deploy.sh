@@ -30,3 +30,6 @@ ${GCLOUD} preview app --quiet deploy app.yaml --project ${APP_ID} --version ${VE
 
 # Promote
 ${GCLOUD} preview app modules set-default --project ${APP_ID} --version ${VERSION} ${MODULE_NAME}
+
+# Test the site - again!
+./test.sh ${MODULE_NAME} default
