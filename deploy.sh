@@ -15,9 +15,10 @@ ${GCLOUD} --quiet components update
 ${GCLOUD} auth activate-service-account --key-file .gcloud-key
 
 export MODULE_NAME=$1
-export DATABASE_NAME="cfl_${MODULE_NAME}"
-export CACHE_PREFIX="${MODULE_NAME}-"
 export VERSION="$2"
+export DATABASE_POSTFIX="$3"
+export DATABASE_NAME="cfl_${DATABASE_POSTFIX}"
+export CACHE_PREFIX="${MODULE_NAME}-${VERSION}-"
 
 ./manage.py migrate --noinput
 
