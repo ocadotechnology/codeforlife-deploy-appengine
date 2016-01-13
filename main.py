@@ -6,14 +6,8 @@ import sys
 logging.error("sys.path: %s", sys.path)
 logging.error("ls: %s", os.listdir('.'))
 logging.error("ls: %s", os.listdir('lib'))
-logging.error("ls: %s", os.listdir('webapp'))
 
-import webapp
 
-try:
-    import webapp.wsgi
-except ImportError as err:
-    logging.error("ImportError: %s", err)
-    raise
+import django_site.wsgi
 
-application = webapp.wsgi.application
+application = django_site.wsgi.application

@@ -85,9 +85,9 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_COOKIE_AGE = 60 * 60
 SESSION_SAVE_EVERY_REQUEST = True
 
-ROOT_URLCONF = 'webapp.urls'
+ROOT_URLCONF = 'django_site.urls'
 
-WSGI_APPLICATION = 'webapp.wsgi.application'
+WSGI_APPLICATION = 'django_site.wsgi.application'
 
 CSRF_FAILURE_VIEW = 'deploy.views.csrf_failure'
 
