@@ -23,7 +23,7 @@ export VERSION="$2"
 
 envsubst <app.yaml.tmpl >app.yaml
 
-${GCLOUD} preview app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote --verbosity debug
+${GCLOUD} preview app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote
 
 # Test the site
 ./test.sh ${MODULE_NAME} ${VERSION}
