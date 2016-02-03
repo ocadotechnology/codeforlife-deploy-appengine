@@ -1,6 +1,8 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
+from django_site.views import versions
+
 js_info_dict = {
     'packages': ('conf.locale',),
 }
@@ -13,6 +15,7 @@ urlpatterns = patterns('',
     url(r'^rapidrouter/', include('game.urls')),
     url(r'^reports/', include('reports.urls')),
     url(r'^', include('cms.urls')),
+    url(r'^versions/$', versions, name='versions'),
 )
 
 try:
