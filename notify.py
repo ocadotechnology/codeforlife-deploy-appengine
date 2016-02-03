@@ -18,7 +18,7 @@ for app_id, app_name in [
     ('rapid-router', 'Rapid Router'),
     ('codeforlife-portal', 'Portal'),
 ]:
-    if staging_versions[app_id] == prod_versions[app_id]:
+    if staging_versions[app_id] != prod_versions[app_id]:
         message += '\n<https://github.com/ocadotechnology/%(app_id)s/compare/%(old_version)s...%(new_version)s|%(app_name)s changes>' % {
             'app_id': app_id,
             'app_name': app_name,
