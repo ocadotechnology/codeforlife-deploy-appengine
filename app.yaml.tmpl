@@ -42,6 +42,11 @@ handlers:
   script: google.appengine.ext.appstats.ui.app
   secure: always
 
+- url: /mail/weekly
+  script: main.application
+  login: admin
+  secure: always
+
 - url: /.*
   script: main.application
   secure: always
