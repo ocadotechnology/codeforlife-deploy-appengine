@@ -12,6 +12,7 @@ if [ ! -x ${GCLOUD} ]; then
 fi
 
 ${GCLOUD} --quiet components update
+${GCLOUD} config set app/use_gsutil true # TODO: Remove when https://code.google.com/p/google-cloud-sdk/issues/detail?id=727 is fixed
 ${GCLOUD} auth activate-service-account --key-file .gcloud-key
 
 export MODULE_NAME=$1
