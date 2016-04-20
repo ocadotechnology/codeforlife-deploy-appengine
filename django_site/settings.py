@@ -228,10 +228,6 @@ CMS_TEMPLATES = (
     ('portal/base.html', 'Template One'),
 )
 
-LANGUAGES = [
-    ('en-gb', 'English'),
-]
-
 MIGRATION_MODULES = {
     'menus': 'menus.migrations_django',
 
