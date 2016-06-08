@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 
 import game._version
+import players._version
 import portal._version
 
 def versions(_request):
