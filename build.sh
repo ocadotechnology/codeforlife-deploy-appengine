@@ -2,7 +2,7 @@
 
 gem install sass --version 3.3.4
 
-pip install -t lib codeforlife-portal
+pip install -t lib codeforlife-portal aimmo
 
 ./manage.py collectstatic --noinput
 

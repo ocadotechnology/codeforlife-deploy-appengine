@@ -17,13 +17,14 @@ notify = False
 for app_id, app_name in [
     ('rapid-router', 'Rapid Router'),
     ('codeforlife-portal', 'Portal'),
+    ('aimmo', 'AI:MMO'),
 ]:
-    if staging_versions[app_id] != prod_versions[app_id]:
+    if staging_versions.get(app_id, None) != prod_versions.get(app_id, None):
         message += '\n<https://github.com/ocadotechnology/%(app_id)s/compare/%(old_version)s...%(new_version)s|%(app_name)s changes>' % {
             'app_id': app_id,
             'app_name': app_name,
-            'old_version': prod_versions[app_id],
-            'new_version': staging_versions[app_id],
+            'old_version': prod_versions.get(app_id, None),
+            'new_version': staging_versions.get(app_id, None),
         }
         notify = True
 
