@@ -61,7 +61,8 @@ INSTALLED_APPS = (
     'djangocms_link',
     'djangocms_snippet',
     'djangocms_text_ckeditor',  # note this needs to be above the 'cms' entry
-    'reversion'
+    'reversion',
+    'aimmo',
 )
 
 MIDDLEWARE_CLASSES = [
