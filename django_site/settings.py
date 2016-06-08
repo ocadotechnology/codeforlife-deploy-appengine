@@ -19,9 +19,9 @@ rel = lambda rel_path: os.path.join(BASE_DIR, rel_path)
 SECRET_KEY = os.getenv('DJANGO_SECRET', 'NOT A SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
 # Application definition
 
