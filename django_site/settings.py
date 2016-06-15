@@ -244,6 +244,8 @@ MIGRATION_MODULES = {
     'djangocms_video': 'djangocms_video.migrations_django',
 }
 
+AIMMO_GAME_SERVER_LOCATION_FUNCTION = lambda game: ('http://130.211.21.203', "/game/%s/socket.io" % game)
+
 # Keep this at the bottom
 from django_autoconfig.autoconfig import configure_settings
 
