@@ -21,7 +21,7 @@ export DATABASE_POSTFIX="$3"
 export DATABASE_NAME="cfl_${DATABASE_POSTFIX}"
 export CACHE_PREFIX="${MODULE_NAME}-${VERSION}-"
 
-./manage.py migrate --noinput
+snap-wait 30 ./manage.py migrate --noinput
 
 envsubst <app.yaml.tmpl >app.yaml
 
