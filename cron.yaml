@@ -3,3 +3,8 @@ cron:
   url: /mail/weekly
   schedule: every friday 09:00
   timezone: Europe/London
+
+- description: weekly new users emails
+  url: /mail/emails
+  schedule: every friday 09:30
+  timezone: Europe/London

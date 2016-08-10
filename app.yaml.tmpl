@@ -47,6 +47,11 @@ handlers:
   login: admin
   secure: always
 
+- url: /mail/emails
+  script: main.application
+  login: admin
+  secure: always
+
 - url: /.*
   script: main.application
   secure: always
@@ -60,6 +65,7 @@ env_variables:
   RECAPTCHA_PRIVATE_KEY: '${RECAPTCHA_PRIVATE_KEY}'
   RECAPTCHA_PUBLIC_KEY: '${RECAPTCHA_PUBLIC_KEY}'
   DJANGO_PORTAL_CONTACT_FORM_EMAIL: '${DJANGO_PORTAL_CONTACT_FORM_EMAIL}'
+  DJANGO_PORTAL_MAILING_INFOS: '${DJANGO_PORTAL_MAILING_INFOS}'
 
 libraries:
 - name: MySQLdb
