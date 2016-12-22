@@ -2,3 +2,4 @@ cron:
 - description: weekly new users number notification email
   url: /mail/weekly
   schedule: every friday 09:00
+  timezone: Europe/London
