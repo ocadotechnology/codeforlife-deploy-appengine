@@ -97,13 +97,13 @@ CSRF_FAILURE_VIEW = 'deploy.views.csrf_failure'
 
 LANGUAGE_CODE = 'en-gb'
 
-TIME_ZONE = 'Europe/London'
+#TIME_ZONE = 'Europe/London'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False #Temporarily deactivating to test deploy - needs to be put back
 
 
 # Static files (CSS, JavaScript, Images)
