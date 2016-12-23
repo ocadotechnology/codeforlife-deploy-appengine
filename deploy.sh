@@ -11,7 +11,8 @@ if [ ! -x ${GCLOUD} ]; then
     rm google-cloud-sdk-91.0.1-linux-x86_64.tar.gz
 fi
 
-${GCLOUD} --quiet components update
+#${GCLOUD} --quiet components update
+${GCLOUD} components update --version 135.0.0 # Investigating timezone issue
 ${GCLOUD} config set app/use_gsutil true # TODO: Remove when https://code.google.com/p/google-cloud-sdk/issues/detail?id=727 is fixed
 ${GCLOUD} auth activate-service-account --key-file .gcloud-key
 
