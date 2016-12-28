@@ -29,9 +29,6 @@ envsubst <app.yaml.tmpl >app.yaml
 ${GCLOUD} preview app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote
 ${GCLOUD} preview app --quiet deploy cron.yaml --project ${APP_ID} --version ${VERSION} --no-promote
 
-#test timezones
-find ./lib/pytz
-
 # Test the site
 ./test.sh ${MODULE_NAME} ${VERSION}
 
