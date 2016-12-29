@@ -5,5 +5,7 @@ rbenv rehash
 
 pip install -t lib codeforlife-portal aimmo
 
+ls lib
+
 ./manage.py collectstatic --noinput
 
