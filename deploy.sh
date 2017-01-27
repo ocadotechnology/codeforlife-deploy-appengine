@@ -25,14 +25,14 @@ export CACHE_PREFIX="${MODULE_NAME}-${VERSION}-"
 
 envsubst <app.yaml.tmpl >app.yaml
 
-${GCLOUD} preview app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote
-${GCLOUD} preview app --quiet deploy cron.yaml --project ${APP_ID} --version ${VERSION} --no-promote
+${GCLOUD} app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote
+${GCLOUD} app --quiet deploy cron.yaml --project ${APP_ID} --version ${VERSION} --no-promote
 
 # Test the site
 ./test.sh ${MODULE_NAME} ${VERSION}
 
 # Promote
-${GCLOUD} preview app modules set-default --project ${APP_ID} --version ${VERSION} ${MODULE_NAME}
+${GCLOUD} app modules set-default --project ${APP_ID} --version ${VERSION} ${MODULE_NAME}
 
 # Test the site - again!
 ./test.sh ${MODULE_NAME} default
