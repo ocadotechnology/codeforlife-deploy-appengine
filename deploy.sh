@@ -32,7 +32,7 @@ ${GCLOUD} app --quiet deploy cron.yaml --project ${APP_ID} --version ${VERSION} 
 ./test.sh ${MODULE_NAME} ${VERSION}
 
 # Promote
-${GCLOUD} app services set-traffic --project ${APP_ID} --splits ${VERSION}=1 --migrate
+${GCLOUD} app services set-traffic --project ${APP_ID} --splits ${VERSION}=1 ${MODULE_NAME} --migrate
 
 # Test the site - again!
 ./test.sh ${MODULE_NAME} default
