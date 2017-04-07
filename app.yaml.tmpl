@@ -57,6 +57,11 @@ handlers:
   login: admin
   secure: always
 
+- url: /api/.*
+    script: main.application
+    login: admin
+    secure: always
+
 - url: /.*
   script: main.application
   secure: always
