@@ -44,12 +44,6 @@ INSTALLED_APPS = (
     'rest_framework',
     'online_status',
 
-    #CMS
-    'cms',  # django CMS itself
-    'treebeard',
-    'menus',  # helper for model independent hierarchical website navigation
-    'sekizai',  # for javascript and css management
-
     # CMS Plugins
     'djangocms_file',
     'djangocms_flash',
@@ -63,6 +57,12 @@ INSTALLED_APPS = (
     'djangocms_text_ckeditor',  # note this needs to be above the 'cms' entry
     'reversion',
     'players',
+
+    #CMS
+    'cms',  # django CMS itself
+    'treebeard',
+    'menus',  # helper for model independent hierarchical website navigation
+    'sekizai',  # for javascript and css management
 )
 
 MIDDLEWARE_CLASSES = [
