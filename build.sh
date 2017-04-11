@@ -10,8 +10,8 @@ rm -rf lib/djangocms_text_ckeditor lib/djangocms_text_ckeditor*.dist-info
 
 
 #pip install 'html5<0.99'
-pip install django-cms --upgrade
-pip install djangocms-text-ckeditor --upgrade
+#pip install django-cms --upgrade
+#pip install djangocms-text-ckeditor --upgrade
 
 ./manage.py collectstatic --noinput
 
