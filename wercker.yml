@@ -11,6 +11,10 @@ Build-Distribution:
         #    code: |
         #        pip install mysql-python
         - script:
+            name: pip upgrade
+            code: |
+                pip install 'pip==7.1.2'
+        - script:
             name: build sh
             code: |
                 sh build.sh
