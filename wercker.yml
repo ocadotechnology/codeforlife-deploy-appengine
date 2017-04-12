@@ -1,1 +1,21 @@
----
+box: python:2.7-slim
+
+Build-Distribution:
+    steps:
+        #- script:
+        #    name: yum install things
+        #    code: |
+        #        apt-get install python2.7-dev libmysqlclient-dev python-mysqldb
+        #- script:
+        #    name: pip install things
+        #    code: |
+        #        pip install mysql-python
+        - script:
+            name: build sh
+            code: |
+                sh build.sh
+
+Deploy-Staging:
+    steps:
+        - export CLOUDSDK_CORE_DISABLE_PROMPTS=1
+        - export CLOUDSDK_PYTHON_SITEPACKAGES=1
