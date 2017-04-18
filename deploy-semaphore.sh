@@ -12,7 +12,7 @@ if [ ! -x ${GCLOUD} ]; then
 fi
 
 ${GCLOUD} --quiet components update
-${GCLOUD} auth activate-service-account --key-file ../.gcloud-key
+${GCLOUD} auth activate-service-account --key-file .gcloud-key
 
 export MODULE_NAME=$1
 export VERSION="$2"
