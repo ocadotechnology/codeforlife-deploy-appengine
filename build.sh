@@ -15,11 +15,9 @@ rm -rf lib/django_cms lib/django_cms*.dist-info
 #pip install 'html5<0.99'
 #pip install django-cms --upgrade
 #pip install djangocms-text-ckeditor --upgrade
-
 #echo $PATH
-
-ls -a lib/
-ls -a /home/rof/.virtualenv/local/lib/python2.7/site-packages/
+#ls -a lib/
+#ls -a /home/rof/.virtualenv/local/lib/python2.7/site-packages/
 
 ./manage.py collectstatic --noinput
 
