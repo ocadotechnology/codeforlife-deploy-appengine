@@ -174,6 +174,7 @@ else:
             'HOST': os.getenv('CLOUD_SQL_HOST'),
             'NAME': os.getenv('DATABASE_NAME'),
             'USER': 'root',
+            'PORT': 8084,
             'PASSWORD': os.getenv('CLOUD_SQL_PASSWORD'),
             'OPTIONS': {
                 'ssl': {

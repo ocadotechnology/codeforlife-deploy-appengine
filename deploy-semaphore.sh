@@ -4,7 +4,7 @@ export CLOUDSDK_CORE_DISABLE_PROMPTS=1
 export CLOUDSDK_PYTHON_SITEPACKAGES=1
 
 GCLOUD=$SEMAPHORE_CACHE_DIR/google-cloud-sdk/bin/gcloud
-SQL_PROXY=cloud_sql_proxy
+SQL_PROXY=./cloud_sql_proxy
 
 if [ ! -x ${GCLOUD} ]; then
     wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-91.0.1-linux-x86_64.tar.gz
@@ -13,7 +13,7 @@ if [ ! -x ${GCLOUD} ]; then
 fi
 
 ${GCLOUD} --quiet components update
-#${GCLOUD} auth activate-service-account --key-file .gcloud-key
+${GCLOUD} auth activate-service-account --key-file .gcloud-key
 
 if [ ! -x ${SQL_PROXY} ]; then
     wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64
@@ -27,8 +27,7 @@ export DATABASE_POSTFIX="$3"
 export DATABASE_NAME="cfl_${DATABASE_POSTFIX}"
 export CACHE_PREFIX="${MODULE_NAME}-${VERSION}-"
 
-./cloud_sql_proxy -instances=$CLOUD_SQL_NAME=tcp:3306 -credential_file=.gcloud-key
-
+${SQL_PROXY} -instances=$CLOUD_SQL_NAME=tcp:8084 -credential_file=.gcloud-key &
 ./manage.py migrate --noinput
 
 envsubst <app.yaml.tmpl >app.yaml
