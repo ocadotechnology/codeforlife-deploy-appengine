@@ -25,8 +25,7 @@ export CACHE_PREFIX="${MODULE_NAME}-${VERSION}-"
 envsubst <app.yaml.tmpl >app.yaml
 
 ${GCLOUD} app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote
-#${GCLOUD} app --quiet deploy cron.yaml --project ${APP_ID} --version ${VERSION} --no-promote
-
+${GCLOUD} app --quiet deploy cron.yaml --project ${APP_ID} --version ${VERSION} --no-promote
 
 # Test the site
 ./test.sh ${MODULE_NAME} ${VERSION}
