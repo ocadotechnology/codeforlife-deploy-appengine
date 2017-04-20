@@ -171,20 +171,19 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            #'HOST': os.getenv('CLOUD_SQL_HOST'),
-            'HOST': '127.0.0.1',
+            'HOST': os.getenv('CLOUD_SQL_HOST'),
             'NAME': os.getenv('DATABASE_NAME'),
             'USER': 'root',
             'PORT': '8084',
-            #'PASSWORD': os.getenv('CLOUD_SQL_PASSWORD'),
-            #'OPTIONS': {
-            #    'ssl': {
-            #        'ca': 'server-ca.pem',
-            #        'cert': 'client-cert.pem',
-            #        'cipher': 'AES128-SHA',
-            #        'key': 'client-key.pem',
-            #    }
-            #}
+            'PASSWORD': os.getenv('CLOUD_SQL_PASSWORD'),
+            'OPTIONS': {
+                'ssl': {
+                    'ca': 'server-ca.pem',
+                    'cert': 'client-cert.pem',
+                    'cipher': 'AES128-SHA',
+                    'key': 'client-key.pem',
+                }
+            }
         }
     }
     PIPELINE_ENABLED = True
