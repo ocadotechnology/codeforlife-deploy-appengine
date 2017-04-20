@@ -176,15 +176,15 @@ else:
             'NAME': os.getenv('DATABASE_NAME'),
             'USER': 'root',
             'PORT': '8084',
-            'PASSWORD': os.getenv('CLOUD_SQL_PASSWORD'),
-            'OPTIONS': {
-                'ssl': {
-                    'ca': 'server-ca.pem',
-                    'cert': 'client-cert.pem',
-                    'cipher': 'AES128-SHA',
-                    'key': 'client-key.pem',
-                }
-            }
+            #'PASSWORD': os.getenv('CLOUD_SQL_PASSWORD'),
+            #'OPTIONS': {
+            #    'ssl': {
+            #        'ca': 'server-ca.pem',
+            #        'cert': 'client-cert.pem',
+            #        'cipher': 'AES128-SHA',
+            #        'key': 'client-key.pem',
+            #    }
+            #}
         }
     }
     PIPELINE_ENABLED = True
