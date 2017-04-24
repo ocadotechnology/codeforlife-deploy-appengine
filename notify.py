@@ -28,6 +28,7 @@ for app_id, app_name in [
         }
         notify = True
 
-if notify:
-    print(message)
-    requests.post(os.environ['DEPLOY_NOTIFY_URL'], json={'text': message})
+#if notify:
+message += ' wuhuhu testing things'
+print(message)
+requests.post(os.environ['DEPLOY_NOTIFY_URL'], json={'text': message})
