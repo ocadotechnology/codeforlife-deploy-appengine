@@ -8,7 +8,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse
 
 # Build paths inside the project like this: rel(rel_path)
 import os
@@ -119,7 +119,7 @@ MEDIA_ROOT = rel('static')+'/email_media/'
 
 LOGIN_URL = '/'
 LOGOUT_URL = '/logout/'
-LOGIN_REDIRECT_URL = reverse_lazy('portal.views.teacher.home.teacher_home')
+LOGIN_REDIRECT_URL = reverse('dashboard')
 
 
 # Required for admindocs
