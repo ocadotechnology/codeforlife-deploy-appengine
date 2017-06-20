@@ -8,7 +8,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse
 
 # Build paths inside the project like this: rel(rel_path)
 import os
@@ -44,12 +44,6 @@ INSTALLED_APPS = (
     'rest_framework',
     'online_status',
 
-    #CMS
-    'cms',  # django CMS itself
-    'treebeard',
-    'menus',  # helper for model independent hierarchical website navigation
-    'sekizai',  # for javascript and css management
-
     # CMS Plugins
     'djangocms_file',
     'djangocms_flash',
@@ -63,6 +57,12 @@ INSTALLED_APPS = (
     'djangocms_text_ckeditor',  # note this needs to be above the 'cms' entry
     'reversion',
     'players',
+
+    #CMS
+    'cms',  # django CMS itself
+    'treebeard',
+    'menus',  # helper for model independent hierarchical website navigation
+    'sekizai',  # for javascript and css management
 )
 
 MIDDLEWARE_CLASSES = [
@@ -119,7 +119,7 @@ MEDIA_ROOT = rel('static')+'/email_media/'
 
 LOGIN_URL = '/'
 LOGOUT_URL = '/logout/'
-LOGIN_REDIRECT_URL = reverse_lazy('portal.views.teacher.home.teacher_home')
+LOGIN_REDIRECT_URL = reverse('dashboard')
 
 
 # Required for admindocs

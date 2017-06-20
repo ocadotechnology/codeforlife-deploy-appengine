@@ -10,7 +10,7 @@ APP_ID = os.environ['APP_ID']
 staging_versions = requests.get("https://staging-dot-%s.appspot.com/versions/" % APP_ID).json()
 prod_versions = requests.get("https://%s.appspot.com/versions/" % APP_ID).json()
 
-message = '<https://snap-ci.com/ocadotechnology/codeforlife-deploy-appengine/branch/master|Staging deployment #%s> completed successfully.' % os.environ['SNAP_PIPELINE_COUNTER']
+message = '<https://semaphoreci.com/celine/codeforlife-deploy-appengine|Deployment #%s> completed successfully.' % os.environ['SEMAPHORE_BUILD_NUMBER']
 
 notify = False
 
@@ -28,6 +28,7 @@ for app_id, app_name in [
         }
         notify = True
 
-if notify:
-    print(message)
-    requests.post(os.environ['DEPLOY_NOTIFY_URL'], json={'text': message})
+#if notify:
+message += ' wuhuhu testing things'
+print(message)
+requests.post(os.environ['DEPLOY_NOTIFY_URL'], json={'text': message})
