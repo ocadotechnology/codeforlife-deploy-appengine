@@ -47,6 +47,10 @@ handlers:
   login: admin
   secure: always
 
+- url: /aimmo/api/.*
+  script: main.application
+  secure: always
+
 - url: /aimmo/.*
   script: main.application
   login: admin
