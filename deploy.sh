@@ -11,7 +11,7 @@ if [ ! -x ${GCLOUD} ]; then
     rm google-cloud-sdk-159.0.0-linux-x86_64.tar.gz
 fi
 
-#${GCLOUD} --quiet components update
+${GCLOUD} --quiet components update
 ${GCLOUD} auth activate-service-account --key-file .gcloud-key
 
 export MODULE_NAME=$1
@@ -20,7 +20,7 @@ export DATABASE_POSTFIX="$3"
 export DATABASE_NAME="cfl_${DATABASE_POSTFIX}"
 export CACHE_PREFIX="${MODULE_NAME}-${VERSION}-"
 
-#./manage.py migrate --noinput --verbosity 3   #TO PUT BACK WHEN FIXED SEMAPHORECI
+./manage.py migrate --noinput --verbosity 3
 
 envsubst <app.yaml.tmpl >app.yaml
 
