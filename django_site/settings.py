@@ -250,7 +250,7 @@ def get_module_name():
     return os.getenv('MODULE_NAME')
 
 
-AIMMO_GAME_SERVER_LOCATION_FUNCTION = lambda game: ('%s.aimmo.codeforlife.education' % get_module_name(),
+AIMMO_GAME_SERVER_LOCATION_FUNCTION = lambda game: ('35.195.59.30',
                                                     '/game-%s' % game)
 
 
