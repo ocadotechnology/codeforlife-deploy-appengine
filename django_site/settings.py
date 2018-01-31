@@ -246,7 +246,20 @@ MIGRATION_MODULES = {
     'djangocms_video': 'djangocms_video.migrations_django',
 }
 
-AIMMO_GAME_SERVER_LOCATION_FUNCTION = lambda game: ('https://staging.aimmo.codeforlife.education', "/game/%s" % game)
+
+def get_module_name():
+    return os.getenv('MODULE_NAME')
+
+
+AIMMO_GAME_SERVER_LOCATION_FUNCTION = lambda game: ('35.195.59.30',
+                                                    '/game-%s' % game)
+
+
+AIMMO_GAME_SERVER_PORT_FUNCTION = lambda game: 0
+
+
+AIMMO_GAME_SERVER_SSL_FLAG = True
+
 
 # Keep this at the bottom
 from django_autoconfig.autoconfig import configure_settings
