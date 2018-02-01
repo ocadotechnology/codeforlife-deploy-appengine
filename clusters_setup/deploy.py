@@ -1,8 +1,6 @@
-from google.cloud import container_v1
 import os
 import kubernetes
 import yaml
-import requests
 import sys
 
 # Root directory of the project.
