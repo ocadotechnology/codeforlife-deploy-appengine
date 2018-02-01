@@ -27,9 +27,14 @@ envsubst <app.yaml.tmpl >app.yaml
 ${GCLOUD} app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote
 ${GCLOUD} app --quiet deploy cron.yaml --project ${APP_ID} --version ${VERSION} --no-promote
 
+<<<<<<< HEAD
 # Install the dependencies for the following deploy script.
 pip install kubernetes==4.0.0
 pip install pyyaml
+=======
+# Install the dependency for the following deploy script.
+pip install google-cloud==0.32.0
+>>>>>>> 009b471f31a5453e5e03f06230ae0eda16b838c8
 
 # Deploy the correct kubernetes cluster.
 python clusters_setup/deploy.py "${VERSION}"
