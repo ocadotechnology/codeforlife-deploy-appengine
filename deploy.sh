@@ -20,12 +20,6 @@ export DATABASE_POSTFIX="$3"
 export DATABASE_NAME="cfl_${DATABASE_POSTFIX}"
 export CACHE_PREFIX="${MODULE_NAME}-${VERSION}-"
 
-#./manage.py migrate --noinput
-
-envsubst <app.yaml.tmpl >app.yaml
-
-${GCLOUD} app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote
-${GCLOUD} app --quiet deploy cron.yaml --project ${APP_ID} --version ${VERSION} --no-promote
 
 # Install the dependencies for the following deploy script.
 pip install kubernetes==4.0.0
@@ -33,6 +27,14 @@ pip install pyyaml
 
 # Deploy the correct kubernetes cluster.
 python clusters_setup/deploy.py "${MODULE_NAME}"
+
+#./manage.py migrate --noinput
+
+envsubst <app.yaml.tmpl >app.yaml
+
+${GCLOUD} app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote
+${GCLOUD} app --quiet deploy cron.yaml --project ${APP_ID} --version ${VERSION} --no-promote
+
 
 # Test the site
 ./test.sh ${MODULE_NAME} ${VERSION}
