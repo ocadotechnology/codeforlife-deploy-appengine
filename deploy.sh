@@ -32,7 +32,7 @@ pip install kubernetes==4.0.0
 pip install pyyaml
 
 # Deploy the correct kubernetes cluster.
-python clusters_setup/deploy.py "${VERSION}"
+python clusters_setup/deploy.py "${MODULE_NAME}"
 
 # Test the site
 ./test.sh ${MODULE_NAME} ${VERSION}
