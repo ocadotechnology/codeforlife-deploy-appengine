@@ -66,8 +66,8 @@ def main(module_name):
     """
     :param module_name: The environment (ie. staging, etc).
     """
-
-    kubernetes.config.load_kube_config()
+    service_account_path = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__))), ".gcloud-key")
+    kubernetes.config.load_kube_config(config_file=service_account_path)
 
     global api_instance
     global extensions_api_instance
