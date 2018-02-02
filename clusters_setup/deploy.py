@@ -23,12 +23,12 @@ def create_ingress_yaml(module_name):
     with open(path) as yaml_file:
         content = yaml.safe_load(yaml_file.read())
         content['metadata']['annotations']['kubernetes.io/ingress.global-static-ip-name'] = module_name + '-aimmo-ingress'
-        
+
     return content
 
 
 def create_creator_yaml():
-    path = os.path.join(CURR_DIR, 'dev_rc_game_creator.yaml')
+    path = os.path.join(CURR_DIR, 'rc_aimmo_game_creator.yaml')
     with open(path) as yaml_file:
         content = yaml.safe_load(yaml_file.read())
     return content
