@@ -21,8 +21,9 @@ def create_ingress_yaml(module_name):
     print("printing current directory: ", path)
 
     with open(path) as yaml_file:
-        content = yaml.safe_load(yaml_file.read()).replace('REPLACE',
-                                                           (module_name + '-aimmo-ingress'))
+        content = yaml.safe_load(yaml_file.read())
+        content['metadata']['annotations']['kubernetes.io/ingress.global-static-ip-name'] = module_name + '-aimmo-ingress'
+        
     return content
 
 
