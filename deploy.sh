@@ -25,6 +25,10 @@ export CACHE_PREFIX="${MODULE_NAME}-${VERSION}-"
 pip install kubernetes==4.0.0
 pip install pyyaml
 
+# Authenticate the cluster locally by creating via updating kubeconfig.
+${GCLOUD} config set project ${APP_ID}
+${GCLOUD} container clusters get-credentials ${MODULE_NAME} --zone europe-west1-b
+
 # Deploy the correct kubernetes cluster.
 python clusters_setup/deploy.py "${MODULE_NAME}"
 
