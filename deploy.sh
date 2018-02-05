@@ -28,6 +28,7 @@ pip install pyyaml
 # Authenticate the cluster locally by creating via updating kubeconfig.
 ${GCLOUD} config set project ${APP_ID}
 ${GCLOUD} container clusters get-credentials ${MODULE_NAME} --zone europe-west1-b
+${GCLOUD} auth application-default login
 
 # Deploy the correct kubernetes cluster.
 python clusters_setup/deploy.py "${MODULE_NAME}"
