@@ -19,7 +19,7 @@ export VERSION="$2"
 export DATABASE_POSTFIX="$3"
 export DATABASE_NAME="cfl_${DATABASE_POSTFIX}"
 export CACHE_PREFIX="${MODULE_NAME}-${VERSION}-"
-
+export GOOGLE_APPLICATION_CREDENTIALS=/home/runner/codeforlife-deploy-appengine/.gcloud-key
 
 # Install the dependencies for the following deploy script.
 pip install kubernetes==4.0.0
@@ -28,7 +28,6 @@ pip install pyyaml
 # Authenticate the cluster locally by creating via updating kubeconfig.
 ${GCLOUD} config set project ${APP_ID}
 ${GCLOUD} container clusters get-credentials ${MODULE_NAME} --zone europe-west1-b
-${GCLOUD} auth application-default login
 
 # Deploy the correct kubernetes cluster.
 python clusters_setup/deploy.py "${MODULE_NAME}"
