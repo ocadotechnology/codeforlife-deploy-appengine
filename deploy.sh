@@ -22,12 +22,11 @@ export CACHE_PREFIX="${MODULE_NAME}-${VERSION}-"
 export GOOGLE_APPLICATION_CREDENTIALS=/home/runner/codeforlife-deploy-appengine/.gcloud-key
 
 # Install the dependencies for the following deploy script.
-# Kubernetes is a TEMPORARY solution. The version fixes a missing scope bug which has been
-# fixed in January 2018. No stable kubernetes package has been released since.
+# Kubernetes is a TEMPORARY solution. See issue 68.
 pip install kubernetes==5.0.0b1
 pip install pyyaml
 
-# Authenticate the cluster locally by creating via updating kubeconfig.
+# Authenticate the cluster by updating kubeconfig.
 ${GCLOUD} config set project ${APP_ID}
 ${GCLOUD} container clusters get-credentials ${MODULE_NAME} --zone europe-west1-b
 
