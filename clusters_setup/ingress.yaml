@@ -11,7 +11,7 @@ spec:
   tls:
   - hosts:
     - REPLACE_HOST
-    secretname: ssl-cert-secret
+    secretName: ssl-cert-secret
   rules:
   - host: REPLACE_HOST
     http:
