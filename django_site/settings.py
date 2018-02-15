@@ -248,7 +248,7 @@ MIGRATION_MODULES = {
 
 print("DEBUGING WITH CELINE")
 
-print("MODULE_NAME: " + str(MODULE_NAME))
+
 print("DJANGO_MODULE_NAME: " + str(DJANGO_MODULE_NAME))
 
 AIMMO_GAME_SERVER_URL_FUNCTION = lambda game: (MODULE_NAME + '-aimmo.codeforlife.education',
