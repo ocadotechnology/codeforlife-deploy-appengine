@@ -6,10 +6,14 @@ metadata:
   name: aimmo-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
-    kubernetes.io/ingress.global-static-ip-name: REPLACE
+    kubernetes.io/ingress.global-static-ip-name: REPLACE_STATIC_IP
 spec:
+  tls:
+    - hosts:
+      - REPLACE_HOST
+    secretname: ssl-cert-secret
   rules:
-    - host:
+    - host: REPLACE_HOST
       http:
         paths:
             - backend:
