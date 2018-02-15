@@ -14,15 +14,20 @@ def create_ingress_yaml(module_name):
     object. Replaces the ingress.global-static-ip-name annotation with the
     correct module name (depending on which cluster this script is ran in).
 
+    Also replaces the TLS certificate host name and the host for the ingress paths.
+
     :param module_name: The name of the environment we're in (ie. staging, dev
-    :return: python object containing yaml.
+    :return: python object containing yaml with modified values.
     """
     path = os.path.join(CURR_DIR, 'ingress.yaml')
-    print("printing current directory: ", path)
+
+    host_name = module_name + '-aimmo.codeforlife.education'
 
     with open(path) as yaml_file:
         content = yaml.safe_load(yaml_file.read())
         content['metadata']['annotations']['kubernetes.io/ingress.global-static-ip-name'] = module_name + '-aimmo-ingress'
+        content['spec']['tls'][0]['hosts'][0] = host_name
+        content['spec']['rules'][0]['host'] = host_name
 
     return content
 
