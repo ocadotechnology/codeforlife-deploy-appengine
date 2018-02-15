@@ -36,7 +36,7 @@ def create_creator_yaml(module_name):
     path = os.path.join(CURR_DIR, 'rc_aimmo_game_creator.yaml')
     with open(path) as yaml_file:
         content = yaml.safe_load(yaml_file.read())
-        content['spec']['template']['spec']['containers'][0]['env'][1] = "https://" + module_name + "-dot-decent-digit-629.appspot.com/aimmo/api/games/"
+        content['spec']['template']['spec']['containers'][0]['env'][1]['value'] = "https://" + module_name + "-dot-decent-digit-629.appspot.com/aimmo/api/games/"
     return content
 
 
