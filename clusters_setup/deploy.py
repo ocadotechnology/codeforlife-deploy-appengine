@@ -33,10 +33,13 @@ def create_ingress_yaml(module_name):
 
 
 def create_creator_yaml(module_name):
+    game_api_url = "https://" + module_name + "-dot-decent-digit-629.appspot.com/aimmo/api/games/"
     path = os.path.join(CURR_DIR, 'rc_aimmo_game_creator.yaml')
     with open(path) as yaml_file:
         content = yaml.safe_load(yaml_file.read())
-        content['spec']['template']['spec']['containers'][0]['env'][1]['value'] = "https://" + module_name + "-dot-decent-digit-629.appspot.com/aimmo/api/games/"
+        env_variables = content['spec']['template']['spec']['containers'][0]['env']
+        game_api_url_index = env_variables.index({'name': 'GAME_API_URL', 'value': 'REPLACE_ME'})
+        env_variables[game_api_url_index]['value'] = game_api_url
     return content
 
 
