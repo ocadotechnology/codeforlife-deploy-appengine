@@ -32,10 +32,11 @@ def create_ingress_yaml(module_name):
     return content
 
 
-def create_creator_yaml():
+def create_creator_yaml(module_name):
     path = os.path.join(CURR_DIR, 'rc_aimmo_game_creator.yaml')
     with open(path) as yaml_file:
         content = yaml.safe_load(yaml_file.read())
+        content['spec']['template']['spec']['containers'][0]['env'][1] = "https://" + module_name + "-dot-decent-digit-629.appspot.com/aimmo/api/games/"
     return content
 
 
@@ -80,7 +81,7 @@ def main(module_name):
     extensions_api_instance = kubernetes.client.ExtensionsV1beta1Api()
 
     ingress = create_ingress_yaml(module_name=module_name)
-    game_creator_rc = create_creator_yaml()
+    game_creator_rc = create_creator_yaml(module_name=module_name)
 
     restart_pods(game_creator_rc, ingress)
 
