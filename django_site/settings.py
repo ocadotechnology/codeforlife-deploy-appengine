@@ -246,12 +246,6 @@ MIGRATION_MODULES = {
     'djangocms_video': 'djangocms_video.migrations_django',
 }
 
-print("DEBUGING WITH CELINE")
-
-
-print("DJANGO_MODULE_NAME: " + str(os.getenv('DJANGO_MODULE_NAME')))
-print("MODULE_NAME: " + str(os.getenv('MODULE_NAME')))
-
 AIMMO_GAME_SERVER_URL_FUNCTION = lambda game: (os.getenv('DJANGO_MODULE_NAME') + '-aimmo.codeforlife.education',
                                                '/game-%s' % game)
 
