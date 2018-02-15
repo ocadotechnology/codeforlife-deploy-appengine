@@ -247,11 +247,7 @@ MIGRATION_MODULES = {
 }
 
 
-def get_module_name():
-    return os.getenv('MODULE_NAME')
-
-
-AIMMO_GAME_SERVER_URL_FUNCTION = lambda game: (os.getenv('MODULE_NAME') + '-aimmo.codeforlife.education',
+AIMMO_GAME_SERVER_URL_FUNCTION = lambda game: (MODULE_NAME + '-aimmo.codeforlife.education',
                                                '/game-%s' % game)
 
 
