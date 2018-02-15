@@ -246,12 +246,7 @@ MIGRATION_MODULES = {
     'djangocms_video': 'djangocms_video.migrations_django',
 }
 
-
-def get_module_name():
-    return os.getenv('MODULE_NAME')
-
-
-AIMMO_GAME_SERVER_URL_FUNCTION = lambda game: (os.getenv('MODULE_NAME') + '-aimmo.codeforlife.education',
+AIMMO_GAME_SERVER_URL_FUNCTION = lambda game: (os.getenv('DJANGO_MODULE_NAME') + '-aimmo.codeforlife.education',
                                                '/game-%s' % game)
 
 

@@ -10,7 +10,7 @@ CURR_DIR = os.path.abspath(os.path.dirname(__file__))
 
 def create_ingress_yaml(module_name):
     """
-    Uses a template yaml file in the same directory to construct a python yaml
+    Uses a template ingress yaml file in the same directory to construct a python yaml
     object. Replaces the ingress.global-static-ip-name annotation with the
     correct module name (depending on which cluster this script is ran in).
 
@@ -32,14 +32,38 @@ def create_ingress_yaml(module_name):
     return content
 
 
-def create_creator_yaml():
+
+def create_creator_yaml(module_name):
+    """
+    Loads an aimmo-game-creator yaml into a dictionary.
+
+    Replaces the GAME_API_URL environment variable with the correct url for the
+    deployment environment we are in
+
+    :param module_name: The name of the environment we're in (ie. staging, dev)
+    :return: python object containing yaml with modified values.
+    """
+
+    def _replace_game_api_url(content):
+        game_api_url = "https://" + module_name + "-dot-decent-digit-629.appspot.com/aimmo/api/games/"
+        env_variables = content['spec']['template']['spec']['containers'][0]['env']
+        game_api_url_index = env_variables.index({'name': 'GAME_API_URL', 'value': 'REPLACE_ME'})
+        env_variables[game_api_url_index]['value'] = game_api_url
+
     path = os.path.join(CURR_DIR, 'rc_aimmo_game_creator.yaml')
     with open(path) as yaml_file:
         content = yaml.safe_load(yaml_file.read())
+        _replace_game_api_url(content)
     return content
 
+def restart_pods(game_creator_yaml, ingress_yaml):
+    """
+    Restarts the kubernetes replication controllers, pods, services and ingresses
+    in the 'default' namespace
 
-def restart_pods(game_creator, ingress_yaml):
+    :param game_creator_yaml: The dict to create the aimmo game creator rc
+    :param ingress_yaml: The dict to create the ingress
+    """
     for rc in api_instance.list_namespaced_replication_controller('default').items:
         api_instance.delete_namespaced_replication_controller(
             body=kubernetes.client.V1DeleteOptions(),
@@ -63,7 +87,7 @@ def restart_pods(game_creator, ingress_yaml):
     extensions_api_instance.create_namespaced_ingress("default", ingress_yaml)
 
     api_instance.create_namespaced_replication_controller(
-        body=game_creator,
+        body=game_creator_yaml,
         namespace='default',
     )
 
@@ -80,7 +104,7 @@ def main(module_name):
     extensions_api_instance = kubernetes.client.ExtensionsV1beta1Api()
 
     ingress = create_ingress_yaml(module_name=module_name)
-    game_creator_rc = create_creator_yaml()
+    game_creator_rc = create_creator_yaml(module_name=module_name)
 
     restart_pods(game_creator_rc, ingress)
 

@@ -9,13 +9,13 @@ metadata:
     kubernetes.io/ingress.global-static-ip-name: REPLACE_STATIC_IP
 spec:
   tls:
-    - hosts:
-      - REPLACE_HOST
-    secretname: ssl-cert-secret
+  - hosts:
+    - REPLACE_HOST
+    secretName: ssl-cert-secret
   rules:
-    - host: REPLACE_HOST
-      http:
-        paths:
-            - backend:
-                serviceName: default-http-backend
-                servicePort: 80
+  - host: REPLACE_HOST
+    http:
+      paths:
+      - backend:
+          serviceName: default-http-backend
+          servicePort: 80
