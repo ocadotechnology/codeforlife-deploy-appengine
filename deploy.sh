@@ -20,6 +20,7 @@ export DATABASE_POSTFIX="$3"
 export DATABASE_NAME="cfl_${DATABASE_POSTFIX}"
 export CACHE_PREFIX="${MODULE_NAME}-${VERSION}-"
 export GOOGLE_APPLICATION_CREDENTIALS=/home/runner/codeforlife-deploy-appengine/.gcloud-key
+export CAPITALIZED_MODULE_NAME="${MODULE_NAME^^}"
 
 # Install the dependencies for the following deploy script.
 # Kubernetes is a TEMPORARY solution. See issue 68.
