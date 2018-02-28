@@ -18,6 +18,9 @@ rel = lambda rel_path: os.path.join(BASE_DIR, rel_path)
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('DJANGO_SECRET', 'NOT A SECRET')
 
+RECAPTCHA_PRIVATE_KEY = os.getenv('RECAPTCHA_PRIVATE_KEY', 'NOT A SECRET')
+RECAPTCHA_PUBLIC_KEY = os.getenv('RECAPTCHA_PUBLIC_KEY', 'NOT A SECRET')
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
