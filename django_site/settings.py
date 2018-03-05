@@ -20,6 +20,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET', 'NOT A SECRET')
 
 RECAPTCHA_PRIVATE_KEY = os.getenv('RECAPTCHA_PRIVATE_KEY', 'NOT A SECRET')
 RECAPTCHA_PUBLIC_KEY = os.getenv('RECAPTCHA_PUBLIC_KEY', 'NOT A SECRET')
+NOCAPTCHA = True
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
