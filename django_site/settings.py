@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'django_forms_bootstrap',
     'rest_framework',
     'online_status',
+    'captcha',
 
     #CMS
     'cms',  # django CMS itself
