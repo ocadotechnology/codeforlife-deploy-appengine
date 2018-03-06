@@ -11,4 +11,3 @@ python get_latest_aimmo_unity_release.py
 rm -rf lib/pytz lib/pytz*.dist-info
 
 ./manage.py collectstatic --noinput
-
