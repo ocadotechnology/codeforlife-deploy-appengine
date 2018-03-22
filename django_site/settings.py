@@ -125,7 +125,7 @@ MEDIA_ROOT = rel('static')+'/email_media/'
 
 # Auth URLs
 
-LOGIN_URL = '/login_form/'
+LOGIN_URL = '/'
 LOGOUT_URL = '/logout/'
 LOGIN_REDIRECT_URL = reverse_lazy('portal.views.home.login_view')
 
