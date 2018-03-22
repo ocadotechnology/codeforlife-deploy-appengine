@@ -127,7 +127,7 @@ MEDIA_ROOT = rel('static')+'/email_media/'
 
 LOGIN_URL = '/'
 LOGOUT_URL = '/logout/'
-LOGIN_REDIRECT_URL = reverse_lazy('portal.views.teacher.dashboard.dashboard_manage')
+LOGIN_REDIRECT_URL = reverse_lazy('portal.views.home.login_view')
 
 # Required for admindocs
 
