@@ -16,7 +16,6 @@ urlpatterns = patterns('',
     url(r'^reports/', include('reports.urls')),
     url(r'^aimmo/', include('players.urls')),
     url(r'^versions/$', versions, name='versions'),
-    url(r'^', include('cms.urls')),
 )
 
 try:
