@@ -36,7 +36,7 @@ INSTALLED_APPS = (
     'portal',
     'reports',
     'game',
-    'djangocms_admin_style',  # for the admin skin. You **must** add 'djangocms_admin_style' in the list **before** 'django.contrib.admin'.
+    #'djangocms_admin_style',  # for the admin skin. You **must** add 'djangocms_admin_style' in the list **before** 'django.contrib.admin'.
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.auth',
@@ -50,23 +50,9 @@ INSTALLED_APPS = (
     'rest_framework',
     'online_status',
 
-    #CMS
-    'cms',  # django CMS itself
     'treebeard',
-    'menus',  # helper for model independent hierarchical website navigation
     'sekizai',  # for javascript and css management
 
-    # CMS Plugins
-    'djangocms_file',
-    'djangocms_flash',
-    'djangocms_googlemap',
-    'djangocms_inherit',
-    'djangocms_picture',
-    'djangocms_teaser',
-    'djangocms_video',
-    'djangocms_link',
-    'djangocms_snippet',
-    'djangocms_text_ckeditor',  # note this needs to be above the 'cms' entry
     'reversion',
     'players',
 )
@@ -81,10 +67,6 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware',
-    'cms.middleware.user.CurrentUserMiddleware',
-    'cms.middleware.page.CurrentPageMiddleware',
-    'cms.middleware.toolbar.ToolbarMiddleware',
-    'cms.middleware.language.LanguageCookieMiddleware',
     'portal.middleware.ratelimit_login_attempts.RateLimitLoginAttemptsMiddleware',
 ]
 
@@ -226,7 +208,6 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
                 'sekizai.context_processors.sekizai',
-                'cms.context_processors.cms_settings',
             ],
         },
     },
@@ -235,21 +216,6 @@ TEMPLATES = [
 CMS_TEMPLATES = (
     ('portal/base.html', 'Template One'),
 )
-
-MIGRATION_MODULES = {
-    'menus': 'menus.migrations_django',
-
-    # Add also the following modules if you're using these plugins:
-    'djangocms_file': 'djangocms_file.migrations_django',
-    'djangocms_flash': 'djangocms_flash.migrations_django',
-    'djangocms_googlemap': 'djangocms_googlemap.migrations_django',
-    'djangocms_inherit': 'djangocms_inherit.migrations_django',
-    'djangocms_link': 'djangocms_link.migrations_django',
-    'djangocms_picture': 'djangocms_picture.migrations_django',
-    'djangocms_snippet': 'djangocms_snippet.migrations_django',
-    'djangocms_teaser': 'djangocms_teaser.migrations_django',
-    'djangocms_video': 'djangocms_video.migrations_django',
-}
 
 AIMMO_GAME_SERVER_URL_FUNCTION = lambda game: (os.getenv('DJANGO_MODULE_NAME') + '-aimmo.codeforlife.education',
                                                '/game-%s' % game)
