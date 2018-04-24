@@ -208,7 +208,6 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
                 'sekizai.context_processors.sekizai',
-                'portal.context_processors.process_newsletter_form',
             ],
         },
     },
