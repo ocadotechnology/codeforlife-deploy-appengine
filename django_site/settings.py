@@ -25,8 +25,6 @@ NOCAPTCHA = True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-TEMPLATE_DEBUG = False
-
 # Application definition
 
 INSTALLED_APPS = (
@@ -195,7 +193,7 @@ TEMPLATES = [
         ],
         'APP_DIRS': True,
         'OPTIONS': {
-            'debug' : TEMPLATE_DEBUG,
+            'debug' : DEBUG,
             'context_processors': [
                 # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
                 # list if you haven't customized them:
