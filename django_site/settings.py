@@ -52,7 +52,7 @@ INSTALLED_APPS = (
     'sekizai',  # for javascript and css management
 
     'reversion',
-    'players',
+    'aimmo',
 )
 
 MIDDLEWARE_CLASSES = [

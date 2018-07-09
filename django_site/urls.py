@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     url(r'^administration/', include(admin.site.urls)),
     url(r'^rapidrouter/', include('game.urls')),
     url(r'^reports/', include('reports.urls')),
-    url(r'^aimmo/', include('players.urls')),
+    url(r'^aimmo/', include('aimmo.urls')),
     url(r'^versions/$', versions, name='versions'),
 )
 
