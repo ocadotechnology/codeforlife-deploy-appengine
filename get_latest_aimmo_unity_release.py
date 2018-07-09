@@ -19,4 +19,4 @@ urllib.urlretrieve(release_assets[0].browser_download_url,
                    'release.zip')
 
 with ZipFile('release.zip', 'r') as zipped_release:
-    zipped_release.extractall('lib/players/static/unity/')
+    zipped_release.extractall('lib/aimmo/static/unity/')
