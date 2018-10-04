@@ -20,6 +20,7 @@ export DATABASE_POSTFIX="$3"
 export DATABASE_NAME="cfl_${DATABASE_POSTFIX}"
 export CACHE_PREFIX="${MODULE_NAME}-${VERSION}-"
 export GOOGLE_APPLICATION_CREDENTIALS=/home/runner/codeforlife-deploy-appengine/.gcloud-key
+export NODE_SA_NAME=gke-node-sa
 
 # Install the dependencies for the following deploy script.
 # Kubernetes is a TEMPORARY solution. See issue 68.
@@ -29,6 +30,14 @@ pip install pyyaml
 # Authenticate the cluster by updating kubeconfig.
 ${GCLOUD} config set project ${APP_ID}
 ${GCLOUD} container clusters get-credentials ${MODULE_NAME} --zone europe-west1-b
+
+./node_setup.sh ${GCLOUD} ${NODE_SA_NAME}
+
+${GCLOUD} beta container clusters create "dev" \
+  --workload-metadata-from-node=SECURE \
+  --service-account=$NODE_SA_EMAIL \
+  --metadata disable-legacy-endpoints=true \
+  --cluster-version=1.9
 
 # Deploy the correct kubernetes cluster.
 python clusters_setup/deploy.py "${MODULE_NAME}"

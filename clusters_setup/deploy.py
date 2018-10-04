@@ -32,7 +32,6 @@ def create_ingress_yaml(module_name):
     return content
 
 
-
 def create_creator_yaml(module_name):
     """
     Loads an aimmo-game-creator yaml into a dictionary.
@@ -55,6 +54,7 @@ def create_creator_yaml(module_name):
         content = yaml.safe_load(yaml_file.read())
         _replace_game_api_url(content)
     return content
+
 
 def restart_pods(game_creator_yaml, ingress_yaml):
     """
