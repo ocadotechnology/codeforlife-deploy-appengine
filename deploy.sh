@@ -30,6 +30,11 @@ pip install pyyaml
 ${GCLOUD} config set project ${APP_ID}
 ${GCLOUD} container clusters get-credentials ${MODULE_NAME} --zone europe-west1-b
 
+${GCLOUD} container clusters update ${MODULE_NAME} \
+  --workload-metadata-from-node=SECURE \
+  --service-account=${NODE_SA_EMAIL} \
+  --metadata disable-legacy-endpoints=true
+
 # Deploy the correct kubernetes cluster.
 python clusters_setup/deploy.py "${MODULE_NAME}"
 
