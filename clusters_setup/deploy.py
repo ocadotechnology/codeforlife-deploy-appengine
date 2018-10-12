@@ -6,7 +6,12 @@ import sys
 # Root directory of the project.
 BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 CURR_DIR = os.path.abspath(os.path.dirname(__file__))
+LIB_DIR = os.path.join(BASE_DIR, 'lib')
 
+def get_aimmo_version():
+    sys.path.append(LIB_DIR)
+    from aimmo import _version.py
+    return _version.get_versions()['version']
 
 def create_ingress_yaml(module_name):
     """
@@ -97,8 +102,7 @@ def restart_pods(game_creator_yaml, ingress_yaml):
         namespace='default',
     )
 
-
-def main(module_name, aimmo_version):
+def main(module_name):
     """
     :param module_name: The environment (ie. staging, etc).
     :param aimmo_version: The tagged version of AI:MMO. We will use this to
@@ -110,6 +114,7 @@ def main(module_name, aimmo_version):
     global extensions_api_instance
     api_instance = kubernetes.client.CoreV1Api()
     extensions_api_instance = kubernetes.client.ExtensionsV1beta1Api()
+    aimmo_version = get_aimmo_version()
 
     ingress = create_ingress_yaml(module_name=module_name)
     game_creator_rc = create_creator_yaml(module_name=module_name, aimmo_version=aimmo_version)
@@ -118,4 +123,4 @@ def main(module_name, aimmo_version):
 
 
 if __name__ == '__main__':
-    main(module_name=sys.argv[1], aimmo_version=sys.argv[2])
+    main(module_name=sys.argv[1])
