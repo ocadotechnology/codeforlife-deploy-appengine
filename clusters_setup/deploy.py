@@ -6,7 +6,12 @@ import sys
 # Root directory of the project.
 BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 CURR_DIR = os.path.abspath(os.path.dirname(__file__))
+LIB_DIR = os.path.join(BASE_DIR, 'lib')
 
+def get_aimmo_version():
+    sys.path.append(LIB_DIR)
+    from aimmo import _version
+    return _version.get_versions()['version']
 
 def create_ingress_yaml(module_name):
     """
@@ -33,7 +38,7 @@ def create_ingress_yaml(module_name):
 
 
 
-def create_creator_yaml(module_name):
+def create_creator_yaml(module_name, aimmo_version):
     """
     Loads an aimmo-game-creator yaml into a dictionary.
 
@@ -49,11 +54,17 @@ def create_creator_yaml(module_name):
         env_variables = content['spec']['template']['spec']['containers'][0]['env']
         game_api_url_index = env_variables.index({'name': 'GAME_API_URL', 'value': 'REPLACE_ME'})
         env_variables[game_api_url_index]['value'] = game_api_url
+    
+    def _replace_image_version(content):
+        env_variables = content['spec']['template']['spec']['containers'][0]['env']
+        image_suffix_index = env_variables.index({'name': 'IMAGE_SUFFIX', 'value': 'latest'})
+        env_variables[image_suffix_index]['value'] = aimmo_version
 
     path = os.path.join(CURR_DIR, 'rc_aimmo_game_creator.yaml')
     with open(path) as yaml_file:
         content = yaml.safe_load(yaml_file.read())
         _replace_game_api_url(content)
+        _replace_image_version(content)
     return content
 
 def restart_pods(game_creator_yaml, ingress_yaml):
@@ -91,10 +102,11 @@ def restart_pods(game_creator_yaml, ingress_yaml):
         namespace='default',
     )
 
-
 def main(module_name):
     """
     :param module_name: The environment (ie. staging, etc).
+    :param aimmo_version: The tagged version of AI:MMO. We will use this to
+                          build the correct docker images.
     """
     kubernetes.config.load_kube_config("/home/runner/.kube/config")
 
@@ -102,9 +114,10 @@ def main(module_name):
     global extensions_api_instance
     api_instance = kubernetes.client.CoreV1Api()
     extensions_api_instance = kubernetes.client.ExtensionsV1beta1Api()
+    aimmo_version = get_aimmo_version()
 
     ingress = create_ingress_yaml(module_name=module_name)
-    game_creator_rc = create_creator_yaml(module_name=module_name)
+    game_creator_rc = create_creator_yaml(module_name=module_name, aimmo_version=aimmo_version)
 
     restart_pods(game_creator_rc, ingress)
 
