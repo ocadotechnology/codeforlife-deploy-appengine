@@ -8,7 +8,7 @@ pip install git+https://github.com/PyGithub/PyGithub.git@ba50af5
 pip install "urllib3==1.22" --force-reinstall
 
 pip install -t lib codeforlife-portal
-if [ "$ENVIRONMENT" = "default"]
+if [ "$ENVIRONMENT" = "default" ]
 then
     pip install -t lib aimmo --upgrade --no-deps aimmo
 else
