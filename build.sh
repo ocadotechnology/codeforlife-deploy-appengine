@@ -8,13 +8,12 @@ pip install git+https://github.com/PyGithub/PyGithub.git@ba50af5
 pip install "urllib3==1.22" --force-reinstall
 
 pip install -t lib codeforlife-portal
-pip install -t lib --no-cache-dir git+https://github.com/ocadotechnology/aimmo.git@fix_kubernetes_mode
-# if [ "$ENVIRONMENT" = "default" ]
-# then
-#     pip install -t lib aimmo
-# else
-#     pip install -t lib aimmo --pre
-# fi
+if [ "$ENVIRONMENT" = "default"]
+then
+    pip install -t lib aimmo
+else
+    pip install -t lib aimmo --pre
+fi
 
 python get_latest_aimmo_unity_release.py
 
