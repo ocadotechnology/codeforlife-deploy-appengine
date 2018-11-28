@@ -10,7 +10,6 @@ js_info_dict = {
 admin.autodiscover()
 
 urlpatterns = [
-    '',
     url(r'^', include('portal.urls')),
     url(r'^administration/', include(admin.site.urls)),
     url(r'^rapidrouter/', include('game.urls')),
