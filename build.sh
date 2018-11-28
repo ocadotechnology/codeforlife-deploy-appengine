@@ -10,9 +10,9 @@ pip install "urllib3==1.22" --force-reinstall
 pip install -t lib codeforlife-portal
 if [ "$ENVIRONMENT" = "default"]
 then
-    pip install -t lib aimmo
+    pip install -t lib aimmo --upgrade
 else
-    pip install -t lib aimmo --pre
+    pip install -t lib aimmo --pre --upgrade
 fi
 
 python get_latest_aimmo_unity_release.py
