@@ -18,10 +18,8 @@ spec:
     honorLabels: true
     interval: 30s
     path: /metrics/cadvisor
-    port: https-metrics
-    scheme: https
-    tlsConfig:
-      insecureSkipVerify: true
+    port: http-metrics
+    scheme: http
   jobLabel: k8s-app
   namespaceSelector:
     matchNames:
