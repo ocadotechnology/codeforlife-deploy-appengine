@@ -16,8 +16,40 @@ spec:
         app: grafana
     spec:  
       containers:
-      - image: grafana/grafana:5.2.4
+      - image: grafana/grafana:5.4.3
         name: grafana
+        env:
+        - name: GF_DATABASE_NAME
+          value: aimmo_monitoring_dev
+        - name: GF_DATABASE_TYPE
+          value: postgres
+        - name: GF_DATABASE_HOST
+          value: 127.0.0.1:5432
+        - name: GF_DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: cloudsql-db-credentials
+              key: username
+        - name: GF_DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: cloudsql-db-credentials
+              key: password
+        - name: GF_DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: cloudsql-db-credentials
+              key: password
+        - name: GF_AUTH_GITHUB_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: github-auth
+              key: client_id
+        - name: GF_AUTH_GITHUB_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: github-auth
+              key: client_secret
         ports:
         - containerPort: 3000
           name: http
@@ -69,9 +101,25 @@ spec:
         - mountPath: /grafana-dashboard-definitions/0/statefulset
           name: grafana-dashboard-statefulset
           readOnly: false
+        - mountPath: /grafana-dashboard-definitions/0/cluster-overview
+          name: grafana-dashboard-cluster-overview
+          readOnly: false
         - mountPath: /etc/grafana
           name: grafana-config
           readOnly: false
+        # -instances=$PROJECT:$REGION:$INSTANCE
+      - name: cloudsql-proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:1.11
+        command: ["/cloud_sql_proxy",
+                  "-instances=decent-digit-629:europe-west1:aimmo-monitoring-dev=tcp:5432",
+                  "-credential_file=/secrets/cloudsql/credentials.json"]
+        securityContext:
+          runAsUser: 2  # non-root user
+          allowPrivilegeEscalation: false
+        volumeMounts:
+          - name: cloudsql-instance-credentials
+            mountPath: /secrets/cloudsql
+            readOnly: true
       nodeSelector:
         beta.kubernetes.io/os: linux
       securityContext:
@@ -79,11 +127,17 @@ spec:
         runAsUser: 65534
       serviceAccountName: grafana
       volumes:
+      - name: cloudsql-instance-credentials
+        secret:
+          secretName: cloudsql-instance-credentials
       - emptyDir: {}
         name: grafana-storage
       - name: grafana-datasources
         secret:
           secretName: grafana-datasources
+      - name: github-auth
+        secret:
+          secretName: github-auth
       - configMap:
           name: grafana-dashboards
         name: grafana-dashboards
@@ -114,6 +168,9 @@ spec:
       - configMap:
           name: grafana-dashboard-statefulset
         name: grafana-dashboard-statefulset
+      - configMap:
+          name: grafana-dashboard-cluster-overview
+        name: grafana-dashboard-cluster-overview
       - configMap:
           name: grafana-config
         name: grafana-config
