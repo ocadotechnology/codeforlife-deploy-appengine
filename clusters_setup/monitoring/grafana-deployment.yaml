@@ -111,7 +111,7 @@ spec:
       - name: cloudsql-proxy
         image: gcr.io/cloudsql-docker/gce-proxy:1.11
         command: ["/cloud_sql_proxy",
-                  "-instances=decent-digit-629:europe-west1:aimmo-monitoring-dev=tcp:5432",
+                  "-instances=decent-digit-629:europe-west1:aimmo-monitoring=tcp:5432",
                   "-credential_file=/secrets/cloudsql/credentials.json"]
         securityContext:
           runAsUser: 2  # non-root user
