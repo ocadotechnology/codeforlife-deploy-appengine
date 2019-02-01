@@ -34,7 +34,7 @@ ${GCLOUD} container clusters get-credentials ${MODULE_NAME} --zone europe-west1-
 python clusters_setup/deploy.py "${MODULE_NAME}"
 
 
-./manage.py migrate game 0067_level_score_27 --no-input
+./manage.py migrate --no-input
 
 envsubst <app.yaml.tmpl >app.yaml
 
