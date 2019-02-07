@@ -1,8 +1,6 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  labels:
-    app: aimmo
   name: aimmo-game
   namespace: default
 spec:
