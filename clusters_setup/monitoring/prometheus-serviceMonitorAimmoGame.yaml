@@ -1,0 +1,12 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: aimmo-game
+  namespace: default
+spec:
+  endpoints:
+    - targetPort: 5000
+      interval: 15s
+  selector:
+    matchLabels:
+      app: aimmo-game    
