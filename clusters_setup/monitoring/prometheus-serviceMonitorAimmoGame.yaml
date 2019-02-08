@@ -5,7 +5,7 @@ metadata:
   namespace: default
 spec:
   endpoints:
-    - port: tcp
+    - targetPort: 5000
       interval: 15s
   selector:
     matchLabels:
