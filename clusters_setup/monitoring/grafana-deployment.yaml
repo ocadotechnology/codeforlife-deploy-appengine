@@ -20,7 +20,7 @@ spec:
         name: grafana
         env:
         - name: GF_DATABASE_NAME
-          value: aimmo_monitoring_dev
+          value: aimmo_monitoring_default
         - name: GF_DATABASE_TYPE
           value: postgres
         - name: GF_DATABASE_HOST
@@ -50,6 +50,8 @@ spec:
             secretKeyRef:
               name: github-auth
               key: client_secret
+        - name: GF_INSTALL_PLUGINS
+          value: grafana-piechart-panel
         ports:
         - containerPort: 3000
           name: http
