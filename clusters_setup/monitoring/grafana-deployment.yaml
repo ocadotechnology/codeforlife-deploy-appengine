@@ -101,18 +101,23 @@ spec:
         - mountPath: /grafana-dashboard-definitions/0/statefulset
           name: grafana-dashboard-statefulset
           readOnly: false
-        - mountPath: /grafana-dashboard-definitions/0/cluster-overview
-          name: grafana-dashboard-cluster-overview
-          readOnly: false
         - mountPath: /etc/grafana
           name: grafana-config
           readOnly: false
         # -instances=$PROJECT:$REGION:$INSTANCE
       - name: cloudsql-proxy
-        image: gcr.io/cloudsql-docker/gce-proxy:1.11
+        image: gcr.io/cloudsql-docker/gce-proxy:1.13
         command: ["/cloud_sql_proxy",
-                  "-instances=decent-digit-629:europe-west1:aimmo-monitoring=tcp:5432",
-                  "-credential_file=/secrets/cloudsql/credentials.json"]
+                  "-instances=decent-digit-629:europe-west1:aimmo-monitoring=tcp:5432,decent-digit-629:europe-west1:db=tcp:3306",
+                  "-credential_file=/secrets/cloudsql/credentials.json",
+                  "-log_debug_stdout"]
+        resources:
+          limits:
+            cpu: 100m
+            memory: 200Mi
+          requests:
+            cpu: 10m
+            memory: 100Mi
         securityContext:
           runAsUser: 2  # non-root user
           allowPrivilegeEscalation: false
@@ -168,9 +173,6 @@ spec:
       - configMap:
           name: grafana-dashboard-statefulset
         name: grafana-dashboard-statefulset
-      - configMap:
-          name: grafana-dashboard-cluster-overview
-        name: grafana-dashboard-cluster-overview
       - configMap:
           name: grafana-config
         name: grafana-config
