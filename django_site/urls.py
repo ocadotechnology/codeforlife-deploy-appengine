@@ -1,7 +1,7 @@
 from django.conf.urls import include, url
 from django.contrib import admin
-
 from django_site.views import versions
+
 from portal import urls as portal_urls
 from game import urls as game_urls
 from aimmo import urls as aimmo_urls
