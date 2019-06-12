@@ -1,17 +1,21 @@
 import os
+import sys
+
 import kubernetes
 import yaml
-import sys
 
 # Root directory of the project.
 BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 CURR_DIR = os.path.abspath(os.path.dirname(__file__))
-LIB_DIR = os.path.join(BASE_DIR, 'lib')
+LIB_DIR = os.path.join(BASE_DIR, "lib")
+
 
 def get_aimmo_version():
     sys.path.append(LIB_DIR)
     from aimmo import _version
-    return _version.get_versions()['version']
+
+    return _version.get_versions()["version"]
+
 
 def create_ingress_yaml(module_name):
     """
@@ -24,18 +28,19 @@ def create_ingress_yaml(module_name):
     :param module_name: The name of the environment we're in (ie. staging, dev
     :return: python object containing yaml with modified values.
     """
-    path = os.path.join(CURR_DIR, 'ingress.yaml')
+    path = os.path.join(CURR_DIR, "ingress.yaml")
 
-    host_name = module_name + '-aimmo.codeforlife.education'
+    host_name = module_name + "-aimmo.codeforlife.education"
 
     with open(path) as yaml_file:
         content = yaml.safe_load(yaml_file.read())
-        content['metadata']['annotations']['kubernetes.io/ingress.global-static-ip-name'] = module_name + '-aimmo-ingress'
-        content['spec']['tls'][0]['hosts'][0] = host_name
-        content['spec']['rules'][0]['host'] = host_name
+        content["metadata"]["annotations"][
+            "kubernetes.io/ingress.global-static-ip-name"
+        ] = (module_name + "-aimmo-ingress")
+        content["spec"]["tls"][0]["hosts"][0] = host_name
+        content["spec"]["rules"][0]["host"] = host_name
 
     return content
-
 
 
 def create_creator_yaml(module_name, aimmo_version):
@@ -50,22 +55,37 @@ def create_creator_yaml(module_name, aimmo_version):
     """
 
     def _replace_game_api_url(content):
-        game_api_url = "https://" + module_name + "-dot-decent-digit-629.appspot.com/aimmo/api/games/"
-        env_variables = content['spec']['template']['spec']['containers'][0]['env']
-        game_api_url_index = env_variables.index({'name': 'GAME_API_URL', 'value': 'REPLACE_ME'})
-        env_variables[game_api_url_index]['value'] = game_api_url
-    
-    def _replace_image_version(content):
-        env_variables = content['spec']['template']['spec']['containers'][0]['env']
-        image_suffix_index = env_variables.index({'name': 'IMAGE_SUFFIX', 'value': 'latest'})
-        env_variables[image_suffix_index]['value'] = aimmo_version
+        game_api_url = (
+            "https://"
+            + module_name
+            + "-dot-decent-digit-629.appspot.com/aimmo/api/games/"
+        )
+        env_variables = content["spec"]["template"]["spec"]["containers"][0]["env"]
+        game_api_url_index = env_variables.index(
+            {"name": "GAME_API_URL", "value": "REPLACE_ME"}
+        )
+        env_variables[game_api_url_index]["value"] = game_api_url
 
-    path = os.path.join(CURR_DIR, 'rc_aimmo_game_creator.yaml')
+    def _replace_image_version(content):
+        env_variables = content["spec"]["template"]["spec"]["containers"][0]["env"]
+        image_suffix_index = env_variables.index(
+            {"name": "IMAGE_SUFFIX", "value": "latest"}
+        )
+        env_variables[image_suffix_index]["value"] = aimmo_version
+
+    def _replace_image_tag(content):
+        content["spec"]["template"]["spec"]["containers"][0][
+            "image"
+        ] = "ocadotechnology/aimmo-game-creator:{}".format(aimmo_version)
+
+    path = os.path.join(CURR_DIR, "rc_aimmo_game_creator.yaml")
     with open(path) as yaml_file:
         content = yaml.safe_load(yaml_file.read())
         _replace_game_api_url(content)
         _replace_image_version(content)
+        _replace_image_tag(content)
     return content
+
 
 def restart_pods(game_creator_yaml, ingress_yaml):
     """
@@ -75,32 +95,35 @@ def restart_pods(game_creator_yaml, ingress_yaml):
     :param game_creator_yaml: The dict to create the aimmo game creator rc
     :param ingress_yaml: The dict to create the ingress
     """
-    for rc in api_instance.list_namespaced_replication_controller('default').items:
+    for rc in api_instance.list_namespaced_replication_controller("default").items:
         api_instance.delete_namespaced_replication_controller(
             body=kubernetes.client.V1DeleteOptions(),
             name=rc.metadata.name,
-            namespace='default')
-    for pod in api_instance.list_namespaced_pod('default').items:
+            namespace="default",
+        )
+    for pod in api_instance.list_namespaced_pod("default").items:
         api_instance.delete_namespaced_pod(
             body=kubernetes.client.V1DeleteOptions(),
             name=pod.metadata.name,
-            namespace='default')
-    for service in api_instance.list_namespaced_service('default').items:
+            namespace="default",
+        )
+    for service in api_instance.list_namespaced_service("default").items:
         api_instance.delete_namespaced_service(
-            name=service.metadata.name,
-            namespace='default')
-    for ingress in extensions_api_instance.list_namespaced_ingress('default').items:
+            name=service.metadata.name, namespace="default"
+        )
+    for ingress in extensions_api_instance.list_namespaced_ingress("default").items:
         extensions_api_instance.delete_namespaced_ingress(
             name=ingress.metadata.name,
-            namespace='default',
-            body=kubernetes.client.V1DeleteOptions())
+            namespace="default",
+            body=kubernetes.client.V1DeleteOptions(),
+        )
 
     extensions_api_instance.create_namespaced_ingress("default", ingress_yaml)
 
     api_instance.create_namespaced_replication_controller(
-        body=game_creator_yaml,
-        namespace='default',
+        body=game_creator_yaml, namespace="default"
     )
+
 
 def main(module_name):
     """
@@ -117,10 +140,12 @@ def main(module_name):
     aimmo_version = get_aimmo_version()
 
     ingress = create_ingress_yaml(module_name=module_name)
-    game_creator_rc = create_creator_yaml(module_name=module_name, aimmo_version=aimmo_version)
+    game_creator_rc = create_creator_yaml(
+        module_name=module_name, aimmo_version=aimmo_version
+    )
 
     restart_pods(game_creator_rc, ingress)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main(module_name=sys.argv[1])
