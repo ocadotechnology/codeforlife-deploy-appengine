@@ -104,7 +104,7 @@ MEDIA_ROOT = rel("static") + "/email_media/"
 
 LOGIN_URL = "/login_form/"
 LOGOUT_URL = "/logout/"
-LOGIN_REDIRECT_URL = reverse_lazy("dashboard")
+LOGIN_REDIRECT_URL = "/teach/dashboard/"
 
 # Required for admindocs
 
