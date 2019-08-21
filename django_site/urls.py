@@ -16,6 +16,6 @@ urlpatterns = [
     url(r"^administration/", include(admin.site.urls)),
     url(r"^rapidrouter/", include(game_urls)),
     url(r"^reports/", include(reports_urls)),
-    url(r"^aimmo/", include(aimmo_urls)),
+    url(r"^kurono/", include(aimmo_urls)),
     url(r"^versions/$", versions, name="versions"),
 ]
