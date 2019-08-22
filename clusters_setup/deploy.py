@@ -58,7 +58,7 @@ def create_creator_yaml(module_name, aimmo_version):
         game_api_url = (
             "https://"
             + module_name
-            + "-dot-decent-digit-629.appspot.com/aimmo/api/games/"
+            + "-dot-decent-digit-629.appspot.com/kurono/api/games/"
         )
         env_variables = content["spec"]["template"]["spec"]["containers"][0]["env"]
         game_api_url_index = env_variables.index(
