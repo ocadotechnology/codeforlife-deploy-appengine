@@ -151,6 +151,8 @@ if os.getenv("SERVER_SOFTWARE", "").startswith("Google App Engine"):
     PANDASSO_URL = os.getenv("PANDASSO_URL")
 
     SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
 else:
     DATABASES = {
         "default": {
