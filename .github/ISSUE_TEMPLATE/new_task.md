@@ -12,8 +12,4 @@ about: A template for a new task
 
 
 
-## Copywrite Requirements
-
-
-
-## Analytics Requirements
+## Documentation Requirements
