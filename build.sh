@@ -15,4 +15,6 @@ else
     pip install -t lib --pre --upgrade --no-deps aimmo
 fi
 
+pip install gaerpytz
+
 ./manage.py collectstatic --noinput
