@@ -15,6 +15,8 @@ else
     pip install -t lib --pre --upgrade --no-deps aimmo
 fi
 
-pip install gaerpytz
+pip install -t lib beautifulsoup4
+
+python install_gaerpytz.py
 
 ./manage.py collectstatic --noinput
