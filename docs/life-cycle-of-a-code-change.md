@@ -11,6 +11,6 @@ When a new version of codeforlife-portal, aimmo or rapid-router is released to o
     * Get the latest aimmo version from the `__init__.py` file in aimmo
     * Recreate the ingress yaml Python object depending on the environment of the build
     * Recreate the aimmo-game-creator yaml Python object and replace the GAME_API_URL env variable depending on the environment
-    * Restart the pods based on the new aimmo-game-creator and ingress yamls.
+    * Destroy current pods and create new ones based on the new aimmo-game-creator and ingress yamls.
 * Upload a new version of the project to Google App Engine
 * Switch traffic to the new version
