@@ -24,7 +24,7 @@ jobs:
           architecture: 'x64'
       
       - name: 'Authenticate with Google Cloud'
-        uses: actions/gcloud/auth@github_actions_dev
+        uses: actions/gcloud/auth@master
         env:
           GCLOUD_AUTH: ${{secrets.GCLOUD_AUTH}}
         
