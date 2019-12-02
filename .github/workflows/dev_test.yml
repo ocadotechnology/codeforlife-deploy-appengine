@@ -13,7 +13,7 @@ jobs:
       - name: 'Checkout'
         uses: 'actions/checkout@v1'
       - name: 'Deployment pending'
-        uses: 'deliverybot/status@master'
+        uses: 'deliverybot/status@github_actions_dev'
         with:
           state: 'pending'
           token: '${{secrets.GITHUB_TOKEN}}'
@@ -24,7 +24,7 @@ jobs:
           architecture: 'x64'
       
       - name: 'Authenticate with Google Cloud'
-        uses: actions/gcloud/auth@master
+        uses: actions/gcloud/auth@github_actions_dev
         env:
           GCLOUD_AUTH: ${{secrets.GCLOUD_AUTH}}
         
