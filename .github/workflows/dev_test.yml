@@ -13,7 +13,7 @@ jobs:
       - name: 'Checkout'
         uses: 'actions/checkout@v1'
       - name: 'Deployment pending'
-        uses: 'deliverybot/status@github_actions_dev'
+        uses: 'deliverybot/status@master'
         with:
           state: 'pending'
           token: '${{secrets.GITHUB_TOKEN}}'
