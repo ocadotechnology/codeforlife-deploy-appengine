@@ -16,7 +16,7 @@ jobs:
         uses: 'deliverybot/status@master'
         with:
           state: 'pending'
-          token: '${{secrets.GITHUB_TOKEN}}'
+          token: '${{secrets.DEPLOY_TO_DEV}}'
       - name: 'Setup python'
         uses: actions/setup-python@v1
         with:
@@ -82,11 +82,11 @@ jobs:
         uses: 'deliverybot/status@master'
         with:
           state: 'success'
-          token: '${{ secrets.GITHUB_TOKEN }}'
+          token: '${{ secrets.DEPLOY_TO_DEV }}'
 
       - name: 'Deployment failure'
         if: failure()
         uses: 'deliverybot/status@master'
         with:
           state: 'failure'
-          token: '${{ secrets.GITHUB_TOKEN }}' 
+          token: '${{ secrets.DEPLOY_TO_DEV }}'
