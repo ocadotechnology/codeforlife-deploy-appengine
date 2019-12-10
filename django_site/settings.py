@@ -51,7 +51,6 @@ INSTALLED_APPS = (
     "rest_framework",
     "treebeard",
     "sekizai",  # for javascript and css management
-    "reversion",
     "aimmo",
 )
 
