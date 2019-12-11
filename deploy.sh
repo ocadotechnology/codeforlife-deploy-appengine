@@ -25,6 +25,7 @@ export GOOGLE_APPLICATION_CREDENTIALS=/home/runner/codeforlife-deploy-appengine/
 # Kubernetes is a TEMPORARY solution. See issue 68.
 pip install kubernetes==5.0.0
 pip install pyyaml
+pip install requests-toolbelt
 
 # Authenticate the cluster by updating kubeconfig.
 ${GCLOUD} config set project ${APP_ID}
