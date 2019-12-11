@@ -16,6 +16,8 @@ else
     pip install -t lib --pre --upgrade --no-deps aimmo
 fi
 
+pip install urllib3==1.23
+
 python install_gaerpytz.py
 
 ./manage.py collectstatic --noinput
