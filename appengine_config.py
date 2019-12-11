@@ -10,7 +10,7 @@ from google.appengine.ext import vendor
 # sure that they are importable by the application.
 vendor.add('lib')
 
-from requests_toolbelt.adapters import appengine
-
-# Monkey patch from requests_toolbelt to enable GAE to work with requests.
-appengine.monkeypatch()
+# from requests_toolbelt.adapters import appengine
+#
+# # Monkey patch from requests_toolbelt to enable GAE to work with requests.
+# appengine.monkeypatch()
