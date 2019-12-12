@@ -6,6 +6,7 @@ gem install sass --version 3.3.4
 rbenv rehash
 pip install beautifulsoup4
 pip install requests
+pip install -t lib requests-toolbelt
 
 pip install -t lib codeforlife-portal
 if [ "$ENVIRONMENT" = "default" ]
