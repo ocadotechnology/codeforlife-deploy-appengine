@@ -47,7 +47,6 @@ INSTALLED_APPS = (
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django_countries",
-    "django_forms_bootstrap",
     "rest_framework",
     "treebeard",
     "sekizai",  # for javascript and css management
