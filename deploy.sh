@@ -36,6 +36,16 @@ python clusters_setup/deploy.py "${MODULE_NAME}"
 
 ./manage.py migrate --no-input
 
+if [ "$MODULE_NAME" = "default" ]
+then
+    export RECAPTCHA_PUBLIC_KEY=${RECAPTCHA_DEFAULT_PUBLIC_KEY}
+    export RECAPTCHA_PRIVATE_KEY=${RECAPTCHA_DEFAULT_PRIVATE_KEY}
+else
+    # dev will use staging key as well
+    export RECAPTCHA_PUBLIC_KEY=${RECAPTCHA_STAGING_PUBLIC_KEY}
+    export RECAPTCHA_PRIVATE_KEY=${RECAPTCHA_STAGING_PRIVATE_KEY}
+fi
+
 envsubst <app.yaml.tmpl >app.yaml
 
 ${GCLOUD} app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote
