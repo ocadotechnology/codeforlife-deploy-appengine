@@ -2,7 +2,6 @@
 
 export ENVIRONMENT="$1"
 
-gem install sass --version 3.3.4
 rbenv rehash
 pip install beautifulsoup4
 pip install requests
@@ -19,3 +18,5 @@ fi
 python install_gaerpytz.py
 
 ./manage.py collectstatic --noinput
+
+rm ./lib/_sass.so
