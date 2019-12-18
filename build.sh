@@ -8,7 +8,6 @@ pip install requests
 pip install -t lib requests-toolbelt
 
 pip install -t lib codeforlife-portal
-pip install -t lib git+https://github.com/ocadotechnology/aimmo.git@change_bundling_order
 #if [ "$ENVIRONMENT" = "default" ]
 #then
 #    pip install -t lib --upgrade --no-deps aimmo
