@@ -15,7 +15,7 @@ else
     pip install -t lib --pre --upgrade --no-deps aimmo
 fi
 
-pip uninstall libsass
+rm ./lib/_sass.so
 
 python install_gaerpytz.py
 
