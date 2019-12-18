@@ -15,8 +15,8 @@ else
     pip install -t lib --pre --upgrade --no-deps aimmo
 fi
 
-rm ./lib/_sass.so
-
 python install_gaerpytz.py
 
 ./manage.py collectstatic --noinput
+
+rm ./lib/_sass.so
