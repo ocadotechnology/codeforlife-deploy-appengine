@@ -31,7 +31,6 @@ DEBUG = False
 # Application definition
 
 INSTALLED_APPS = (
-    "casper",
     "deploy",
     "portal",
     "captcha",
