@@ -32,9 +32,9 @@ DEBUG = False
 
 INSTALLED_APPS = (
     "casper",
-    "deploy",
     "portal",
     "captcha",
+    "deploy",
     "reports",
     "game",
     #'djangocms_admin_style',  # for the admin skin. You **must** add 'djangocms_admin_style' in the list **before** 'django.contrib.admin'.
