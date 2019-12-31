@@ -1,4 +1,4 @@
-from io import StringIO
+from io import BytesIO
 import zipfile
 
 import requests
@@ -17,5 +17,5 @@ zip_url = gaerpytz_url + zip_href
 # Download the zipfile and extract it to the lib folder. The zipfile contains
 # the module folder for pytz and will overwrite the one currently in lib
 request = requests.get(zip_url, stream=True)
-zip_file = zipfile.ZipFile(StringIO.StringIO(request.content))
+zip_file = zipfile.ZipFile(BytesIO(request.content), mode='r')
 zip_file.extractall("lib")
