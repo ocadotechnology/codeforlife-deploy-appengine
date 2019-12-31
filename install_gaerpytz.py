@@ -19,3 +19,6 @@ zip_url = gaerpytz_url + zip_href
 request = requests.get(zip_url, stream=True)
 zip_file = zipfile.ZipFile(BytesIO(request.content), mode='r')
 zip_file.extractall("lib")
+
+with open("lib/pytz/__init__.py") as pytz_file:
+    pytz_file.read().replace("cStringIO", "io")
