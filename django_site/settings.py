@@ -8,8 +8,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
-from django.core.urlresolvers import reverse_lazy
-
 # Build paths inside the project like this: rel(rel_path)
 import os
 
@@ -34,7 +32,6 @@ INSTALLED_APPS = (
     "deploy",
     "portal",
     "captcha",
-    "reports",
     "game",
     #'djangocms_admin_style',  # for the admin skin. You **must** add 'djangocms_admin_style' in the list **before** 'django.contrib.admin'.
     "django.contrib.admin",
