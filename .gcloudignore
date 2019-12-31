@@ -1,0 +1,9 @@
+*.scss
+*#
+*~
+*.pyc
+*.pyo
+lib/*info/**
+lib/PIL/**
+lib/setuptools/script (dev).tmpl
+lib/**/static/**
