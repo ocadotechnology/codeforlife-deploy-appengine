@@ -37,12 +37,16 @@ handlers:
   secure: always
 
 - url: /mail/weekly
+  script: auto
+  login: admin
   secure: always
 
 - url: /aimmo/api/.*
+  script: auto
   secure: always
 
 - url: /api/.*
+  script: auto
   secure: always
 
 - url: /.*
