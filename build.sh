@@ -18,5 +18,3 @@ fi
 python install_gaerpytz.py
 
 ./manage.py collectstatic --noinput
-
-rm ./lib/_sass.so
