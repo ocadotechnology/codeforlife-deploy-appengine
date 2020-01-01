@@ -2,6 +2,9 @@ runtime: python3
 instance_class: F4
 service: ${MODULE_NAME}
 
+vpc_access_connector:
+  name: "projects/decent-digit-629/locations/europe-west1/connectors/cfl-connector"
+
 handlers:
 - url: /favicon\.ico
   static_files: static/portal/img/favicon.ico
