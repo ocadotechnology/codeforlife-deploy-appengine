@@ -1,3 +1,3 @@
-import django_site.wsgi
+from django_site.wsgi import application
 
-application = django_site.wsgi.application
+app = application
