@@ -1,3 +1,7 @@
+codeforlife-portal
+rapid-router
+aimmo
+requests-toolbelt
 mysqlclient
 redis
 django-redis
