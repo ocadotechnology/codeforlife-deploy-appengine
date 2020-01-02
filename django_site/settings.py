@@ -137,9 +137,9 @@ if os.getenv('GAE_APPLICATION', None):
     if lib_path not in sys.path:
         sys.path.append(lib_path)
     # setup email on app engine
-    EMAIL_BACKEND = "deploy.mail.EmailBackend"
+    # EMAIL_BACKEND = "deploy.mail.EmailBackend"
     # Specify a queue name for the async. email backend.
-    EMAIL_QUEUE_NAME = "default"
+    # EMAIL_QUEUE_NAME = "default"
 
     SOCIAL_AUTH_PANDASSO_KEY = "code-for-life"
     SOCIAL_AUTH_PANDASSO_SECRET = os.getenv("PANDASSO_SECRET")
