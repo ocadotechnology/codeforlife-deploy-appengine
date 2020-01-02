@@ -113,12 +113,12 @@ SITE_ID = 1
 
 ALLOWED_HOSTS = [".appspot.com", ".codeforlife.education"]
 
-if os.getenv("SERVER_SOFTWARE", "").startswith("Google App Engine"):
+if os.getenv('GAE_APPLICATION', None):
     # Running on production App Engine, so use a Google Cloud SQL database.
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.mysql",
-            "HOST": "/cloudsql/decent-digit-629:db",
+            "HOST": "/cloudsql/decent-digit-629:europe-west1:db",
             "NAME": os.getenv("DATABASE_NAME"),
             "USER": "root",
         }
