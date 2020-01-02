@@ -113,7 +113,7 @@ SITE_ID = 1
 
 ALLOWED_HOSTS = [".appspot.com", ".codeforlife.education"]
 
-if os.getenv('GAE_APPLICATION', None):
+if os.getenv("GAE_APPLICATION", None):
     # Running on production App Engine, so use a Google Cloud SQL database.
     DATABASES = {
         "default": {
@@ -125,8 +125,12 @@ if os.getenv('GAE_APPLICATION', None):
     }
     CACHES = {
         "default": {
-            "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": f"redis://${os.getenv("redis.host")}:${os.getenv("redis.port")}/0",
             "KEY_PREFIX": os.getenv("CACHE_PREFIX"),
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient"
+            },
         }
     }
     PIPELINE_ENABLED = True
