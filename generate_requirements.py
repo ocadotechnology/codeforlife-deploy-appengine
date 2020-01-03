@@ -7,7 +7,7 @@ requirements = (
     f"requests-toolbelt\n"
     f"mysqlclient\n"
     f"redis\n"
-    f"django-redis\n"
+    f"django-redis"
 )
 
 requirements_path = "requirements.txt"
