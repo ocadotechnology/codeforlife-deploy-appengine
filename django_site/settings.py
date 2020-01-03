@@ -209,6 +209,11 @@ TEMPLATES = [
 
 CMS_TEMPLATES = (("portal/base.html", "Template One"),)
 
+
+print("************NIKET*********")
+print(os.getenv("DJANGO_MODULE_NAME"))
+print(os.getenv("GAE_SERVICE"))
+
 AIMMO_GAME_SERVER_URL_FUNCTION = lambda game: (
     os.getenv("DJANGO_MODULE_NAME") + "-aimmo.codeforlife.education",
     "/game-%s" % game,
