@@ -1,5 +1,5 @@
 app.yaml
 lib
 static
-
+requirements.txt
 \.idea/
