@@ -1,5 +1,5 @@
-from portal import __version__ as portal_version
-from aimmo import __version__ as aimmo_version
+from lib.portal import __version__ as portal_version
+from lib.aimmo import __version__ as aimmo_version
 
 requirements = (
     f"codeforlife-portal=={portal_version}\n"
