@@ -17,4 +17,6 @@ fi
 
 python install_gaerpytz.py
 
+python generate_requirements.py
+
 ./manage.py collectstatic --noinput
