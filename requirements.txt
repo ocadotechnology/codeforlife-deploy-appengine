@@ -1,6 +1,0 @@
-codeforlife-portal==1.2.3
-aimmo==0.2.3
-requests-toolbelt==1.2.5
-mysqlclient
-redis
-django-redis
