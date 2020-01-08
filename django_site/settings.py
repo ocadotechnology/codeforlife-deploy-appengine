@@ -126,11 +126,9 @@ if os.getenv("GAE_APPLICATION", None):
     CACHES = {
         "default": {
             "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": "redis://10.186.126.148:6379/0",
+            "LOCATION": f"redis://{os.getenv('REDIS_IP', None)}:{os.getenv('REDIS_PORT', None)}/0",
             "KEY_PREFIX": os.getenv("CACHE_PREFIX"),
-            "OPTIONS": {
-                "CLIENT_CLASS": "django_redis.client.DefaultClient"
-            },
+            "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
         }
     }
     PIPELINE_ENABLED = True
