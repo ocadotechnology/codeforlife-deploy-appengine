@@ -46,18 +46,10 @@ else
     export RECAPTCHA_PRIVATE_KEY=${RECAPTCHA_STAGING_PRIVATE_KEY} >/dev/null 2>&1
 fi
 
-echo "Before env sub"
-
 envsubst <app.yaml.tmpl >app.yaml
-
-echo "After env sub"
-
-echo "deploy app.yaml and cron.yaml"
 
 ${GCLOUD} app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote
 ${GCLOUD} app --quiet deploy cron.yaml --project ${APP_ID} --version ${VERSION} --no-promote
-
-echo "test"
 
 # Test the site
 ./test.sh ${MODULE_NAME} ${VERSION}
