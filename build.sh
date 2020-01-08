@@ -15,8 +15,6 @@ else
     pip install -t lib --pre --upgrade --no-deps aimmo
 fi
 
-#python install_gaerpytz.py
-
 python generate_requirements.py
 
 ./manage.py collectstatic --noinput
