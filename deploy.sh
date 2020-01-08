@@ -20,8 +20,6 @@ export DATABASE_POSTFIX="$3"
 export DATABASE_NAME="cfl_${DATABASE_POSTFIX}"
 export CACHE_PREFIX="${MODULE_NAME}-"
 export GOOGLE_APPLICATION_CREDENTIALS=/home/runner/codeforlife-deploy-appengine/.gcloud-key
-export REDIS_IP="${REDIS_IP}"
-export REDIS_PORT="${REDIS_PORT}"
 
 # Install the dependencies for the following deploy script.
 # Kubernetes is a TEMPORARY solution. See issue 68.
