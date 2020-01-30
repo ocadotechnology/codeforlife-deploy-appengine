@@ -8,6 +8,9 @@ pip install requests
 pip install -t lib requests-toolbelt
 
 pip install -t lib codeforlife-portal
+
+pip install -t lib django-anymail[amazon_ses]
+
 if [ "$ENVIRONMENT" = "default" ]
 then
     pip install -t lib --upgrade --no-deps aimmo
