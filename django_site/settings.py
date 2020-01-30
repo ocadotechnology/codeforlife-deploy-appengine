@@ -30,7 +30,7 @@ DEBUG = False
 # Application definition
 
 INSTALLED_APPS = (
-    "anymail"
+    "anymail",
     "deploy",
     "portal",
     "captcha",
