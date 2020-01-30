@@ -7,7 +7,8 @@ requirements = (
     f"requests-toolbelt==0.9.*\n"
     f"mysqlclient==1.4.*\n"
     f"redis==3.3.*\n"
-    f"django-redis==4.11.*"
+    f"django-redis==4.11.*\n"
+    f"django-anymail[amazon_ses]==7.0.*"
 )
 
 requirements_path = "requirements.txt"
