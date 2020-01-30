@@ -115,6 +115,14 @@ SITE_ID = 1
 
 ALLOWED_HOSTS = [".appspot.com", ".codeforlife.education"]
 
+ANYMAIL = {
+    "AWS_ACCESS_KEY_ID": os.getenv("AWS_ACCESS_KEY_ID"),
+    "AWS_SECRET_ACCESS_KEY": os.getenv("AWS_SECRET_ACCESS_KEY"),
+    "AMAZON_SES_CLIENT_PARAMS": {
+        "region_name": "eu-west-1",
+    },
+}
+
 if os.getenv("GAE_APPLICATION", None):
     # Running on production App Engine, so use a Google Cloud SQL database.
     DATABASES = {
@@ -173,13 +181,6 @@ else:
     }
     PIPELINE_ENABLED = True
 
-ANYMAIL = {
-    "AWS_ACCESS_KEY_ID": os.getenv("AWS_ACCESS_KEY_ID"),
-    "AWS_SECRET_ACCESS_KEY": os.getenv("AWS_SECRET_ACCESS_KEY"),
-    "AMAZON_SES_CLIENT_PARAMS": {
-        "region_name": "eu-west-1",
-    },
-}
 EMAIL_ADDRESS = "no-reply@codeforlife.education"
 DEFAULT_FROM_EMAIL = "no-reply@codeforlife.education"  # if you don't already have this in settings
 SERVER_EMAIL = "your-server@example.com"  # ditto (default from-email for Django errors)
