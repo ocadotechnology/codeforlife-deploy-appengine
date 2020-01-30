@@ -176,8 +176,10 @@ else:
 ANYMAIL = {
     "AWS_ACCESS_KEY_ID": os.getenv("AWS_ACCESS_KEY_ID"),
     "AWS_SECRET_ACCESS_KEY": os.getenv("AWS_SECRET_ACCESS_KEY"),
+    "AMAZON_SES_CLIENT_PARAMS": {
+        "region_name": "eu-west-1",
+    },
 }
-AWS_DEFAULT_REGION="eu-west-1"
 EMAIL_ADDRESS = "no-reply@codeforlife.education"
 DEFAULT_FROM_EMAIL = "no-reply@codeforlife.education"  # if you don't already have this in settings
 SERVER_EMAIL = "your-server@example.com"  # ditto (default from-email for Django errors)
