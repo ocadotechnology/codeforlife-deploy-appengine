@@ -1,3 +1,4 @@
+# noinspection PyInterpreter,PyInterpreter
 """
 Django settings for codeforlife-deploy.
 
@@ -29,6 +30,7 @@ DEBUG = False
 # Application definition
 
 INSTALLED_APPS = (
+    "anymail"
     "deploy",
     "portal",
     "captcha",
@@ -139,7 +141,7 @@ if os.getenv("GAE_APPLICATION", None):
     if lib_path not in sys.path:
         sys.path.append(lib_path)
     # setup email on app engine
-    # EMAIL_BACKEND = "deploy.mail.EmailBackend"
+    EMAIL_BACKEND = "anymail.backends.amazon_ses.EmailBackend"
     # Specify a queue name for the async. email backend.
     # EMAIL_QUEUE_NAME = "default"
 
@@ -171,7 +173,13 @@ else:
     }
     PIPELINE_ENABLED = True
 
+ANYMAIL = {
+    "AWS_ACCESS_KEY_ID": os.getenv("AWS_ACCESS_KEY_ID"),
+    "AWS_SECRET_ACCESS_KEY": os.getenv("AWS_SECRET_ACCESS_KEY"),
+}
 EMAIL_ADDRESS = "no-reply@codeforlife.education"
+DEFAULT_FROM_EMAIL = "no-reply@codeforlife.education"  # if you don't already have this in settings
+SERVER_EMAIL = "your-server@example.com"  # ditto (default from-email for Django errors)
 
 LOCALE_PATHS = ("conf/locale",)
 
