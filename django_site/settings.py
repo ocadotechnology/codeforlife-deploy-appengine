@@ -116,9 +116,9 @@ SITE_ID = 1
 ALLOWED_HOSTS = [".appspot.com", ".codeforlife.education"]
 
 ANYMAIL = {
-    "AWS_ACCESS_KEY_ID": os.getenv("AWS_ACCESS_KEY_ID"),
-    "AWS_SECRET_ACCESS_KEY": os.getenv("AWS_SECRET_ACCESS_KEY"),
     "AMAZON_SES_CLIENT_PARAMS": {
+        "aws_access_key_id": os.getenv("AWS_ACCESS_KEY_ID"),
+        "aws_secret_access_key": os.getenv("AWS_SECRET_ACCESS_KEY"),
         "region_name": "eu-west-1",
     },
 }
