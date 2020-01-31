@@ -8,7 +8,6 @@ pip install -t lib requests-toolbelt
 
 pip install -t lib codeforlife-portal
 
-pip install boto3
 pip install -t lib django-anymail[amazon_ses]
 
 if [ "$ENVIRONMENT" = "default" ]
@@ -19,7 +18,5 @@ else
 fi
 
 python generate_requirements.py
-
-python setup_boto_client.py
 
 ./manage.py collectstatic --noinput

@@ -115,8 +115,6 @@ SITE_ID = 1
 
 ALLOWED_HOSTS = [".appspot.com", ".codeforlife.education"]
 
-AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID"),
-AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY"),
 ANYMAIL = {
     "AMAZON_SES_CLIENT_PARAMS": {
         "aws_access_key_id": os.getenv("AWS_ACCESS_KEY_ID"),
