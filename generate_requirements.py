@@ -8,7 +8,6 @@ requirements = (
     f"mysqlclient==1.4.*\n"
     f"redis==3.3.*\n"
     f"django-redis==4.11.*\n"
-    f"google-python-cloud-debugger\n"
     f"django-anymail[amazon_ses]==7.0.*"
 )
 

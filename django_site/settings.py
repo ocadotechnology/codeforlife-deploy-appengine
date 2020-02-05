@@ -1,4 +1,3 @@
-# noinspection PyInterpreter,PyInterpreter
 """
 Django settings for codeforlife-deploy.
 
@@ -182,8 +181,6 @@ else:
     PIPELINE_ENABLED = True
 
 EMAIL_ADDRESS = "no-reply@codeforlife.education"
-DEFAULT_FROM_EMAIL = "no-reply@codeforlife.education"  # if you don't already have this in settings
-SERVER_EMAIL = "your-server@example.com"  # ditto (default from-email for Django errors)
 
 LOCALE_PATHS = ("conf/locale",)
 
