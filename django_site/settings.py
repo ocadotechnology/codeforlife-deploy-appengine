@@ -8,8 +8,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
-from django.core.urlresolvers import reverse_lazy
-
 # Build paths inside the project like this: rel(rel_path)
 import os
 
@@ -31,10 +29,10 @@ DEBUG = False
 # Application definition
 
 INSTALLED_APPS = (
+    "anymail",
     "deploy",
     "portal",
     "captcha",
-    "reports",
     "game",
     #'djangocms_admin_style',  # for the admin skin. You **must** add 'djangocms_admin_style' in the list **before** 'django.contrib.admin'.
     "django.contrib.admin",
@@ -116,20 +114,30 @@ SITE_ID = 1
 
 ALLOWED_HOSTS = [".appspot.com", ".codeforlife.education"]
 
-if os.getenv("SERVER_SOFTWARE", "").startswith("Google App Engine"):
+ANYMAIL = {
+    "AMAZON_SES_CLIENT_PARAMS": {
+        "aws_access_key_id": os.getenv("AWS_ACCESS_KEY_ID"),
+        "aws_secret_access_key": os.getenv("AWS_SECRET_ACCESS_KEY"),
+        "region_name": "eu-west-1",
+    },
+}
+
+if os.getenv("GAE_APPLICATION", None):
     # Running on production App Engine, so use a Google Cloud SQL database.
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.mysql",
-            "HOST": "/cloudsql/decent-digit-629:db",
+            "HOST": "/cloudsql/decent-digit-629:europe-west1:db",
             "NAME": os.getenv("DATABASE_NAME"),
             "USER": "root",
         }
     }
     CACHES = {
         "default": {
-            "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": f"redis://{os.getenv('REDIS_IP')}:{os.getenv('REDIS_PORT')}/0",
             "KEY_PREFIX": os.getenv("CACHE_PREFIX"),
+            "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
         }
     }
     PIPELINE_ENABLED = True
@@ -140,9 +148,7 @@ if os.getenv("SERVER_SOFTWARE", "").startswith("Google App Engine"):
     if lib_path not in sys.path:
         sys.path.append(lib_path)
     # setup email on app engine
-    EMAIL_BACKEND = "deploy.mail.EmailBackend"
-    # Specify a queue name for the async. email backend.
-    EMAIL_QUEUE_NAME = "default"
+    EMAIL_BACKEND = "anymail.backends.amazon_ses.EmailBackend"
 
     SOCIAL_AUTH_PANDASSO_KEY = "code-for-life"
     SOCIAL_AUTH_PANDASSO_SECRET = os.getenv("PANDASSO_SECRET")
@@ -208,8 +214,9 @@ TEMPLATES = [
 
 CMS_TEMPLATES = (("portal/base.html", "Template One"),)
 
+
 AIMMO_GAME_SERVER_URL_FUNCTION = lambda game: (
-    os.getenv("DJANGO_MODULE_NAME") + "-aimmo.codeforlife.education",
+    f"{os.getenv('GAE_SERVICE')}-aimmo.codeforlife.education",
     "/game-%s" % game,
 )
 
