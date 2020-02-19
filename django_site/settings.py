@@ -157,6 +157,7 @@ if os.getenv("GAE_APPLICATION", None):
 
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+    CSRF_COOKIE_HTTPONLY = True
 
 else:
     DATABASES = {
