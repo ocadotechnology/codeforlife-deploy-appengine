@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: rel(rel_path)
 import os
+import json
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 rel = lambda rel_path: os.path.join(BASE_DIR, rel_path)
@@ -20,6 +21,11 @@ SECRET_KEY = os.getenv("DJANGO_SECRET", "NOT A SECRET")
 RECAPTCHA_PRIVATE_KEY = os.getenv("RECAPTCHA_PRIVATE_KEY", "NOT A SECRET")
 RECAPTCHA_PUBLIC_KEY = os.getenv("RECAPTCHA_PUBLIC_KEY", "NOT A SECRET")
 NOCAPTCHA = True
+
+DOTMAILER_URL = os.getenv("DOTMAILER_URL", "")
+DOTMAILER_USER = os.getenv("DOTMAILER_USER", "")
+DOTMAILER_PASSWORD = os.getenv("DOTMAILER_PASSWORD", "")
+DOTMAILER_DEFAULT_PREFERENCES = json.loads(os.getenv("DOTMAILER_DEFAULT_PREFERENCES", "[]"))
 
 SECURE_HSTS_SECONDS = 31536000  # One year
 
