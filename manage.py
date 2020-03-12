@@ -1,10 +1,14 @@
 #!/usr/bin/env python
 import os
 import sys
+import logging
+
+LOGGER = logging.getLogger(__name__)
 
 try:
     import googleclouddebugger
-
+    LOGGER.info("got here")
+    print("got here by print")
     googleclouddebugger.enable()
 except ImportError:
     pass
