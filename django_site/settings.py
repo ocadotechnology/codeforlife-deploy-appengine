@@ -28,6 +28,7 @@ DOTMAILER_PASSWORD = os.getenv("DOTMAILER_PASSWORD", "")
 DOTMAILER_DEFAULT_PREFERENCES = json.loads(os.getenv("DOTMAILER_DEFAULT_PREFERENCES", "[]") or "[]")
 
 SECURE_HSTS_SECONDS = 31536000  # One year
+SECURE_SSL_REDIRECT = True
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
