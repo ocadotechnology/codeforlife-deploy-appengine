@@ -11,6 +11,8 @@ try:
     print("got here by print")
     googleclouddebugger.enable()
 except ImportError:
+    LOGGER.info("dammit")
+    print("dammit by print")
     pass
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "lib"))
