@@ -1,4 +1,5 @@
 from django_site.wsgi import application
+import logging
 
 LOGGER = logging.getLogger(__name__)
 
