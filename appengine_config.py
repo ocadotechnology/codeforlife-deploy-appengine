@@ -14,14 +14,3 @@ from requests_toolbelt.adapters import appengine
 
 # Monkey patch from requests_toolbelt to enable GAE to work with requests.
 appengine.monkeypatch()
-
-try:
-    import googleclouddebugger
-
-    LOGGER.info("got here")
-    print("got here by print")
-    googleclouddebugger.enable()
-except ImportError:
-    LOGGER.info("dammit")
-    print("dammit by print")
-    pass
