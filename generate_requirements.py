@@ -16,3 +16,7 @@ requirements_path = "requirements.txt"
 requirements_file = open(requirements_path, "w")
 requirements_file.write(requirements)
 requirements_file.close()
+
+empty_init_lib_path = "lib/__init__.py"
+init_file = open(empty_init_lib_path, "w")
+init_file.close()
