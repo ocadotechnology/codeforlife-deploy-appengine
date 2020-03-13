@@ -8,9 +8,20 @@ from google.appengine.ext import vendor
 
 # Third-party libraries are stored in "lib", vendoring will make
 # sure that they are importable by the application.
-vendor.add('lib')
+vendor.add("lib")
 
 from requests_toolbelt.adapters import appengine
 
 # Monkey patch from requests_toolbelt to enable GAE to work with requests.
 appengine.monkeypatch()
+
+try:
+    import googleclouddebugger
+
+    LOGGER.info("got here")
+    print("got here by print")
+    googleclouddebugger.enable()
+except ImportError:
+    LOGGER.info("dammit")
+    print("dammit by print")
+    pass
