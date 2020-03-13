@@ -1,5 +1,7 @@
 from django_site.wsgi import application
 
+LOGGER = logging.getLogger(__name__)
+
 try:
     import googleclouddebugger
 
