@@ -235,6 +235,6 @@ AIMMO_GAME_SERVER_SSL_FLAG = True
 
 
 # Keep this at the bottom
-from django_autoconfig.autoconfig import configure_settings
+from lib.django_autoconfig.autoconfig import configure_settings
 
 configure_settings(globals())

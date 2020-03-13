@@ -1,6 +1,6 @@
-from django.conf.urls import include, url
-from django.contrib import admin
-from django_site.views import versions
+from lib.django.conf.urls import include, url
+from lib.django.contrib import admin
+from lib.django_site.views import versions
 
 from lib.portal import urls as portal_urls
 from lib.game import urls as game_urls

@@ -1,8 +1,8 @@
-from django.http import JsonResponse
+from lib.django.http import JsonResponse
 
-import aimmo
-import game
-import portal
+import lib.aimmo
+import lib.game
+import lib.portal
 
 
 def versions(_request):
