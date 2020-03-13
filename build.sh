@@ -19,4 +19,6 @@ fi
 
 python generate_requirements.py
 
+pip install -t lib -r requirements.txt
+
 ./manage.py collectstatic --noinput
