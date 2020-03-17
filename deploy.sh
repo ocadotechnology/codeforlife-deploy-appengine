@@ -67,3 +67,14 @@ ${GCLOUD} app services set-traffic --project ${APP_ID} --splits ${VERSION}=1 ${M
 
 # Test the site - again!
 ./test.sh ${MODULE_NAME} default
+
+# Smoke tests
+if [ "$MODULE_NAME" = "default" ]
+then
+    npx cypress run --config baseUrl="https://www.codeforlife.education"
+elif [ "$MODULE_NAME" = "staging" ]
+then
+    npx cypress run --config baseUrl="https://staging-dot-decent-digit-629.appspot.com"
+else
+    npx cypress run --config baseUrl="https://dev-dot-decent-digit-629.appspot.com"
+fi

@@ -1,0 +1,5 @@
+{
+  "integrationFolder": "lib",
+  "testFiles": "**/*.spec.js",
+  "video": false
+}

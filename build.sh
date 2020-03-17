@@ -6,8 +6,8 @@ rbenv rehash
 pip install requests
 pip install -t lib requests-toolbelt
 
-pip install -t lib codeforlife-portal
 pip install -t lib git+https://github.com/ocadotechnology/rapid-router@cypress_smoke_tests
+pip install -t lib git+https://github.com/ocadotechnology/codeforlife-portal@cypress_smoke_tests
 
 pip install -t lib django-anymail[amazon_ses]
 
