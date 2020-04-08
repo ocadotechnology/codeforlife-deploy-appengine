@@ -2,7 +2,7 @@ from lib.portal import __version__ as portal_version
 from lib.aimmo import __version__ as aimmo_version
 
 requirements = (
-    f"-e git+https://github.com/ocadotechnology/codeforlife-portal.git@tag_manager#egg=codeforlife-portal\n"
+    f"codeforlife-portal=={portal_version}\n"
     f"aimmo=={aimmo_version}\n"
     f"requests-toolbelt==0.9.*\n"
     f"mysqlclient==1.4.*\n"
