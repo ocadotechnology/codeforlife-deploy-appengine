@@ -14,7 +14,7 @@ if [ "$ENVIRONMENT" = "default" ]
 then
     pip install -t lib --upgrade --no-deps aimmo
 else
-    pip install -t lib --pre --upgrade --no-deps aimmo
+    pip install -t lib --pre --upgrade --no-deps git+https://github.com/ocadotechnology/aimmo@improve_admin_pages
 fi
 
 python generate_requirements.py
