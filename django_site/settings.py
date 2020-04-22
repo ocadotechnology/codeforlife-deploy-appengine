@@ -130,6 +130,8 @@ ANYMAIL = {
 }
 
 if os.getenv("GAE_APPLICATION", None):
+    MODULE_NAME = os.getenv("MODULE_NAME")
+
     # Running on production App Engine, so use a Google Cloud SQL database.
     DATABASES = {
         "default": {
