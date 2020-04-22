@@ -62,12 +62,6 @@ ${GCLOUD} app --quiet deploy cron.yaml --project ${APP_ID} --version ${VERSION} 
 # Test the site
 ./test.sh ${MODULE_NAME} ${VERSION}
 
-# Promote
-${GCLOUD} app services set-traffic --project ${APP_ID} --splits ${VERSION}=1 ${MODULE_NAME} --migrate
-
-# Test the site - again!
-./test.sh ${MODULE_NAME} default
-
 # Smoke tests
 if [ "$MODULE_NAME" = "default" ]
 then
@@ -78,3 +72,9 @@ then
 else
     npx cypress run --config baseUrl="https://dev-dot-decent-digit-629.appspot.com"
 fi
+
+# Promote
+${GCLOUD} app services set-traffic --project ${APP_ID} --splits ${VERSION}=1 ${MODULE_NAME} --migrate
+
+# Test the site - again!
+./test.sh ${MODULE_NAME} default
