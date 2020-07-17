@@ -78,7 +78,7 @@ def create_creator_yaml(module_name, aimmo_version):
             "image"
         ] = "ocadotechnology/aimmo-game-creator:{}".format(aimmo_version)
 
-    path = os.path.join(CURR_DIR, "rc_aimmo_game_creator.yaml")
+    path = os.path.join(CURR_DIR, "rs_aimmo_game_creator.yaml")
     with open(path) as yaml_file:
         content = yaml.safe_load(yaml_file.read())
         _replace_game_api_url(content)
