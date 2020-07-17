@@ -95,6 +95,12 @@ def restart_pods(game_creator_yaml, ingress_yaml):
     :param game_creator_yaml: The dict to create the aimmo game creator rc
     :param ingress_yaml: The dict to create the ingress
     """
+    for rs in apps_api_instance.list_namespaced_replica_set("default").items:
+        apps_api_instance.delete_namespaced_replica_set(
+            body=kubernetes.client.V1DeleteOptions(),
+            name=rs.metadata.name,
+            namespace="default",
+        )
     for rc in api_instance.list_namespaced_replication_controller("default").items:
         api_instance.delete_namespaced_replication_controller(
             body=kubernetes.client.V1DeleteOptions(),
@@ -111,16 +117,16 @@ def restart_pods(game_creator_yaml, ingress_yaml):
         api_instance.delete_namespaced_service(
             name=service.metadata.name, namespace="default"
         )
-    for ingress in extensions_api_instance.list_namespaced_ingress("default").items:
-        extensions_api_instance.delete_namespaced_ingress(
+    for ingress in networking_api_instance.list_namespaced_ingress("default").items:
+        networking_api_instance.delete_namespaced_ingress(
             name=ingress.metadata.name,
             namespace="default",
             body=kubernetes.client.V1DeleteOptions(),
         )
 
-    extensions_api_instance.create_namespaced_ingress("default", ingress_yaml)
+    networking_api_instance.create_namespaced_ingress("default", ingress_yaml)
 
-    api_instance.create_namespaced_replication_controller(
+    apps_api_instance.create_namespaced_replica_set(
         body=game_creator_yaml, namespace="default"
     )
 
@@ -134,17 +140,19 @@ def main(module_name):
     kubernetes.config.load_kube_config("/home/runner/.kube/config")
 
     global api_instance
-    global extensions_api_instance
+    global apps_api_instance
+    global networking_api_instance
     api_instance = kubernetes.client.CoreV1Api()
-    extensions_api_instance = kubernetes.client.ExtensionsV1beta1Api()
+    apps_api_instance = kubernetes.client.AppsV1Api()
+    networking_api_instance = kubernetes.client.NetworkingV1beta1Api()
     aimmo_version = get_aimmo_version()
 
     ingress = create_ingress_yaml(module_name=module_name)
-    game_creator_rc = create_creator_yaml(
+    game_creator_rs = create_creator_yaml(
         module_name=module_name, aimmo_version=aimmo_version
     )
 
-    restart_pods(game_creator_rc, ingress)
+    restart_pods(game_creator_rs, ingress)
 
 
 if __name__ == "__main__":
