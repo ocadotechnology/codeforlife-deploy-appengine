@@ -1,6 +1,6 @@
 # This yaml needs to be deployed every time a new version of the game is released.
 # The contents of ingress_nginx are a one time set up. See more in the wiki.
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: aimmo-ingress
@@ -9,13 +9,13 @@ metadata:
     kubernetes.io/ingress.global-static-ip-name: REPLACE_STATIC_IP
 spec:
   tls:
-  - hosts:
-    - REPLACE_HOST
-    secretName: ssl-cert-secret
+    - hosts:
+        - REPLACE_HOST
+      secretName: ssl-cert-secret
   rules:
-  - host: REPLACE_HOST
-    http:
-      paths:
-      - backend:
-          serviceName: default-http-backend
-          servicePort: 80
+    - host: REPLACE_HOST
+      http:
+        paths:
+          - backend:
+              serviceName: default-http-backend
+              servicePort: 80
