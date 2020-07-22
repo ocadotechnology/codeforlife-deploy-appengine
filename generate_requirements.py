@@ -10,8 +10,7 @@ requirements = (
     f"redis==3.3.*\n"
     f"django-redis==4.11.*\n"
     f"django-anymail[amazon_ses]==7.0.*\n"
-    f"google-python-cloud-debugger\n"
-    f"cfl-common-test"
+    f"google-python-cloud-debugger"
 )
 
 requirements_path = "requirements.txt"
