@@ -6,6 +6,8 @@ rbenv rehash
 pip install requests
 pip install -t lib requests-toolbelt
 
+pip install --index-url https://test.pypi.org/simple/ --no-deps cfl-common-test
+
 pip install -t lib git+https://github.com/ocadotechnology/rapid-router@common-test
 pip install -t lib git+https://github.com/ocadotechnology/codeforlife-portal@common-models-test
 
