@@ -11,7 +11,7 @@ requirements = (
     f"django-redis==4.11.*\n"
     f"django-anymail[amazon_ses]==7.0.*\n"
     f"google-python-cloud-debugger\n"
-    f"https://test-files.pythonhosted.org/packages/00/a8/08be861e496afbb359626fcb2aa52838cac0ff1aeb0ccb4be3d17441776d/cfl_common_test-0.0.0-py3-none-any.whl"
+    f"cfl-common"
 )
 
 requirements_path = "requirements.txt"
