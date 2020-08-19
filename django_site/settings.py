@@ -41,7 +41,6 @@ INSTALLED_APPS = (
     "portal",
     "captcha",
     "game",
-    "common",
     #'djangocms_admin_style',  # for the admin skin. You **must** add 'djangocms_admin_style' in the list **before** 'django.contrib.admin'.
     "django.contrib.admin",
     "django.contrib.admindocs",
