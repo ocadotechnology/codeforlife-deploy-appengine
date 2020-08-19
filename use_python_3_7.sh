@@ -1,7 +1,7 @@
 #!/bin/bash -ex
 
 cd ~
-ls
+ls -a
 
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 
