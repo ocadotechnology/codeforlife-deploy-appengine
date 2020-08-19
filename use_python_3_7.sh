@@ -2,7 +2,7 @@
 
 cd ~
 
-rm .pyenv
+rm -r .pyenv
 
 ls -a
 
