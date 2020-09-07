@@ -8,6 +8,7 @@ pip install -t lib requests-toolbelt
 
 pip install -t lib git+https://github.com/ocadotechnology/codeforlife-portal@card_list_partial
 
+
 pip install -t lib django-anymail[amazon_ses]
 
 if [ "$ENVIRONMENT" = "default" ]
