@@ -6,7 +6,7 @@ rbenv rehash
 pip install requests
 pip install -t lib requests-toolbelt
 
-pip install -t lib git+https://github.com/ocadotechnology/codeforlife-portal@add_worksheet_fixture
+pip install -t lib git+https://github.com/ocadotechnology/codeforlife-portal@kurono_dashboard_banner_hero
 
 pip install -t lib django-anymail[amazon_ses]
 
@@ -14,7 +14,7 @@ if [ "$ENVIRONMENT" = "default" ]
 then
     pip install -t lib --upgrade --no-deps aimmo
 else
-    pip install -t lib git+https://github.com/ocadotechnology/aimmo@Add-worksheet-info-to-worksheet-model-1400
+    pip install -t lib --pre --upgrade --no-deps aimmo
 fi
 
 python generate_requirements.py
