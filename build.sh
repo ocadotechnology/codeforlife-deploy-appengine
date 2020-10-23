@@ -15,7 +15,7 @@ if [ "$ENVIRONMENT" = "default" ]
 then
     pip install -t lib --upgrade --no-deps aimmo
 else
-    pip install -t lib --pre --upgrade --no-deps git+https://github.com/ocadotechnology/aimmo@add_class_to_game
+    pip install -t lib --pre --upgrade --no-deps git+https://github.com/ocadotechnology/aimmo@django_2_0_test
 fi
 
 python generate_requirements.py
