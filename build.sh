@@ -6,7 +6,7 @@ rbenv rehash
 pip install requests
 pip install -t lib requests-toolbelt
 
-pip install -t lib --upgrade git+https://github.com/ocadotechnology/codeforlife-portal.git@debug_branch
+pip install -t lib --upgrade git+https://github.com/ocadotechnology/codeforlife-portal.git@debug_branch2
 
 pip install -t lib django-anymail[amazon_ses]
 
