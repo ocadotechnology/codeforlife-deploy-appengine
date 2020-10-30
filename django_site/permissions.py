@@ -44,5 +44,7 @@ def is_cloud_scheduler(request):
             and id_info["email_verified"]
         )
     except Exception as e:
-        LOGGER.warning("Request has bad OAuth2 id token", exc_info=e)
+        LOGGER.warning(
+            "Couldn't verify and authorize cloud scheduler request", exc_info=e
+        )
         return False
