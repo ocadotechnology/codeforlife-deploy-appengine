@@ -13,7 +13,7 @@ CLOUD_SCHEDULER_AUDIENCE = f"https://{os.getenv('GAE_SERVICE')}-dot-{os.getenv('
 GOOGLE_ISSUER = "https://accounts.google.com"
 
 
-def is_cloud_scheduler(self, request):
+def is_cloud_scheduler(request):
     verify_request = requests.Request()
     auth_header = request.META.get("HTTP_AUTHORIZATION")
     if auth_header is None:
