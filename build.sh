@@ -6,9 +6,10 @@ rbenv rehash
 pip install requests
 pip install -t lib requests-toolbelt
 
-pip install -t lib codeforlife-portal
+pip install -t lib --upgrade codeforlife-portal
 
 pip install -t lib django-anymail[amazon_ses]
+pip install -t lib google-auth==1.*
 
 if [ "$ENVIRONMENT" = "default" ]
 then
