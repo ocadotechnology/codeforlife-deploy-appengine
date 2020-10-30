@@ -3,8 +3,7 @@ from lib.aimmo import __version__ as aimmo_version
 
 requirements = "\n".join(
     [
-        # f"codeforlife-portal=={portal_version}\n"
-        "git+https://github.com/ocadotechnology/codeforlife-portal.git@debug_branch2",
+        f"codeforlife-portal=={portal_version}",
         f"aimmo=={aimmo_version}",
         "requests-toolbelt==0.9.*",
         "mysqlclient==1.4.*",
