@@ -11,9 +11,9 @@ requirements = "\n".join(
         "redis==3.3.*",
         "django-redis==4.11.*",
         "django-anymail[amazon_ses]==7.0.*",
-        "google-python-cloud-debugger",
-        "google-cloud-logging",
-        "google-auth",
+        "google-python-cloud-debugger==2.*",
+        "google-cloud-logging==1.*",
+        "google-auth==1.*",
     ]
 )
 
