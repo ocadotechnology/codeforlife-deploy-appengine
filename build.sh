@@ -6,6 +6,7 @@ rbenv rehash
 pip install requests
 pip install -t lib requests-toolbelt
 
+pip install -t lib rapid-router==2.4.4
 pip install -t lib --upgrade codeforlife-portal
 
 pip install -t lib django-anymail[amazon_ses]
