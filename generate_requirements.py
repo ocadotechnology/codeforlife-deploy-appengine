@@ -1,10 +1,12 @@
 from lib.portal import __version__ as portal_version
 from lib.aimmo import __version__ as aimmo_version
+from lib.game import __version__ as rapid_router_version
 
 requirements = "\n".join(
     [
         f"codeforlife-portal=={portal_version}",
         f"aimmo=={aimmo_version}",
+        f"rapid-router=={rapid_router_version}",
         "requests-toolbelt==0.9.*",
         "mysqlclient==1.4.*",
         "redis==3.3.*",
