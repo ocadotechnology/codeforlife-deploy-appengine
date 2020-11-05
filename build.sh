@@ -6,10 +6,11 @@ rbenv rehash
 pip install requests
 pip install -t lib requests-toolbelt
 
-pip install -t lib git+https://github.com/ocadotechnology/rapid-router@django_2_0_test
-pip install -t lib git+https://github.com/ocadotechnology/codeforlife-portal@django_2_0_test
+pip install -t lib --upgrade git+https://github.com/ocadotechnology/rapid-router@django_2_0_test
+pip install -t lib --upgrade git+https://github.com/ocadotechnology/codeforlife-portal@django_2_0_test
 
 pip install -t lib django-anymail[amazon_ses]
+pip install -t lib google-auth==1.*
 
 if [ "$ENVIRONMENT" = "default" ]
 then

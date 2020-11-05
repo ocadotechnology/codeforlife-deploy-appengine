@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: rel(rel_path)
 import os
 import json
+from .permissions import is_cloud_scheduler
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 rel = lambda rel_path: os.path.join(BASE_DIR, rel_path)
@@ -25,7 +26,9 @@ NOCAPTCHA = True
 DOTMAILER_URL = os.getenv("DOTMAILER_URL", "")
 DOTMAILER_USER = os.getenv("DOTMAILER_USER", "")
 DOTMAILER_PASSWORD = os.getenv("DOTMAILER_PASSWORD", "")
-DOTMAILER_DEFAULT_PREFERENCES = json.loads(os.getenv("DOTMAILER_DEFAULT_PREFERENCES", "[]") or "[]")
+DOTMAILER_DEFAULT_PREFERENCES = json.loads(
+    os.getenv("DOTMAILER_DEFAULT_PREFERENCES", "[]") or "[]"
+)
 
 SECURE_HSTS_SECONDS = 31536000  # One year
 SECURE_SSL_REDIRECT = True
@@ -235,6 +238,7 @@ AIMMO_GAME_SERVER_PORT_FUNCTION = lambda game: 0
 
 AIMMO_GAME_SERVER_SSL_FLAG = True
 
+IS_CLOUD_SCHEDULER_FUNCTION = is_cloud_scheduler
 
 # Keep this at the bottom
 from django_autoconfig.autoconfig import configure_settings
