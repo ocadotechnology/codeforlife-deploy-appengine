@@ -19,6 +19,9 @@ else
     pip install -t lib --pre --upgrade --no-deps git+https://github.com/ocadotechnology/aimmo@django_2_0_test
 fi
 
+pip uninstall cfl-common
+pip install -t lib --upgrade git+https://github.com/ocadotechnology/codeforlife-portal@django_2_0_test#egg=common&subdirectory=cfl-common
+
 python generate_requirements.py
 
 ./manage.py collectstatic --noinput
