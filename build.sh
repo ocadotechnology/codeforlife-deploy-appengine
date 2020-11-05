@@ -20,7 +20,7 @@ else
 fi
 
 pip uninstall cfl-common
-pip install -t lib --upgrade git+https://github.com/ocadotechnology/codeforlife-portal@django_2_0_test#egg=common&subdirectory=cfl-common
+pip install -t lib --upgrade git+https://github.com/ocadotechnology/codeforlife-portal@django_2_0_test#egg=common&subdirectory=cfl_common
 
 python generate_requirements.py
 
