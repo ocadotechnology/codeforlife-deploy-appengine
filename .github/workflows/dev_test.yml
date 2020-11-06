@@ -13,6 +13,7 @@ jobs:
       GKE_ZONE: europe-west1-b
       RECAPTCHA_STAGING_PUBLIC_KEY: ${{ secrets.RECAPTCHA_STAGING_PUBLIC_KEY }}
       RECAPTCHA_STAGING_PRIVATE_KEY: ${{ secrets.RECAPTCHA_STAGING_PRIVATE_KEY }}
+      # TODO: add secrets from semaphore
     steps:
       - name: 'Checkout'
         uses: 'actions/checkout@v2'
