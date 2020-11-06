@@ -32,7 +32,7 @@ jobs:
         with:
           version: '290.0.1'
           service_account_key: ${{ secrets.GCLOUD_AUTH }}
-          project_id: ${{ APP_ID }}
+          project_id: $APP_ID
         
       # Actual deployment
       - name: 'Deploy ${{ github.event.deployment.environment }}'
