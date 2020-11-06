@@ -49,20 +49,9 @@ jobs:
       
       - name: 'Install kubernetes'
         run: pip install kubernetes
-        
-      - name: 'Install packages'
-        run: |
-          pip install -t lib codeforlife-portal
-          pip install -t lib --pre --upgrade --no-deps aimmo
-          
-      # - name: 'Install gaerpytz'
-      #   run: |
-      #     pip install beautifulsoup4
-      #     pip install requests
-      #     python install_gaerpytz.py
       
-      - name: 'Collect resources'
-        run: python manage.py collectstatic --noinput
+      - name: 'Build'
+        run: ./build.sh dev
       
       - name: 'Restart MySQL'
         run: |
