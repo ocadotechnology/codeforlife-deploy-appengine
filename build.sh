@@ -2,7 +2,6 @@
 
 export ENVIRONMENT="$1"
 
-rbenv rehash
 pip install requests
 pip install -t lib requests-toolbelt
 
