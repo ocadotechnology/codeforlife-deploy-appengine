@@ -70,7 +70,6 @@ jobs:
           sudo service mysql restart
 
       - name: 'Get cluster credentials'
-        uses: actions/gcloud/cli@master
         run: |-
           gcloud container clusters get-credentials ${{ github.event.deployment.environment }} --zone "$GKE_ZONE"
       
