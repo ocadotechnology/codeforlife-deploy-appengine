@@ -15,11 +15,11 @@ jobs:
       - name: 'Checkout'
         uses: 'actions/checkout@v2'
 
-      - name: 'Deployment pending'
-        uses: 'deliverybot/status@master'
-        with:
-          state: 'pending'
-          token: '${{ secrets.GITHUB_TOKEN }}'
+      # - name: 'Deployment pending'
+      #   uses: 'deliverybot/status@master'
+      #   with:
+      #     state: 'pending'
+      #     token: '${{ secrets.GITHUB_TOKEN }}'
 
       - name: 'Setup python'
         uses: actions/setup-python@v2
@@ -79,16 +79,16 @@ jobs:
         # run: python clusters_setup/deploy.py ${{ github.event.deployment.environment }}
         run: python clusters_setup/deploy.py "dev"
 
-      - name: 'Deployment success'
-        if: success()
-        uses: 'deliverybot/status@master'
-        with:
-          state: 'success'
-          token: '${{ secrets.GITHUB_TOKEN }}'
+      # - name: 'Deployment success'
+      #   if: success()
+      #   uses: 'deliverybot/status@master'
+      #   with:
+      #     state: 'success'
+      #     token: '${{ secrets.GITHUB_TOKEN }}'
 
-      - name: 'Deployment failure'
-        if: failure()
-        uses: 'deliverybot/status@master'
-        with:
-          state: 'failure'
-          token: '${{ secrets.GITHUB_TOKEN }}'
+      # - name: 'Deployment failure'
+      #   if: failure()
+      #   uses: 'deliverybot/status@master'
+      #   with:
+      #     state: 'failure'
+      #     token: '${{ secrets.GITHUB_TOKEN }}'
