@@ -55,11 +55,11 @@ jobs:
           pip install -t lib codeforlife-portal
           pip install -t lib --pre --upgrade --no-deps aimmo
           
-      - name: 'Install gaerpytz'
-        run: |
-          pip install beautifulsoup4
-          pip install requests
-          python install_gaerpytz.py
+      # - name: 'Install gaerpytz'
+      #   run: |
+      #     pip install beautifulsoup4
+      #     pip install requests
+      #     python install_gaerpytz.py
       
       - name: 'Collect resources'
         run: python manage.py collectstatic --noinput
