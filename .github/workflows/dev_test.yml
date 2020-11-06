@@ -1,6 +1,6 @@
 name: Deploy to Dev
 
-on: deployment
+on: push
 
 jobs:
   deployment:
@@ -70,11 +70,14 @@ jobs:
           sudo service mysql restart
 
       - name: 'Get cluster credentials'
+        # run: |-
+        #   gcloud container clusters get-credentials ${{ github.event.deployment.environment }} --zone "$GKE_ZONE"
         run: |-
-          gcloud container clusters get-credentials ${{ github.event.deployment.environment }} --zone "$GKE_ZONE"
+          gcloud container clusters get-credentials "dev" --zone "$GKE_ZONE"
       
       - name: 'Deploy k8s'
-        run: python clusters_setup/deploy.py ${{ github.event.deployment.environment }}
+        # run: python clusters_setup/deploy.py ${{ github.event.deployment.environment }}
+        run: python clusters_setup/deploy.py "dev"
 
       - name: 'Deployment success'
         if: success()
