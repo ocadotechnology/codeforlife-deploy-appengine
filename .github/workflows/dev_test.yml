@@ -11,6 +11,8 @@ jobs:
       NODE_ENV: production
       DB_PORT: 3306
       GKE_ZONE: europe-west1-b
+      RECAPTCHA_STAGING_PUBLIC_KEY: ${{ secrets.RECAPTCHA_STAGING_PUBLIC_KEY }}
+      RECAPTCHA_STAGING_PRIVATE_KEY: ${{ secrets.RECAPTCHA_STAGING_PRIVATE_KEY }}
     steps:
       - name: 'Checkout'
         uses: 'actions/checkout@v2'
@@ -58,15 +60,18 @@ jobs:
           sudo sed -i '/\[mysqld\]/assl = 1' /etc/mysql/mysql.conf.d/mysqld.cnf
           sudo service mysql restart
 
-      - name: 'Get cluster credentials'
-        # run: |-
-        #   gcloud container clusters get-credentials ${{ github.event.deployment.environment }} --zone "$GKE_ZONE"
-        run: |-
-          gcloud container clusters get-credentials "dev" --zone "$GKE_ZONE"
+      # - name: 'Get cluster credentials'
+      #   # run: |-
+      #   #   gcloud container clusters get-credentials ${{ github.event.deployment.environment }} --zone "$GKE_ZONE"
+      #   run: |-
+      #     gcloud container clusters get-credentials "dev" --zone "$GKE_ZONE"
       
-      - name: 'Deploy k8s'
-        # run: python clusters_setup/deploy.py ${{ github.event.deployment.environment }}
-        run: python clusters_setup/deploy.py "dev"
+      # - name: 'Deploy k8s'
+      #   # run: python clusters_setup/deploy.py ${{ github.event.deployment.environment }}
+      #   run: python clusters_setup/deploy.py "dev"
+      
+      - name: 'Deploy'
+        run: ./deploy.sh dev ${{ env.GITHUB_RUN_NUMBER }} dev
 
       # - name: 'Deployment success'
       #   if: success()
