@@ -1,0 +1,92 @@
+name: Deploy to Dev
+
+on: push
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    env:
+      APP_ID: decent-digit-629
+      NODE_ENV: production
+      DB_PORT: 3306
+    steps:
+      - name: 'Checkout'
+        uses: 'actions/checkout@v1'
+      - name: 'Deployment pending'
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'pending'
+          token: '${{secrets.GITHUB_TOKEN}}'
+      - name: 'Setup python'
+        uses: actions/setup-python@v1
+        with:
+          python-version: '2.7.x'
+          architecture: 'x64'
+      
+      - name: 'Authenticate with Google Cloud'
+        uses: actions/gcloud/auth@master
+        env:
+          GCLOUD_AUTH: ${{secrets.GCLOUD_AUTH}}
+        
+      
+      # Actual deployment
+      - name: 'Deploy ${{ github.event.deployment.environment }}'
+        run: |
+          echo "task - ${{ github.event.deployment.task }}"
+          echo "environment - ${{ github.event.deployment.environment }}"
+          echo "payload - ${{ toJson(github.event.deployment.payload) }}"
+          ls
+      
+      - name: 'Setup MySQL'
+        run: |
+          sudo apt-get install libmysqlclient-dev
+          pip install mysql-python
+      
+      - name: 'Install kubernetes'
+        run: pip install kubernetes
+        
+      - name: 'Install packages'
+        run: |
+          pip install -t lib codeforlife-portal
+          pip install -t lib --pre --upgrade --no-deps aimmo
+          
+      - name: 'Install gaerpytz'
+        run: |
+          pip install beautifulsoup4
+          pip install requests
+          python install_gaerpytz.py
+      
+      - name: 'Collect resources'
+        run: python manage.py collectstatic --noinput
+      
+      - name: 'Restart MySQL'
+        run: |
+          sudo sed -i '/\[mysqld\]/assl = 1' /etc/mysql/mysql.conf.d/mysqld.cnf
+          sudo service mysql restart
+          
+      - name: 'gcloud: set project id'
+        uses: actions/gcloud/cli@master
+        with:
+          args: config set project ${APP_ID}
+          
+      - name: 'Get cluster credentials'
+        uses: actions/gcloud/cli@master
+        with:
+          args: container clusters get-credentials ${{ github.event.deployment.environment }} --zone europe-west1-b
+      
+      - name: 'Deploy k8s'
+        run: python clusters_setup/deploy.py ${{ github.event.deployment.environment }}
+
+      - name: 'Deployment success'
+        if: success()
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'success'
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
+      - name: 'Deployment failure'
+        if: failure()
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'failure'
+          token: '${{ secrets.GITHUB_TOKEN }}'
