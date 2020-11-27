@@ -73,6 +73,9 @@ jobs:
       #   run: python clusters_setup/deploy.py "dev"
       
       - name: 'Deploy'
+        env:
+          CLOUD_SQL_HOST: ${{ secrets.CLOUD_SQL_HOST }}
+          CLOUD_SQL_PASSWORD: ${{ secrets.CLOUD_SQL_PASSWORD }}
         run: ./deploy.sh dev ${{ github.run_number }} dev
 
       # - name: 'Deployment success'
