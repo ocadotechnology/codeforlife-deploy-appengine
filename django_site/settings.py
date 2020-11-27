@@ -177,7 +177,7 @@ else:
             "HOST": "/cloudsql/decent-digit-629:europe-west1:db",
             "NAME": os.getenv("DATABASE_NAME"),
             "USER": "root",
-            "PASSWORD": os.getenv("CLOUD_SQL_PASSWORD"),
+            # "PASSWORD": os.getenv("CLOUD_SQL_PASSWORD"),
         }
     }
     PIPELINE_ENABLED = True
