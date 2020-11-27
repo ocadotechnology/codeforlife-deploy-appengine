@@ -1,11 +1,11 @@
 name: Deploy to Dev
 
-on: push
+on: workflow_dispatch
 
 jobs:
   deployment:
     name: Deployment
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     env:
       APP_ID: decent-digit-629
       NODE_ENV: production
@@ -72,7 +72,7 @@ jobs:
       #   run: python clusters_setup/deploy.py "dev"
       
       - name: 'Deploy'
-        run: ./deploy.sh dev ${{ env.GITHUB_RUN_NUMBER }} dev
+        run: ./deploy.sh dev ${{ github.run_number }} dev
 
       # - name: 'Deployment success'
       #   if: success()
