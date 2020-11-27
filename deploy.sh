@@ -27,7 +27,7 @@ chmod +x cloud_sql_proxy
 
 # Start Cloud SQL Proxy and migrate
 sudo ./cloud_sql_proxy -dir=/cloudsql &
-sleep 7
+sleep 10
 ./manage.py migrate --no-input
 
 if [ "$MODULE_NAME" = "default" ]
