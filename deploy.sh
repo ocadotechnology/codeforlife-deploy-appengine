@@ -26,7 +26,8 @@ wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_pro
 chmod +x cloud_sql_proxy
 
 # Start Cloud SQL Proxy and migrate
-sudo ./cloud_sql_proxy -dir=/cloudsql
+sudo ./cloud_sql_proxy -dir=/cloudsql &
+sleep 2
 ./manage.py migrate --no-input
 
 if [ "$MODULE_NAME" = "default" ]
