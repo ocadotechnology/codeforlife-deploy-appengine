@@ -76,8 +76,8 @@ jobs:
         env:
           CLOUD_SQL_HOST: ${{ secrets.CLOUD_SQL_HOST }}
           CLOUD_SQL_PASSWORD: ${{ secrets.CLOUD_SQL_PASSWORD }}
-          REDIS_IP: ${{ secrects.REDIS_IP }}
-          REDIS_PORT: ${{ secrects.REDIS_PORT }}
+          REDIS_IP: ${{ secrets.REDIS_IP }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
         run: ./deploy.sh dev ${{ github.run_number }} dev
 
       # - name: 'Deployment success'
