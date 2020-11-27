@@ -1,6 +1,7 @@
 name: Deploy to Dev
 
-on: workflow_dispatch
+# on: workflow_dispatch # This works only on default branch, to be enabled when we merge
+on: push
 
 jobs:
   deployment:
