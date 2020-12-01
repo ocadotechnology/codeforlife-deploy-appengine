@@ -6,8 +6,6 @@ rbenv rehash
 pip install requests
 pip install -t lib requests-toolbelt
 
-pip install django-autoconfig
-
 pip install -t lib --upgrade git+https://github.com/ocadotechnology/rapid-router@django_2_upgrade
 pip install -t lib --upgrade git+https://github.com/ocadotechnology/codeforlife-portal@django_2_upgrade
 
