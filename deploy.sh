@@ -18,7 +18,7 @@ pip install pyyaml
 gcloud container clusters get-credentials ${MODULE_NAME} --zone europe-west1-b
 
 # Deploy the correct kubernetes cluster.
-python clusters_setup/deploy.py "${MODULE_NAME}"
+# python clusters_setup/deploy.py "${MODULE_NAME}"
 
 # Install Cloud SQL Proxy
 # TODO: move somewhere outside current dir

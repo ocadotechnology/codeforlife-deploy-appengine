@@ -30,33 +30,32 @@ jobs:
         with:
           python-version: '3.7.x'
           architecture: 'x64'
-      
+
       # Setup gcloud CLI
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: '290.0.1'
           service_account_key: ${{ secrets.GCLOUD_AUTH }}
           project_id: ${{ env.APP_ID }}
-        
+
       # Actual deployment
       - name: 'Deploy ${{ github.event.deployment.environment }}'
         run: |
           echo "task - ${{ github.event.deployment.task }}"
           echo "environment - ${{ github.event.deployment.environment }}"
           echo "payload - ${{ toJson(github.event.deployment.payload) }}"
-          ls
-      
+
       - name: 'Setup MySQL'
         run: |
           sudo apt-get install libmysqlclient-dev
           pip install mysqlclient==1.4.*
-      
-      - name: 'Install kubernetes'
-        run: pip install kubernetes
-      
+
+      # - name: 'Install kubernetes'
+      #   run: pip install kubernetes
+
       - name: 'Build'
         run: ./build.sh dev
-      
+
       - name: 'Restart MySQL'
         run: |
           sudo sed -i '/\[mysqld\]/assl = 1' /etc/mysql/mysql.conf.d/mysqld.cnf
@@ -67,11 +66,11 @@ jobs:
       #   #   gcloud container clusters get-credentials ${{ github.event.deployment.environment }} --zone "$GKE_ZONE"
       #   run: |-
       #     gcloud container clusters get-credentials "dev" --zone "$GKE_ZONE"
-      
+
       # - name: 'Deploy k8s'
       #   # run: python clusters_setup/deploy.py ${{ github.event.deployment.environment }}
       #   run: python clusters_setup/deploy.py "dev"
-      
+
       - name: 'Deploy'
         env:
           CLOUD_SQL_HOST: ${{ secrets.CLOUD_SQL_HOST }}
@@ -79,14 +78,12 @@ jobs:
           REDIS_IP: ${{ secrets.REDIS_IP }}
           REDIS_PORT: ${{ secrets.REDIS_PORT }}
         run: ./deploy.sh dev ${{ github.run_number }} dev
-
       # - name: 'Deployment success'
       #   if: success()
       #   uses: 'deliverybot/status@master'
       #   with:
       #     state: 'success'
       #     token: '${{ secrets.GITHUB_TOKEN }}'
-
       # - name: 'Deployment failure'
       #   if: failure()
       #   uses: 'deliverybot/status@master'
