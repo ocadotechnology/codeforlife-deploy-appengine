@@ -16,6 +16,7 @@ requirements = "\n".join(
         "google-python-cloud-debugger==2.*",
         "google-cloud-logging==1.*",
         "google-auth==1.*",
+        "kubernetes",
     ]
 )
 
