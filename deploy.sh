@@ -23,8 +23,8 @@ export GOOGLE_APPLICATION_CREDENTIALS=/home/runner/codeforlife-deploy-appengine/
 
 # Install the dependencies for the following deploy script.
 # Kubernetes is a TEMPORARY solution. See issue 68.
-# pip install kubernetes
-# pip install pyyaml
+pip install kubernetes
+pip install pyyaml
 
 # Authenticate the cluster by updating kubeconfig.
 ${GCLOUD} config set project ${APP_ID}
