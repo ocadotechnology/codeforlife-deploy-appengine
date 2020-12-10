@@ -17,6 +17,8 @@ requirements = "\n".join(
         "google-cloud-logging==1.*",
         "google-auth==1.*",
         "kubernetes",
+        "google-cloud-container==2.3.0",
+        "google-auth",
     ]
 )
 
