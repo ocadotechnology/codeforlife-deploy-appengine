@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 from google.auth import compute_engine
 from google.cloud.container_v1 import ClusterManagerClient
-from kubernetes import client
+from kubernetes import client, config
 
 
 # class AppEngineAppConfig(AppConfig):
@@ -11,22 +11,22 @@ from kubernetes import client
 
 def setup_gke():
     print("CONNECTING UP GKE CLUSTER")
-    project_id = "decent-digit-629"
-    zone = "europe-west1"
-    cluster_id = "agones-terraform-dev"
+    # project_id = "decent-digit-629"
+    # zone = "europe-west1"
+    # cluster_id = "agones-terraform-dev"
 
-    credentials = compute_engine.Credentials()
+    # credentials = compute_engine.Credentials()
+    config.load_kube_config()
+    # cluster_manager_client = ClusterManagerClient(credentials=credentials)
+    # cluster = cluster_manager_client.get_cluster(
+    #     name=f"projects/{project_id}/locations/{zone}/clusters/{cluster_id}"
+    # )
 
-    cluster_manager_client = ClusterManagerClient(credentials=credentials)
-    cluster = cluster_manager_client.get_cluster(
-        name=f"projects/{project_id}/locations/{zone}/clusters/{cluster_id}"
-    )
-
-    configuration = client.Configuration()
-    configuration.host = f"https://{cluster.endpoint}:443"
-    configuration.verify_ssl = False
-    configuration.api_key = {"authorization": "Bearer " + credentials.token}
-    client.Configuration.set_default(configuration)
+    # configuration = client.Configuration()
+    # configuration.host = f"https://{cluster.endpoint}:443"
+    # configuration.verify_ssl = False
+    # configuration.api_key = {"authorization": "Bearer " + credentials.token}
+    # client.Configuration.set_default(configuration)
 
     # def ready(self):
 
