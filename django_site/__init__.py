@@ -35,4 +35,4 @@
 # program; modified versions of the program must be marked as such and not
 # identified as the original program.
 
-default_app_config = "django_site.apps.AppEngineAppConfig"
+# default_app_config = "django_site.apps.AppEngineAppConfig"
