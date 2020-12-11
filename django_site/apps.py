@@ -9,6 +9,7 @@ class AppEngineAppConfig(AppConfig):
     verbose_name = "Code for Life"
 
     def setup_gke(self):
+        print("CONNECTING UP GKE CLUSTER")
         project_id = "decent-digit-629"
         zone = "europe-west1-b"
         cluster_id = "agones-terraform-dev"
