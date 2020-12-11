@@ -30,10 +30,8 @@ def setup_gke():
 
     # def ready(self):
 
-    # v1 = client.CoreV1Api()
-    # print("Listing pods with their IPs:")
-    # pods = v1.list_pod_for_all_namespaces(watch=False)
-    # for i in pods.items:
-    #     print(
-    #         "%s\t%s\t%s" % (i.status.pod_ip, i.metadata.namespace, i.metadata.name)
-    #     )
+    v1 = client.CoreV1Api()
+    print("Listing pods with their IPs:")
+    pods = v1.list_pod_for_all_namespaces(watch=False)
+    for i in pods.items:
+        print("%s\t%s\t%s" % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
