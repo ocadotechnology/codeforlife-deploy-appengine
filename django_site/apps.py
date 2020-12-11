@@ -18,7 +18,9 @@ def setup_gke():
     credentials = compute_engine.Credentials()
 
     cluster_manager_client = ClusterManagerClient(credentials=credentials)
-    cluster = cluster_manager_client.get_cluster(project_id, zone, cluster_id)
+    cluster = cluster_manager_client.get_cluster(
+        f"projects/{project_id}/locations/{zone}/clusters/{cluster_id}"
+    )
 
     configuration = client.Configuration()
     configuration.host = f"https://{cluster.endpoint}:443"
