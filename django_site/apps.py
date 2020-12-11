@@ -3,10 +3,13 @@ from google.auth import compute_engine
 from google.cloud.container_v1 import ClusterManagerClient
 from kubernetes import client, config
 import yaml
+import os
 
 # class AppEngineAppConfig(AppConfig):
 #     name = "django_site"
 #     verbose_name = "Code for Life"
+
+CURR_DIR = os.path.abspath(os.path.dirname(__file__))
 
 
 def setup_gke():
@@ -20,7 +23,7 @@ def setup_gke():
     # print(contexts)
     # print(active_context)
     # config.load_kube_config()
-    filename = "kubeconfig.yaml"
+    filename = os.path.join(CURR_DIR, "kubeconfig.yaml")
     config_dict = yaml.safe_load(open(filename, "r").read())
     config.load_kube_config_from_dict(config_dict)
     # cluster_manager_client = ClusterManagerClient(credentials=credentials)
