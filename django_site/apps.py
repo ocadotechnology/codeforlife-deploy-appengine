@@ -12,7 +12,7 @@ from kubernetes import client
 def setup_gke():
     print("CONNECTING UP GKE CLUSTER")
     project_id = "decent-digit-629"
-    zone = "europe-west1-b"
+    zone = "europe-west1"
     cluster_id = "agones-terraform-dev"
 
     credentials = compute_engine.Credentials()
