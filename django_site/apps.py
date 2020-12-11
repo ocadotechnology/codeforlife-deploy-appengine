@@ -20,7 +20,8 @@ def setup_gke():
     # print(contexts)
     # print(active_context)
     # config.load_kube_config()
-    config_dict = yaml.safe_load(open("kubeconfig.yaml", "r").read())
+    filename = "kubeconfig.yaml"
+    config_dict = yaml.safe_load(open(filename, "r").read())
     config.load_kube_config_from_dict(config_dict)
     # cluster_manager_client = ClusterManagerClient(credentials=credentials)
     # cluster = cluster_manager_client.get_cluster(
