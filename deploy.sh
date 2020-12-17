@@ -54,6 +54,7 @@ else
     unset DOTMAILER_DEFAULT_PREFERENCES >/dev/null 2>&1
 fi
 
+envsubst <kubeconfig.yaml.tmpl >kubeconfig.yaml
 envsubst <app.yaml.tmpl >app.yaml
 
 ${GCLOUD} app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote --no-cache
