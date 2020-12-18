@@ -7,6 +7,7 @@ jobs:
   deployment:
     name: Deployment
     runs-on: ubuntu-18.04
+    environment: dev
     env:
       APP_ID: decent-digit-629
       NODE_ENV: production
@@ -15,6 +16,12 @@ jobs:
       RECAPTCHA_STAGING_PUBLIC_KEY: ${{ secrets.RECAPTCHA_STAGING_PUBLIC_KEY }}
       RECAPTCHA_STAGING_PRIVATE_KEY: ${{ secrets.RECAPTCHA_STAGING_PRIVATE_KEY }}
       # TODO: add secrets from semaphore
+    services:
+      cloudsql-proxy:
+        image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
+        volumes:
+          - /cloudsql:/cloudsql
+        options: /cloud_sql_proxy -token ${{ secrets.GCLOUD_AUTH }} -dir /cloudsql
     steps:
       - name: 'Checkout'
         uses: 'actions/checkout@v2'
@@ -62,15 +69,15 @@ jobs:
           sudo sed -i '/\[mysqld\]/assl = 1' /etc/mysql/mysql.conf.d/mysqld.cnf
           sudo service mysql restart
 
-      # - name: 'Get cluster credentials'
-      #   # run: |-
-      #   #   gcloud container clusters get-credentials ${{ github.event.deployment.environment }} --zone "$GKE_ZONE"
-      #   run: |-
-      #     gcloud container clusters get-credentials "dev" --zone "$GKE_ZONE"
+      - name: 'Get cluster credentials'
+        # run: |-
+        #   gcloud container clusters get-credentials ${{ github.event.deployment.environment }} --zone "$GKE_ZONE"
+        run: |-
+          gcloud container clusters get-credentials "dev" --zone "$GKE_ZONE"
       
-      # - name: 'Deploy k8s'
-      #   # run: python clusters_setup/deploy.py ${{ github.event.deployment.environment }}
-      #   run: python clusters_setup/deploy.py "dev"
+      - name: 'Deploy k8s'
+        # run: python clusters_setup/deploy.py ${{ github.event.deployment.environment }}
+        run: python clusters_setup/deploy.py "dev"
       
       - name: 'Deploy'
         env:

@@ -9,25 +9,14 @@ export DATABASE_POSTFIX="$3"
 export DATABASE_NAME="cfl_${DATABASE_POSTFIX}"
 export CACHE_PREFIX="${MODULE_NAME}-"
 
-# Install the dependencies for the following deploy script.
-# Kubernetes is a TEMPORARY solution. See issue 68.
-pip install kubernetes
-pip install pyyaml
-
-# Authenticate the cluster by updating kubeconfig.
-gcloud container clusters get-credentials ${MODULE_NAME} --zone europe-west1-b
-
-# Deploy the correct kubernetes cluster.
-python clusters_setup/deploy.py "${MODULE_NAME}"
-
 # Install Cloud SQL Proxy
 # TODO: move somewhere outside current dir
-wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
-chmod +x cloud_sql_proxy
+# wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
+# chmod +x cloud_sql_proxy
 
 # Start Cloud SQL Proxy and migrate
-sudo ./cloud_sql_proxy -dir=/cloudsql &
-sleep 10
+# sudo ./cloud_sql_proxy -dir=/cloudsql &
+# sleep 10
 ./manage.py migrate --no-input
 
 if [ "$MODULE_NAME" = "default" ]
