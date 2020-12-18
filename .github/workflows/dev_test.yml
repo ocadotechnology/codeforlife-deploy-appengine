@@ -21,7 +21,7 @@ jobs:
         image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
         volumes:
           - /cloudsql:/cloudsql
-        options: /cloud_sql_proxy -token ${{ secrets.GCLOUD_AUTH }} -dir /cloudsql
+        options: --restart on-failure /cloud_sql_proxy -credential_file /cloudsql/key.json  -dir /cloudsql
     steps:
       - name: 'Checkout'
         uses: 'actions/checkout@v2'
@@ -44,6 +44,8 @@ jobs:
           version: '290.0.1'
           service_account_key: ${{ secrets.GCLOUD_AUTH }}
           project_id: ${{ env.APP_ID }}
+          export_default_credentials: true
+          credentials_file_path: /cloudsql/key.json
         
       # Actual deployment
       - name: 'Deploy ${{ github.event.deployment.environment }}'
