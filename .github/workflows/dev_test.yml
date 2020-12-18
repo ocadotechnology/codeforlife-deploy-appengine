@@ -21,7 +21,7 @@ jobs:
         image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
         volumes:
           - /cloudsql:/cloudsql
-        options: --restart on-failure /cloud_sql_proxy -credential_file /cloudsql/key.json  -dir /cloudsql
+        options: --restart on-failure --entrypoint "/cloud_sql_proxy -credential_file /cloudsql/key.json -dir /cloudsql"
     steps:
       - name: 'Checkout'
         uses: 'actions/checkout@v2'
