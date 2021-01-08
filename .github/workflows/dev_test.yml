@@ -78,30 +78,30 @@ jobs:
       #   # run: python clusters_setup/deploy.py ${{ github.event.deployment.environment }}
       #   run: python clusters_setup/deploy.py "dev"
       
-      # - name: 'Deploy'
-      #   env:
-      #     REDIS_IP: ${{ secrets.REDIS_IP }}
-      #     REDIS_PORT: ${{ secrets.REDIS_PORT }}
-      #   run: |
-      #     # start cloudsql-proxy container
-      #     docker run -d --net host --name cloudsql-proxy --restart on-failure \
-      #       -v /tmp/cloudsql:/tmp/cloudsql \
-      #       gcr.io/cloudsql-docker/gce-proxy:1.19.1 \
-      #         -credential_file /tmp/cloudsql/key.json \
-      #         -dir /tmp/cloudsql
+      - name: 'Deploy'
+        env:
+          REDIS_IP: ${{ secrets.REDIS_IP }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+        run: |
+          # start cloudsql-proxy container
+          docker run -d --net host --name cloudsql-proxy --restart on-failure \
+            -v /tmp/cloudsql:/tmp/cloudsql \
+            gcr.io/cloudsql-docker/gce-proxy:1.19.1 \
+              -credential_file /tmp/cloudsql/key.json \
+              -dir /tmp/cloudsql
           
-      #     # wait for cloudsql-proxy to be ready
-      #     for i in {1..10}; do
-      #         echo "Waiting for cloudsql-proxy to be ready $i/10"
-      #         if mysqladmin -S /tmp/cloudsql/decent-digit-629:europe-west1:db ping; then
-      #           echo "cloudsql-proxy is ready"
-      #           break
-      #         fi
-      #         sleep 2
-      #     done
+          # wait for cloudsql-proxy to be ready
+          for i in {1..10}; do
+              echo "Waiting for cloudsql-proxy to be ready $i/10"
+              if mysqladmin -S /tmp/cloudsql/decent-digit-629:europe-west1:db ping; then
+                echo "cloudsql-proxy is ready"
+                break
+              fi
+              sleep 2
+          done
 
-      #     # TODO
-      #     exit 1
+          # TODO
+          exit 1
 
       # - name: 'Deploy'
       #   env:
