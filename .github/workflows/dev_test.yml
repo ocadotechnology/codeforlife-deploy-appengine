@@ -13,8 +13,8 @@ jobs:
       NODE_ENV: production
       DB_PORT: 3306
       GKE_ZONE: europe-west1-b
-      RECAPTCHA_STAGING_PUBLIC_KEY: ${{ secrets.RECAPTCHA_STAGING_PUBLIC_KEY }}
-      RECAPTCHA_STAGING_PRIVATE_KEY: ${{ secrets.RECAPTCHA_STAGING_PRIVATE_KEY }}
+      # RECAPTCHA_STAGING_PUBLIC_KEY: ${{ secrets.RECAPTCHA_STAGING_PUBLIC_KEY }}
+      # RECAPTCHA_STAGING_PRIVATE_KEY: ${{ secrets.RECAPTCHA_STAGING_PRIVATE_KEY }}
       # TODO: add secrets from semaphore
     steps:
       - name: 'Checkout'
