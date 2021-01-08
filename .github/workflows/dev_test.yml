@@ -31,6 +31,9 @@ jobs:
         with:
           python-version: '3.7.x'
           architecture: 'x64'
+
+      - name: Create /tmp/cloudsql directory
+        run: mkdir -p /tmp/cloudsql
       
       # Setup gcloud CLI
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
