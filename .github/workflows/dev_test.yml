@@ -16,12 +16,6 @@ jobs:
       RECAPTCHA_STAGING_PUBLIC_KEY: ${{ secrets.RECAPTCHA_STAGING_PUBLIC_KEY }}
       RECAPTCHA_STAGING_PRIVATE_KEY: ${{ secrets.RECAPTCHA_STAGING_PRIVATE_KEY }}
       # TODO: add secrets from semaphore
-    services:
-      cloudsql-proxy:
-        image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
-        volumes:
-          - /cloudsql:/cloudsql
-        options: --restart on-failure --entrypoint "/cloud_sql_proxy -credential_file /cloudsql/key.json -dir /cloudsql"
     steps:
       - name: 'Checkout'
         uses: 'actions/checkout@v2'
@@ -83,11 +77,36 @@ jobs:
       
       - name: 'Deploy'
         env:
-          CLOUD_SQL_HOST: ${{ secrets.CLOUD_SQL_HOST }}
-          CLOUD_SQL_PASSWORD: ${{ secrets.CLOUD_SQL_PASSWORD }}
           REDIS_IP: ${{ secrets.REDIS_IP }}
           REDIS_PORT: ${{ secrets.REDIS_PORT }}
-        run: ./deploy.sh dev ${{ github.run_number }} dev
+        run: |
+          # start cloudsql-proxy container
+          docker run -d --net host --name cloudsql-proxy --restart on-failure \
+            -v /cloudsql:/cloudsql \
+            gcr.io/cloudsql-docker/gce-proxy:1.19.1 \
+              -credential_file /cloudsql/key.json \
+              -dir /cloudsql
+          
+          # wait for cloudsql-proxy to be ready
+          for i in {1..10}; do
+              echo "Waiting for cloudsql-proxy to be ready $i/10"
+              if mysqladmin -S /cloudsql/decent-digit-629:europe-west1:db ping; then
+                echo "cloudsql-proxy is ready"
+                break
+              fi
+              sleep 2
+          done
+
+          # TODO
+          exit 1
+
+      # - name: 'Deploy'
+      #   env:
+      #     CLOUD_SQL_HOST: ${{ secrets.CLOUD_SQL_HOST }}
+      #     CLOUD_SQL_PASSWORD: ${{ secrets.CLOUD_SQL_PASSWORD }}
+      #     REDIS_IP: ${{ secrets.REDIS_IP }}
+      #     REDIS_PORT: ${{ secrets.REDIS_PORT }}
+      #   run: ./deploy.sh dev ${{ github.run_number }} dev
 
       # - name: 'Deployment success'
       #   if: success()
