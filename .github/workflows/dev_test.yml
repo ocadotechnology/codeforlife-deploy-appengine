@@ -35,73 +35,73 @@ jobs:
       # - name: Create /tmp/cloudsql directory
       #   run: mkdir -p /tmp/cloudsql
       
-      # Setup gcloud CLI
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-        with:
-          version: '290.0.1'
-          service_account_key: ${{ secrets.GCLOUD_AUTH }}
-          project_id: ${{ env.APP_ID }}
-          export_default_credentials: true
-          credentials_file_path: /tmp/cloudsql/key.json
+      # # Setup gcloud CLI
+      # - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      #   with:
+      #     version: '290.0.1'
+      #     service_account_key: ${{ secrets.GCLOUD_AUTH }}
+      #     project_id: ${{ env.APP_ID }}
+      #     export_default_credentials: true
+      #     credentials_file_path: /tmp/cloudsql/key.json
         
-      # Actual deployment
-      - name: 'Deploy ${{ github.event.deployment.environment }}'
-        run: |
-          echo "task - ${{ github.event.deployment.task }}"
-          echo "environment - ${{ github.event.deployment.environment }}"
-          echo "payload - ${{ toJson(github.event.deployment.payload) }}"
-          ls
+      # # Actual deployment
+      # - name: 'Deploy ${{ github.event.deployment.environment }}'
+      #   run: |
+      #     echo "task - ${{ github.event.deployment.task }}"
+      #     echo "environment - ${{ github.event.deployment.environment }}"
+      #     echo "payload - ${{ toJson(github.event.deployment.payload) }}"
+      #     ls
       
-      - name: 'Setup MySQL'
-        run: |
-          sudo apt-get install libmysqlclient-dev
-          pip install mysqlclient==1.4.*
+      # - name: 'Setup MySQL'
+      #   run: |
+      #     sudo apt-get install libmysqlclient-dev
+      #     pip install mysqlclient==1.4.*
       
-      - name: 'Install kubernetes'
-        run: pip install kubernetes
+      # - name: 'Install kubernetes'
+      #   run: pip install kubernetes
       
-      - name: 'Build'
-        run: ./build.sh dev
+      # - name: 'Build'
+      #   run: ./build.sh dev
       
-      - name: 'Restart MySQL'
-        run: |
-          sudo sed -i '/\[mysqld\]/assl = 1' /etc/mysql/mysql.conf.d/mysqld.cnf
-          sudo service mysql restart
+      # - name: 'Restart MySQL'
+      #   run: |
+      #     sudo sed -i '/\[mysqld\]/assl = 1' /etc/mysql/mysql.conf.d/mysqld.cnf
+      #     sudo service mysql restart
 
-      - name: 'Get cluster credentials'
-        # run: |-
-        #   gcloud container clusters get-credentials ${{ github.event.deployment.environment }} --zone "$GKE_ZONE"
-        run: |-
-          gcloud container clusters get-credentials "dev" --zone "$GKE_ZONE"
+      # - name: 'Get cluster credentials'
+      #   # run: |-
+      #   #   gcloud container clusters get-credentials ${{ github.event.deployment.environment }} --zone "$GKE_ZONE"
+      #   run: |-
+      #     gcloud container clusters get-credentials "dev" --zone "$GKE_ZONE"
       
-      - name: 'Deploy k8s'
-        # run: python clusters_setup/deploy.py ${{ github.event.deployment.environment }}
-        run: python clusters_setup/deploy.py "dev"
+      # - name: 'Deploy k8s'
+      #   # run: python clusters_setup/deploy.py ${{ github.event.deployment.environment }}
+      #   run: python clusters_setup/deploy.py "dev"
       
-      - name: 'Deploy'
-        env:
-          REDIS_IP: ${{ secrets.REDIS_IP }}
-          REDIS_PORT: ${{ secrets.REDIS_PORT }}
-        run: |
-          # start cloudsql-proxy container
-          docker run -d --net host --name cloudsql-proxy --restart on-failure \
-            -v /tmp/cloudsql:/tmp/cloudsql \
-            gcr.io/cloudsql-docker/gce-proxy:1.19.1 \
-              -credential_file /tmp/cloudsql/key.json \
-              -dir /tmp/cloudsql
+      # - name: 'Deploy'
+      #   env:
+      #     REDIS_IP: ${{ secrets.REDIS_IP }}
+      #     REDIS_PORT: ${{ secrets.REDIS_PORT }}
+      #   run: |
+      #     # start cloudsql-proxy container
+      #     docker run -d --net host --name cloudsql-proxy --restart on-failure \
+      #       -v /tmp/cloudsql:/tmp/cloudsql \
+      #       gcr.io/cloudsql-docker/gce-proxy:1.19.1 \
+      #         -credential_file /tmp/cloudsql/key.json \
+      #         -dir /tmp/cloudsql
           
-          # wait for cloudsql-proxy to be ready
-          for i in {1..10}; do
-              echo "Waiting for cloudsql-proxy to be ready $i/10"
-              if mysqladmin -S /tmp/cloudsql/decent-digit-629:europe-west1:db ping; then
-                echo "cloudsql-proxy is ready"
-                break
-              fi
-              sleep 2
-          done
+      #     # wait for cloudsql-proxy to be ready
+      #     for i in {1..10}; do
+      #         echo "Waiting for cloudsql-proxy to be ready $i/10"
+      #         if mysqladmin -S /tmp/cloudsql/decent-digit-629:europe-west1:db ping; then
+      #           echo "cloudsql-proxy is ready"
+      #           break
+      #         fi
+      #         sleep 2
+      #     done
 
-          # TODO
-          exit 1
+      #     # TODO
+      #     exit 1
 
       # - name: 'Deploy'
       #   env:
