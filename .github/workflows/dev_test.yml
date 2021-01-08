@@ -35,14 +35,14 @@ jobs:
       - name: Create /tmp/cloudsql directory
         run: mkdir -p /tmp/cloudsql
       
-      # # Setup gcloud CLI
-      # - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-      #   with:
-      #     version: '290.0.1'
-      #     service_account_key: ${{ secrets.GCLOUD_AUTH }}
-      #     project_id: ${{ env.APP_ID }}
-      #     export_default_credentials: true
-      #     credentials_file_path: /tmp/cloudsql/key.json
+      # Setup gcloud CLI
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '290.0.1'
+          service_account_key: ${{ secrets.GCLOUD_AUTH }}
+          project_id: ${{ env.APP_ID }}
+          export_default_credentials: true
+          credentials_file_path: /tmp/cloudsql/key.json
         
       # # Actual deployment
       # - name: 'Deploy ${{ github.event.deployment.environment }}'
