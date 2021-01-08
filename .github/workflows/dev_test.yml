@@ -87,6 +87,7 @@ jobs:
           docker run -d --net host --name cloudsql-proxy --restart on-failure \
             -v /tmp/cloudsql:/tmp/cloudsql \
             gcr.io/cloudsql-docker/gce-proxy:1.19.1 \
+            /cloud_sql_proxy \
               -credential_file /tmp/cloudsql/key.json \
               -dir /tmp/cloudsql
           
