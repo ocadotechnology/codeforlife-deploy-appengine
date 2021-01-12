@@ -4,9 +4,11 @@ from lib.game import __version__ as rapid_router_version
 
 requirements = "\n".join(
     [
-        f"codeforlife-portal=={portal_version}",
+        # f"codeforlife-portal=={portal_version}",
+        "git+https://github.com/ocadotechnology/codeforlife-portal@managed-cookies",
         f"aimmo=={aimmo_version}",
-        f"rapid-router=={rapid_router_version}",
+        # f"rapid-router=={rapid_router_version}",
+        "git+https://github.com/ocadotechnology/rapid-router@managed-cookies",
         "requests-toolbelt==0.9.*",
         "mysqlclient==1.4.*",
         "redis==3.3.*",
