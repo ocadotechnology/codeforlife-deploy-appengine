@@ -99,6 +99,7 @@ jobs:
           # wait for cloudsql-proxy to be ready
           for i in {1..10}; do
               echo "Waiting for cloudsql-proxy to be ready $i/10"
+              ls -a /cloudsql
               if mysqladmin -S /cloudsql/decent-digit-629:europe-west1:db ping; then
                 echo "cloudsql-proxy is ready"
                 break
