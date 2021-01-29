@@ -80,35 +80,60 @@ jobs:
       
       - name: 'Deploy'
         env:
+          CLOUDSDK_CORE_DISABLE_PROMPTS: 1
+          CLOUDSDK_PYTHON_SITEPACKAGES: 1
+          MODULE_NAME: dev
+          VERSION: ${{ github.run_number }}
+          DATABASE_POSTFIX: dev
+          DATABASE_NAME: "cfl_${DATABASE_POSTFIX}"
+          CACHE_PREFIX: "${MODULE_NAME}-"
           REDIS_IP: ${{ secrets.REDIS_IP }}
           REDIS_PORT: ${{ secrets.REDIS_PORT }}
         run: |
-          # start cloudsql-proxy container
-          # docker run -d --net host --name cloudsql-proxy --restart on-failure \
-          #   -v /tmp/cloudsql:/tmp/cloudsql \
-          #   gcr.io/cloudsql-docker/gce-proxy:1.19.1 \
-          #   /cloud_sql_proxy \
-          #     -credential_file /tmp/cloudsql/key.json \
-          #     -dir /tmp/cloudsql
-
+          # Install Cloud SQL Proxy
           wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O /tmp/cloud_sql_proxy
           chmod +x /tmp/cloud_sql_proxy
 
+          # Start Cloud SQL Proxy and migrate
           sudo /tmp/cloud_sql_proxy -dir=/cloudsql &
           
           # wait for cloudsql-proxy to be ready
+          is_sql_proxy_ready = 0
           for i in {1..10}; do
               echo "Waiting for cloudsql-proxy to be ready $i/10"
-              # ls -a /cloudsql
               if mysqladmin -S /cloudsql/decent-digit-629:europe-west1:db ping; then
                 echo "cloudsql-proxy is ready"
+                is_sql_proxy_ready = 1
                 break
               fi
               sleep 2
           done
 
+          echo $DATABASE_NAME
+          echo $CACHE_PREFIX
+
           # TODO
           exit 1
+
+          if [[ $is_sql_proxy_ready -eq 0 ]]; then
+            exit 1
+          fi
+
+          ./manage.py migrate --no-input
+
+          envsubst <app.yaml.tmpl >app.yaml
+
+          gcloud app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote
+          gcloud app --quiet deploy cron.yaml --project ${APP_ID} --version ${VERSION} --no-promote
+
+          # Test the site
+          ./test.sh ${MODULE_NAME} ${VERSION}
+
+          # Promote
+          gcloud app services set-traffic --project ${APP_ID} --splits ${VERSION}=1 ${MODULE_NAME} --migrate
+
+          # Test the site - again!
+          ./test.sh ${MODULE_NAME} ${VERSION}
 
       # - name: 'Deploy'
       #   env:
