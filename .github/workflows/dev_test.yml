@@ -85,8 +85,8 @@ jobs:
           MODULE_NAME: dev
           VERSION: ${{ github.run_number }}
           DATABASE_POSTFIX: dev
-          DATABASE_NAME: "cfl_${DATABASE_POSTFIX}"
-          CACHE_PREFIX: "${MODULE_NAME}-"
+          DATABASE_NAME: cfl_${{env.DATABASE_POSTFIX}}
+          CACHE_PREFIX: ${{ env.MODULE_NAME }}-
           REDIS_IP: ${{ secrets.REDIS_IP }}
           REDIS_PORT: ${{ secrets.REDIS_PORT }}
         run: |
@@ -99,8 +99,8 @@ jobs:
           
           # wait for cloudsql-proxy to be ready
           is_sql_proxy_ready=0
-          for i in {1..10}; do
-              echo "Waiting for cloudsql-proxy to be ready $i/10"
+          for i in {1..30}; do
+              echo "Waiting for cloudsql-proxy to be ready $i/30"
               if mysqladmin -S /cloudsql/decent-digit-629:europe-west1:db ping; then
                 echo "cloudsql-proxy is ready"
                 is_sql_proxy_ready=1
