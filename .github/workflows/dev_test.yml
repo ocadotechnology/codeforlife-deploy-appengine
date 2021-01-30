@@ -55,10 +55,10 @@ jobs:
       #     echo "payload - ${{ toJson(github.event.deployment.payload) }}"
       #     ls
       
-      # - name: 'Setup MySQL'
-      #   run: |
-      #     sudo apt-get install libmysqlclient-dev
-      #     pip install mysqlclient==1.4.*
+      - name: 'Setup MySQL'
+        run: |
+          sudo apt-get install libmysqlclient-dev
+          pip install mysqlclient==1.4.*
       
       - name: 'Install kubernetes'
         run: pip install kubernetes
