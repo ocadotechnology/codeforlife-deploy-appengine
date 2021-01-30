@@ -130,9 +130,6 @@ jobs:
               sleep 2
           done
 
-          echo $DATABASE_NAME
-          echo $CACHE_PREFIX
-
           if [[ $is_sql_proxy_ready -eq 0 ]]; then
             exit 1
           fi
