@@ -5,6 +5,7 @@ export ENVIRONMENT="$1"
 pip install requests
 pip install -t lib requests-toolbelt
 
+pip install -t lib git+https://github.com/ocadotechnology/django-autoconfig
 pip install -t lib --upgrade codeforlife-portal
 
 pip install -t lib django-anymail[amazon_ses]
