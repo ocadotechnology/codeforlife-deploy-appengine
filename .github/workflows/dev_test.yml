@@ -62,9 +62,6 @@ jobs:
       
       - name: 'Install kubernetes'
         run: pip install kubernetes
-      
-      # - name: 'Build'
-      #   run: ./build.sh dev
 
       - name: 'Build'
         run: |
@@ -86,11 +83,6 @@ jobs:
           python generate_requirements.py
 
           ./manage.py collectstatic --noinput
-      
-      # - name: 'Restart MySQL'
-      #   run: |
-      #     sudo sed -i '/\[mysqld\]/assl = 1' /etc/mysql/mysql.conf.d/mysqld.cnf
-      #     sudo service mysql restart
 
       - name: 'Get cluster credentials'
         # run: |-
@@ -149,14 +141,6 @@ jobs:
 
           # Test the site - again!
           ./test.sh ${MODULE_NAME} ${VERSION}
-
-      # - name: 'Deploy'
-      #   env:
-      #     CLOUD_SQL_HOST: ${{ secrets.CLOUD_SQL_HOST }}
-      #     CLOUD_SQL_PASSWORD: ${{ secrets.CLOUD_SQL_PASSWORD }}
-      #     REDIS_IP: ${{ secrets.REDIS_IP }}
-      #     REDIS_PORT: ${{ secrets.REDIS_PORT }}
-      #   run: ./deploy.sh dev ${{ github.run_number }} dev
 
       # - name: 'Deployment success'
       #   if: success()
