@@ -13,6 +13,9 @@ jobs:
       NODE_ENV: production
       DB_PORT: 3306
       GKE_ZONE: europe-west1-b
+      MODULE_NAME: dev
+      VERSION: ${{ github.run_number }}
+      DATABASE_POSTFIX: dev
       # RECAPTCHA_STAGING_PUBLIC_KEY: ${{ secrets.RECAPTCHA_STAGING_PUBLIC_KEY }}
       # RECAPTCHA_STAGING_PRIVATE_KEY: ${{ secrets.RECAPTCHA_STAGING_PRIVATE_KEY }}
       # TODO: add secrets from semaphore
@@ -82,9 +85,6 @@ jobs:
         env:
           CLOUDSDK_CORE_DISABLE_PROMPTS: 1
           CLOUDSDK_PYTHON_SITEPACKAGES: 1
-          MODULE_NAME: dev
-          VERSION: ${{ github.run_number }}
-          DATABASE_POSTFIX: dev
           DATABASE_NAME: cfl_${{env.DATABASE_POSTFIX}}
           CACHE_PREFIX: ${{ env.MODULE_NAME }}-
           REDIS_IP: ${{ secrets.REDIS_IP }}
