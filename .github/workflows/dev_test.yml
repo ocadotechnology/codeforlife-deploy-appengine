@@ -63,28 +63,29 @@ jobs:
       - name: 'Install kubernetes'
         run: pip install kubernetes
       
-      - name: 'Build'
-        run: ./build.sh dev
-
       # - name: 'Build'
-      #   run: |
-      #     pip install requests
-      #     pip install -t lib requests-toolbelt
+      #   run: ./build.sh dev
 
-      #     pip install -t lib --upgrade codeforlife-portal
+      - name: 'Build'
+        run: |
+          pip install requests
+          pip install -t lib requests-toolbelt
 
-      #     pip install -t lib django-anymail[amazon_ses]
-      #     pip install -t lib google-auth==1.*
+          pip install -t lib git+https://github.com/ocadotechnology/django-autoconfig
+          pip install -t lib --upgrade codeforlife-portal
 
-      #     if [[ $MODULE_NAME = "default" ]]; then
-      #         pip install -t lib --upgrade --no-deps aimmo
-      #     else
-      #         pip install -t lib --pre --upgrade --no-deps aimmo
-      #     fi
+          pip install -t lib django-anymail[amazon_ses]
+          pip install -t lib google-auth==1.*
 
-      #     python generate_requirements.py
+          if [[ $MODULE_NAME = "default" ]]; then
+              pip install -t lib --upgrade --no-deps aimmo
+          else
+              pip install -t lib --pre --upgrade --no-deps aimmo
+          fi
 
-      #     ./manage.py collectstatic --noinput
+          python generate_requirements.py
+
+          ./manage.py collectstatic --noinput
       
       # - name: 'Restart MySQL'
       #   run: |
