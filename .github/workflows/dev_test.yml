@@ -60,26 +60,46 @@ jobs:
       #     sudo apt-get install libmysqlclient-dev
       #     pip install mysqlclient==1.4.*
       
-      # - name: 'Install kubernetes'
-      #   run: pip install kubernetes
+      - name: 'Install kubernetes'
+        run: pip install kubernetes
       
       # - name: 'Build'
       #   run: ./build.sh dev
+
+      - name: 'Build'
+        run: |
+          pip install requests
+          pip install -t lib requests-toolbelt
+
+          pip install -t lib --upgrade codeforlife-portal
+
+          pip install -t lib django-anymail[amazon_ses]
+          pip install -t lib google-auth==1.*
+
+          if [[ $MODULE_NAME = "default" ]]; then
+              pip install -t lib --upgrade --no-deps aimmo
+          else
+              pip install -t lib --pre --upgrade --no-deps aimmo
+          fi
+
+          python generate_requirements.py
+
+          ./manage.py collectstatic --noinput
       
       # - name: 'Restart MySQL'
       #   run: |
       #     sudo sed -i '/\[mysqld\]/assl = 1' /etc/mysql/mysql.conf.d/mysqld.cnf
       #     sudo service mysql restart
 
-      # - name: 'Get cluster credentials'
-      #   # run: |-
-      #   #   gcloud container clusters get-credentials ${{ github.event.deployment.environment }} --zone "$GKE_ZONE"
-      #   run: |-
-      #     gcloud container clusters get-credentials "dev" --zone "$GKE_ZONE"
+      - name: 'Get cluster credentials'
+        # run: |-
+        #   gcloud container clusters get-credentials ${{ github.event.deployment.environment }} --zone "$GKE_ZONE"
+        run: |-
+          gcloud container clusters get-credentials "dev" --zone "$GKE_ZONE"
       
-      # - name: 'Deploy k8s'
-      #   # run: python clusters_setup/deploy.py ${{ github.event.deployment.environment }}
-      #   run: python clusters_setup/deploy.py "dev"
+      - name: 'Deploy k8s'
+        # run: python clusters_setup/deploy.py ${{ github.event.deployment.environment }}
+        run: python clusters_setup/deploy.py "dev"
       
       - name: 'Deploy'
         env:
@@ -111,9 +131,6 @@ jobs:
 
           echo $DATABASE_NAME
           echo $CACHE_PREFIX
-
-          # TODO
-          exit 1
 
           if [[ $is_sql_proxy_ready -eq 0 ]]; then
             exit 1
