@@ -19,6 +19,8 @@ else
     pip install -t lib --pre --upgrade --no-deps aimmo
 fi
 
+pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@newsletter_consent_data#egg=cfl-common&subdirectory=cfl_common"
+
 python generate_requirements.py
 
 ./manage.py collectstatic --noinput
