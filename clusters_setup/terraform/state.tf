@@ -23,7 +23,7 @@ module "gke_cluster" {
   source = "git::https://github.com/googleforgames/agones.git//install/terraform/modules/gke/?ref=release-1.10.0"
 
   cluster = {
-    "name"             = local.name
+    "name"             = local.cluster_name
     "zone"             = var.zone
     "machineType"      = var.machine_type
     "initialNodeCount" = var.node_count
