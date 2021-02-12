@@ -38,5 +38,5 @@ variable "feature_gates" {
 locals {
   cluster_name = "aimmo-${terraform.workspace}"
 
-  agones_version = "1.10.0"
+  agones_version = "1.12.0"
 }
