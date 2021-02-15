@@ -22,6 +22,8 @@ else
     # Install agones from a branch
     git clone --depth 1 --branch agones2 https://github.com/ocadotechnology/aimmo.git
     pushd aimmo/game_frontend 
+    nvm install 12.20.2
+    nvm use 12.20.2
     yarn --frozen-lockfile
     NODE_ENV=production node djangoBundler.js
     popd
