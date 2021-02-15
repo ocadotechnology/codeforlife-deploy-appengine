@@ -23,6 +23,8 @@ else
     git clone --depth 1 --branch agones2 https://github.com/ocadotechnology/aimmo.git
     pushd aimmo/game_frontend
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
     nvm install 12.20.2
     nvm use 12.20.2
     yarn --frozen-lockfile
