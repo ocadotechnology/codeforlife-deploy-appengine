@@ -21,6 +21,12 @@ else
 
     # Install agones from a branch
     git clone --depth 1 --branch agones2 https://github.com/ocadotechnology/aimmo.git
+
+    pushd aimmo
+    pip install wheel
+    ./aimmo_runner/build_worker_wheel.sh
+    popd
+    
     pushd aimmo/game_frontend
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
     export NVM_DIR="$HOME/.nvm"
