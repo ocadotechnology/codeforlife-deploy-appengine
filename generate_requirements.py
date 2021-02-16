@@ -6,8 +6,8 @@ requirements = "\n".join(
     [
         f"codeforlife-portal=={portal_version}",
         # "git+https://github.com/ocadotechnology/aimmo.git@agones2",
-        "./aimmo",
-        # f"aimmo=={aimmo_version}",
+        # "./aimmo",
+        f"aimmo=={aimmo_version}",
         f"rapid-router=={rapid_router_version}",
         "requests-toolbelt==0.9.*",
         "mysqlclient==1.4.*",
