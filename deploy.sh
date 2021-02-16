@@ -31,7 +31,7 @@ ${GCLOUD} config set project ${APP_ID}
 ${GCLOUD} container clusters get-credentials aimmo-${MODULE_NAME} --zone europe-west1-b
 
 # Deploy the correct kubernetes cluster.
-# python clusters_setup/deploy.py "${MODULE_NAME}"
+python clusters_setup/deploy.py "${MODULE_NAME}"
 
 ./manage.py migrate --no-input
 
