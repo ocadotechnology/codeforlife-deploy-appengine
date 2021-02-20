@@ -30,13 +30,16 @@ def create_ingress_yaml(module_name):
     """
     path = os.path.join(CURR_DIR, "ingress.yaml")
 
-    host_name = module_name + "-aimmo.codeforlife.education"
+    host_name = f"{module_name}-aimmo.codeforlife.education"
 
     with open(path) as yaml_file:
         content = yaml.safe_load(yaml_file.read())
         content["metadata"]["annotations"][
             "kubernetes.io/ingress.global-static-ip-name"
-        ] = (module_name + "-aimmo-ingress")
+        ] = f"{module_name}-aimmo-ingress"
+        content["metadata"]["annotations"][
+            "nginx.ingress.kubernetes.io/cors-allow-origin"
+        ] = f"https://{module_name}-dot-decent-digit-629.appspot.com"
         content["spec"]["tls"][0]["hosts"][0] = host_name
         content["spec"]["rules"][0]["host"] = host_name
 
