@@ -136,12 +136,13 @@ def restart_pods(game_creator_yaml, ingress_yaml, fleet_yaml):
     :param ingress_yaml: The dict to create the ingress
     :param fleet_yaml: The dict to create the fleet
     """
-    # for rs in apps_api_instance.list_namespaced_replica_set("default").items:
-    #     apps_api_instance.delete_namespaced_replica_set(
-    #         body=kubernetes.client.V1DeleteOptions(),
-    #         name=rs.metadata.name,
-    #         namespace="default",
-    #     )
+    for rs in apps_api_instance.list_namespaced_replica_set("default").items:
+        if rs.metadata.name == game_creator_yaml["metadata"]["name"]:
+            apps_api_instance.delete_namespaced_replica_set(
+                body=kubernetes.client.V1DeleteOptions(),
+                name=rs.metadata.name,
+                namespace="default",
+            )
     # for rc in api_instance.list_namespaced_replication_controller("default").items:
     #     api_instance.delete_namespaced_replication_controller(
     #         body=kubernetes.client.V1DeleteOptions(),
