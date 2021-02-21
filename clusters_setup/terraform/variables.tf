@@ -34,6 +34,10 @@ variable "feature_gates" {
   default = ""
 }
 
+variable "region" {
+  default = "europe-west1"
+}
+
 
 locals {
   cluster_name = "aimmo-${terraform.workspace}"
