@@ -1,9 +1,9 @@
-apiVersion: 'agones.dev/v1'
+apiVersion: "agones.dev/v1"
 kind: Fleet
 metadata:
   name: aimmo-game
 spec:
-  replicas: 3
+  replicas: 20
   strategy:
     type: Recreate
   template:
@@ -27,8 +27,8 @@ spec:
                   value: kubernetes
               resources:
                 requests:
-                  memory: '64Mi'
-                  cpu: '24m'
+                  memory: "64Mi"
+                  cpu: "24m"
                 limits:
-                  memory: '124Mi'
-                  cpu: '95m'
+                  memory: "124Mi"
+                  cpu: "95m"
