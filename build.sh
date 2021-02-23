@@ -16,27 +16,26 @@ if [ "$ENVIRONMENT" = "default" ]
 then
     pip install -t lib --upgrade --no-deps aimmo
 else
-    # pip install -t lib --pre --upgrade --no-deps aimmo
-    # pip install -t lib --pre --upgrade --no-deps git+https://github.com/ocadotechnology/aimmo.git@agones2
+    pip install -t lib --pre --upgrade --no-deps aimmo
 
-    # Install agones from a branch
-    git clone --depth 1 --branch agones3 https://github.com/ocadotechnology/aimmo.git
+    # Uncomment the blocks below to install aimmo from a branch - don't forget to uncomment the line in generate_requirements.py too
+    # git clone --depth 1 --branch agones3 https://github.com/ocadotechnology/aimmo.git
 
-    pushd aimmo
-    pip install wheel
-    ./aimmo_runner/build_worker_wheel.sh
-    popd
+    # pushd aimmo
+    # pip install wheel
+    # ./aimmo_runner/build_worker_wheel.sh
+    # popd
 
-    pushd aimmo/game_frontend
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    nvm install 12.20.2
-    nvm use 12.20.2
-    yarn --frozen-lockfile
-    NODE_ENV=production node djangoBundler.js
-    popd
-    pip install -t lib --pre --upgrade --no-deps ./aimmo
+    # pushd aimmo/game_frontend
+    # curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+    # export NVM_DIR="$HOME/.nvm"
+    # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    # nvm install 12.20.2
+    # nvm use 12.20.2
+    # yarn --frozen-lockfile
+    # NODE_ENV=production node djangoBundler.js
+    # popd
+    # pip install -t lib --pre --upgrade --no-deps ./aimmo
 fi
 
 python generate_requirements.py
