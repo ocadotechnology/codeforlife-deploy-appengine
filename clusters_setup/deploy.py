@@ -33,6 +33,10 @@ def create_ingress_yaml(module_name):
 
     host_name = f"{module_name}-aimmo.codeforlife.education"
 
+    cors_origin = f"https://{module_name}-dot-decent-digit-629.appspot.com"
+    if module_name == "default":
+        cors_origin = f"https://www.codeforlife.education"
+
     with open(path) as yaml_file:
         content = yaml.safe_load(yaml_file.read())
         content["metadata"]["annotations"][
@@ -40,7 +44,7 @@ def create_ingress_yaml(module_name):
         ] = f"{module_name}-aimmo-ingress"
         content["metadata"]["annotations"][
             "nginx.ingress.kubernetes.io/cors-allow-origin"
-        ] = f"https://{module_name}-dot-decent-digit-629.appspot.com"
+        ] = cors_origin
         content["spec"]["tls"][0]["hosts"][0] = host_name
         content["spec"]["rules"][0]["host"] = host_name
 
@@ -143,36 +147,48 @@ def restart_pods(game_creator_yaml, ingress_yaml, fleet_yaml):
                 name=rs.metadata.name,
                 namespace="default",
             )
-    # for rc in api_instance.list_namespaced_replication_controller("default").items:
-    #     api_instance.delete_namespaced_replication_controller(
-    #         body=kubernetes.client.V1DeleteOptions(),
-    #         name=rc.metadata.name,
-    #         namespace="default",
-    #     )
-    # for pod in api_instance.list_namespaced_pod("default").items:
-    #     api_instance.delete_namespaced_pod(
-    #         body=kubernetes.client.V1DeleteOptions(),
-    #         name=pod.metadata.name,
-    #         namespace="default",
-    #     )
-    # for service in api_instance.list_namespaced_service("default").items:
-    #     api_instance.delete_namespaced_service(
-    #         name=service.metadata.name, namespace="default"
-    #     )
+    for service in api_instance.list_namespaced_service("default").items:
+        if service.metadata.name.startswith("game-"):
+            api_instance.delete_namespaced_service(
+                name=service.metadata.name, namespace="default"
+            )
     for ingress in networking_api_instance.list_namespaced_ingress("default").items:
         networking_api_instance.delete_namespaced_ingress(
             name=ingress.metadata.name,
             namespace="default",
             body=kubernetes.client.V1DeleteOptions(),
         )
-    try:
+
+    fleets_to_delete = custom_objects_api_instance.list_namespaced_custom_object(
+        group="agones.dev",
+        version="v1",
+        namespace="default",
+        plural="fleets",
+    )["items"]
+    for fleet in fleets_to_delete:
+        name = fleet["metadata"]["name"]
         custom_objects_api_instance.delete_namespaced_custom_object(
-            "agones.dev", "v1", "default", "fleets", fleet_yaml["metadata"]["name"]
+            group="agones.dev",
+            version="v1",
+            namespace="default",
+            plural="fleets",
+            name=name,
         )
-    except kubernetes.client.exceptions.ApiException as e:
-        # This can fail when the fleet doesn't exist (before it's first created)
-        print(
-            f"Exception when calling CustomObjectsApi->delete_namespaced_custom_object: {e}\n"
+
+    game_servers_to_delete = custom_objects_api_instance.list_namespaced_custom_object(
+        group="agones.dev",
+        version="v1",
+        namespace="default",
+        plural="gameservers",
+    )["items"]
+    for game_server in game_servers_to_delete:
+        name = game_server["metadata"]["name"]
+        custom_objects_api_instance.delete_namespaced_custom_object(
+            group="agones.dev",
+            version="v1",
+            namespace="default",
+            plural="gameservers",
+            name=name,
         )
 
     networking_api_instance.create_namespaced_ingress("default", ingress_yaml)
@@ -182,7 +198,11 @@ def restart_pods(game_creator_yaml, ingress_yaml, fleet_yaml):
     )
 
     custom_objects_api_instance.create_namespaced_custom_object(
-        "agones.dev", "v1", "default", "fleets", fleet_yaml
+        group="agones.dev",
+        version="v1",
+        namespace="default",
+        plural="fleets",
+        body=fleet_yaml,
     )
 
 
