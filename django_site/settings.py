@@ -229,7 +229,7 @@ CMS_TEMPLATES = (("portal/base.html", "Template One"),)
 
 AIMMO_GAME_SERVER_URL_FUNCTION = lambda game: (
     f"{os.getenv('GAE_SERVICE')}-aimmo.codeforlife.education",
-    "/game-%s" % game,
+    f"/game-{game}/socket.io",
 )
 
 
