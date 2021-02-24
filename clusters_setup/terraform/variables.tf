@@ -34,6 +34,10 @@ variable "feature_gates" {
   default = ""
 }
 
+variable "kubernetesVersion" {
+  default = "1.17.17-gke.1500"
+}
+
 variable "region" {
   default = "europe-west1"
 }
