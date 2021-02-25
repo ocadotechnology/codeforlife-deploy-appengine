@@ -39,7 +39,8 @@ if [ "$MODULE_NAME" = "default" ]
 then
     export RECAPTCHA_PUBLIC_KEY=${RECAPTCHA_DEFAULT_PUBLIC_KEY} >/dev/null 2>&1
     export RECAPTCHA_PRIVATE_KEY=${RECAPTCHA_DEFAULT_PRIVATE_KEY} >/dev/null 2>&1
-    export DOTMAILER_URL=${DOTMAILER_URL} >/dev/null 2>&1
+    export DOTMAILER_CREATE_CONTACT_URL=${DOTMAILER_CREATE_CONTACT_URL} >/dev/null 2>&1
+    export DOTMAILER_ADDRESS_BOOK_URL=${DOTMAILER_ADDRESS_BOOK_URL} >/dev/null 2>&1
     export DOTMAILER_USER=${DOTMAILER_USER} >/dev/null 2>&1
     export DOTMAILER_PASSWORD=${DOTMAILER_PASSWORD} >/dev/null 2>&1
     export DOTMAILER_DEFAULT_PREFERENCES=${DOTMAILER_DEFAULT_PREFERENCES} >/dev/null 2>&1
@@ -47,11 +48,11 @@ else
     # dev will use staging key as well
     export RECAPTCHA_PUBLIC_KEY=${RECAPTCHA_STAGING_PUBLIC_KEY} >/dev/null 2>&1
     export RECAPTCHA_PRIVATE_KEY=${RECAPTCHA_STAGING_PRIVATE_KEY} >/dev/null 2>&1
-    export DOTMAILER_CREATE_CONTACT_URL=${DOTMAILER_CREATE_CONTACT_URL} >/dev/null 2>&1
-    export DOTMAILER_ADDRESS_BOOK_URL=${DOTMAILER_ADDRESS_BOOK_URL} >/dev/null 2>&1
-    export DOTMAILER_USER=${DOTMAILER_USER} >/dev/null 2>&1
-    export DOTMAILER_PASSWORD=${DOTMAILER_PASSWORD} >/dev/null 2>&1
-    export DOTMAILER_DEFAULT_PREFERENCES=${DOTMAILER_DEFAULT_PREFERENCES} >/dev/null 2>&1
+    unset DOTMAILER_CREATE_CONTACT_URL >/dev/null 2>&1
+    unset DOTMAILER_ADDRESS_BOOK_URL >/dev/null 2>&1
+    unset DOTMAILER_USER >/dev/null 2>&1
+    unset DOTMAILER_PASSWORD >/dev/null 2>&1
+    unset DOTMAILER_DEFAULT_PREFERENCES >/dev/null 2>&1
 fi
 
 envsubst <django_site/kubeconfig.yaml.tmpl >django_site/kubeconfig.yaml

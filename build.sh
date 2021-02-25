@@ -7,7 +7,7 @@ pip install requests
 pip install -t lib requests-toolbelt
 
 pip install -t lib git+https://github.com/ocadotechnology/django-autoconfig
-pip install -t lib --upgrade git+https://github.com/ocadotechnology/codeforlife-portal@newsletter_consent_data
+pip install -t lib --upgrade codeforlife-portal
 
 pip install -t lib django-anymail[amazon_ses]
 pip install -t lib google-auth==1.*
@@ -37,8 +37,6 @@ else
     # popd
     # pip install -t lib --pre --upgrade --no-deps ./aimmo
 fi
-
-pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@newsletter_consent_data#egg=cfl-common&subdirectory=cfl_common"
 
 python generate_requirements.py
 
