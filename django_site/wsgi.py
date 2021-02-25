@@ -11,6 +11,7 @@ import os
 import logging
 import google.cloud.logging
 from google.auth.exceptions import DefaultCredentialsError
+from .apps import setup_gke
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -23,6 +24,8 @@ except DefaultCredentialsError:
 
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_site.settings")
+
+setup_gke()
 
 from lib.django.core.wsgi import get_wsgi_application
 

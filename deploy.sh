@@ -28,11 +28,10 @@ pip install pyyaml
 
 # Authenticate the cluster by updating kubeconfig.
 ${GCLOUD} config set project ${APP_ID}
-${GCLOUD} container clusters get-credentials ${MODULE_NAME} --zone europe-west1-b
+${GCLOUD} container clusters get-credentials aimmo-${MODULE_NAME} --zone europe-west1-b
 
 # Deploy the correct kubernetes cluster.
 python clusters_setup/deploy.py "${MODULE_NAME}"
-
 
 ./manage.py migrate --no-input
 
@@ -55,9 +54,10 @@ else
     export DOTMAILER_DEFAULT_PREFERENCES=${DOTMAILER_DEFAULT_PREFERENCES} >/dev/null 2>&1
 fi
 
+envsubst <django_site/kubeconfig.yaml.tmpl >django_site/kubeconfig.yaml
 envsubst <app.yaml.tmpl >app.yaml
 
-${GCLOUD} app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote
+${GCLOUD} app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote --no-cache
 ${GCLOUD} app --quiet deploy cron.yaml --project ${APP_ID} --version ${VERSION} --no-promote
 
 # Test the site

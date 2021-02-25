@@ -7,6 +7,9 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/ingress.global-static-ip-name: REPLACE_STATIC_IP
+    nginx.ingress.kubernetes.io/cors-allow-origin: REPLACE_CORS_ORIGIN
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   tls:
     - hosts:

@@ -6,6 +6,7 @@ requirements = "\n".join(
     [
         "git+https://github.com/ocadotechnology/codeforlife-portal@newsletter_consent_data",
         f"aimmo=={aimmo_version}",
+        # "./aimmo",  # Uncomment this to install a custom aimmo built in build.sh
         f"rapid-router=={rapid_router_version}",
         "requests-toolbelt==0.9.*",
         "mysqlclient==1.4.*",
@@ -15,6 +16,8 @@ requirements = "\n".join(
         "google-python-cloud-debugger==2.*",
         "google-cloud-logging==1.*",
         "google-auth==1.*",
+        "kubernetes",
+        "google-cloud-container==2.3.0",
         "git+https://github.com/ocadotechnology/django-autoconfig",
     ]
 )
