@@ -55,6 +55,7 @@ module "gke_cluster" {
 }
 
 resource "helm_release" "agones" {
+  // Inspired from https://github.com/googleforgames/agones/blob/main/install/terraform/modules/helm3/helm.tf
   name             = "agones"
   repository       = "https://agones.dev/chart/stable"
   force_update     = var.force_update

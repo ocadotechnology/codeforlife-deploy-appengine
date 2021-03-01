@@ -1,4 +1,4 @@
-# Agones helm variables
+# Agones helm variables, inspired from https://github.com/googleforgames/agones/blob/main/install/terraform/modules/helm3/helm.tf
 
 variable "chart" {
   default = "agones"
