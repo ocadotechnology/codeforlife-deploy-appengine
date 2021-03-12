@@ -1,7 +1,9 @@
 name: Deploy to Dev
 
 # on: workflow_dispatch # This works only on default branch, to be enabled when we merge
-on: push
+on:
+  - push
+  - workflow_dispatch
 
 jobs:
   deploy:
@@ -15,7 +17,7 @@ jobs:
       GKE_ZONE: europe-west1-b
       MODULE_NAME: dev
       VERSION: ${{ github.run_number }}
-      DATABASE_POSTFIX: dev
+      DATABASE_POSTFIX: dev # this is prod for default module name
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v2"
@@ -26,17 +28,12 @@ jobs:
           python-version: "3.7.x"
           architecture: "x64"
 
-      - name: Create /tmp/cloudsql directory
-        run: mkdir -p /tmp/cloudsql
-
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@master
         with:
           version: "331.0.0"
           service_account_key: ${{ secrets.GCLOUD_AUTH }}
           project_id: ${{ env.APP_ID }}
-          export_default_credentials: true
-          credentials_file_path: /tmp/cloudsql/key.json
 
       - name: "Setup MySQL"
         run: |
@@ -87,13 +84,10 @@ jobs:
           ./manage.py collectstatic --noinput
 
       - name: "Get cluster credentials"
-        # run: |-
-        #   gcloud container clusters get-credentials ${{ github.event.deployment.environment }} --zone "$GKE_ZONE"
         run: |-
           gcloud container clusters get-credentials "aimmo-$MODULE_NAME" --zone "$GKE_ZONE"
 
       - name: "Deploy k8s"
-        # run: python clusters_setup/deploy.py ${{ github.event.deployment.environment }}
         run: python clusters_setup/deploy.py $MODULE_NAME
 
       - name: "Deploy"
@@ -106,6 +100,11 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           DJANGO_SECRET: ${{ secrets.DJANGO_SECRET }}
           DJANGO_PORTAL_CONTACT_FORM_EMAIL: ${{ secrets.DJANGO_PORTAL_CONTACT_FORM_EMAIL }}
+          DOTMAILER_CREATE_CONTACT_URL: ${{ secrets.DOTMAILER_CREATE_CONTACT_URL }}
+          DOTMAILER_ADDRESS_BOOK_URL: ${{ secrets.DOTMAILER_ADDRESS_BOOK_URL }}
+          DOTMAILER_USER: ${{ secrets.DOTMAILER_USER }}
+          DOTMAILER_PASSWORD: ${{ secrets.DOTMAILER_PASSWORD }}
+          DOTMAILER_DEFAULT_PREFERENCES: ${{ secrets.DOTMAILER_DEFAULT_PREFERENCES }}
           RECAPTCHA_PUBLIC_KEY: ${{ secrets.RECAPTCHA_PUBLIC_KEY }}
           RECAPTCHA_PRIVATE_KEY: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
           REDIS_IP: ${{ secrets.REDIS_IP }}
