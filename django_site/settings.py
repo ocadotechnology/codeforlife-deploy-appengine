@@ -23,7 +23,8 @@ RECAPTCHA_PRIVATE_KEY = os.getenv("RECAPTCHA_PRIVATE_KEY", "NOT A SECRET")
 RECAPTCHA_PUBLIC_KEY = os.getenv("RECAPTCHA_PUBLIC_KEY", "NOT A SECRET")
 NOCAPTCHA = True
 
-DOTMAILER_URL = os.getenv("DOTMAILER_URL", "")
+DOTMAILER_CREATE_CONTACT_URL = os.getenv("DOTMAILER_CREATE_CONTACT_URL", "")
+DOTMAILER_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_ADDRESS_BOOK_URL", "")
 DOTMAILER_USER = os.getenv("DOTMAILER_USER", "")
 DOTMAILER_PASSWORD = os.getenv("DOTMAILER_PASSWORD", "")
 DOTMAILER_DEFAULT_PREFERENCES = json.loads(
@@ -221,7 +222,7 @@ CMS_TEMPLATES = (("portal/base.html", "Template One"),)
 
 AIMMO_GAME_SERVER_URL_FUNCTION = lambda game: (
     f"{os.getenv('GAE_SERVICE')}-aimmo.codeforlife.education",
-    "/game-%s" % game,
+    f"/game-{game}/socket.io",
 )
 
 
