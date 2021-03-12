@@ -35,7 +35,7 @@ jobs:
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@master
         with:
-          version: "290.0.1"
+          version: "331.0.0"
           service_account_key: ${{ secrets.GCLOUD_AUTH }}
           project_id: ${{ env.APP_ID }}
           export_default_credentials: true
