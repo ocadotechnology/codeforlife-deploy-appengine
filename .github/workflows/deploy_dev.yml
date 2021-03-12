@@ -4,8 +4,8 @@ name: Deploy to Dev
 on: push
 
 jobs:
-  deployment:
-    name: Deployment
+  deploy:
+    name: Deploy
     runs-on: ubuntu-18.04
     environment: dev
     env:
@@ -16,54 +16,40 @@ jobs:
       MODULE_NAME: dev
       VERSION: ${{ github.run_number }}
       DATABASE_POSTFIX: dev
-      # RECAPTCHA_STAGING_PUBLIC_KEY: ${{ secrets.RECAPTCHA_STAGING_PUBLIC_KEY }}
-      # RECAPTCHA_STAGING_PRIVATE_KEY: ${{ secrets.RECAPTCHA_STAGING_PRIVATE_KEY }}
+      RECAPTCHA_PUBLIC_KEY: ${{ secrets.RECAPTCHA_PUBLIC_KEY }}
+      RECAPTCHA_PRIVATE_KEY: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
       # TODO: add secrets from semaphore
     steps:
-      - name: 'Checkout'
-        uses: 'actions/checkout@v2'
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
 
-      # - name: 'Deployment pending'
-      #   uses: 'deliverybot/status@master'
-      #   with:
-      #     state: 'pending'
-      #     token: '${{ secrets.GITHUB_TOKEN }}'
-
-      - name: 'Setup python'
+      - name: "Setup python"
         uses: actions/setup-python@v2
         with:
-          python-version: '3.7.x'
-          architecture: 'x64'
+          python-version: "3.7.x"
+          architecture: "x64"
 
       - name: Create /tmp/cloudsql directory
         run: mkdir -p /tmp/cloudsql
-      
-      # Setup gcloud CLI
-      - uses: google-github-actions/setup-gcloud@master
+
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@master
         with:
-          version: '290.0.1'
+          version: "290.0.1"
           service_account_key: ${{ secrets.GCLOUD_AUTH }}
           project_id: ${{ env.APP_ID }}
           export_default_credentials: true
           credentials_file_path: /tmp/cloudsql/key.json
-        
-      # # Actual deployment
-      # - name: 'Deploy ${{ github.event.deployment.environment }}'
-      #   run: |
-      #     echo "task - ${{ github.event.deployment.task }}"
-      #     echo "environment - ${{ github.event.deployment.environment }}"
-      #     echo "payload - ${{ toJson(github.event.deployment.payload) }}"
-      #     ls
-      
-      - name: 'Setup MySQL'
+
+      - name: "Setup MySQL"
         run: |
           sudo apt-get install libmysqlclient-dev
           pip install mysqlclient==1.4.*
-      
-      - name: 'Install kubernetes'
+
+      - name: "Install kubernetes"
         run: pip install kubernetes
 
-      - name: 'Build'
+      - name: "Build"
         run: |
           pip install requests
           pip install -t lib requests-toolbelt
@@ -78,23 +64,42 @@ jobs:
               pip install -t lib --upgrade --no-deps aimmo
           else
               pip install -t lib --pre --upgrade --no-deps aimmo
+
+              # Uncomment the blocks below to install aimmo from a branch - don't forget to uncomment the line in generate_requirements.py too
+              # git clone --depth 1 --branch agones3 https://github.com/ocadotechnology/aimmo.git
+
+              # pushd aimmo
+              # pip install wheel
+              # ./aimmo_runner/build_worker_wheel.sh
+              # popd
+
+              # pushd aimmo/game_frontend
+              # curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+              # export NVM_DIR="$HOME/.nvm"
+              # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+              # nvm install 12.20.2
+              # nvm use 12.20.2
+              # yarn --frozen-lockfile
+              # NODE_ENV=production node djangoBundler.js
+              # popd
+              # pip install -t lib --pre --upgrade --no-deps ./aimmo
           fi
 
           python generate_requirements.py
 
           ./manage.py collectstatic --noinput
 
-      - name: 'Get cluster credentials'
+      - name: "Get cluster credentials"
         # run: |-
         #   gcloud container clusters get-credentials ${{ github.event.deployment.environment }} --zone "$GKE_ZONE"
         run: |-
-          gcloud container clusters get-credentials "dev" --zone "$GKE_ZONE"
-      
-      - name: 'Deploy k8s'
+          gcloud container clusters get-credentials "aimmo-$MODULE_NAME" --zone "$GKE_ZONE"
+
+      - name: "Deploy k8s"
         # run: python clusters_setup/deploy.py ${{ github.event.deployment.environment }}
-        run: python clusters_setup/deploy.py "dev"
-      
-      - name: 'Deploy'
+        run: python clusters_setup/deploy.py $MODULE_NAME
+
+      - name: "Deploy"
         env:
           CLOUDSDK_CORE_DISABLE_PROMPTS: 1
           CLOUDSDK_PYTHON_SITEPACKAGES: 1
@@ -109,7 +114,7 @@ jobs:
 
           # Start Cloud SQL Proxy and migrate
           sudo /tmp/cloud_sql_proxy -dir=/cloudsql &
-          
+
           # wait for cloudsql-proxy to be ready
           is_sql_proxy_ready=0
           for i in {1..30}; do
@@ -128,30 +133,17 @@ jobs:
 
           ./manage.py migrate --no-input
 
+          envsubst <django_site/kubeconfig.yaml.tmpl >django_site/kubeconfig.yaml
           envsubst <app.yaml.tmpl >app.yaml
 
-          gcloud app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote
+          gcloud app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote --no-cache
           gcloud app --quiet deploy cron.yaml --project ${APP_ID} --version ${VERSION} --no-promote
 
           # Test the site
-          ./test.sh ${MODULE_NAME} ${VERSION}
+          curl -I https://${VERSION}-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"
 
           # Promote
           gcloud app services set-traffic --project ${APP_ID} --splits ${VERSION}=1 ${MODULE_NAME} --migrate
 
           # Test the site - again!
-          ./test.sh ${MODULE_NAME} ${VERSION}
-
-      # - name: 'Deployment success'
-      #   if: success()
-      #   uses: 'deliverybot/status@master'
-      #   with:
-      #     state: 'success'
-      #     token: '${{ secrets.GITHUB_TOKEN }}'
-
-      # - name: 'Deployment failure'
-      #   if: failure()
-      #   uses: 'deliverybot/status@master'
-      #   with:
-      #     state: 'failure'
-      #     token: '${{ secrets.GITHUB_TOKEN }}'
+          curl -I https://${VERSION}-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"
