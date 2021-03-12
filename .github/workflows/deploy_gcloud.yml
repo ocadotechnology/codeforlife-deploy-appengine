@@ -1,23 +1,26 @@
-name: Deploy to Dev
+name: Deploy to Google Cloud
 
-# on: workflow_dispatch # This works only on default branch, to be enabled when we merge
 on:
-  - push
-  - workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy to (dev/staging/default)"
+        required: true
+        default: "dev"
 
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-18.04
-    environment: dev
+    environment: ${{ github.event.inputs.environment }}
     env:
       APP_ID: decent-digit-629
       NODE_ENV: production
       DB_PORT: 3306
       GKE_ZONE: europe-west1-b
-      MODULE_NAME: dev
+      MODULE_NAME: ${{ github.event.inputs.environment }}
       VERSION: ${{ github.run_number }}
-      DATABASE_POSTFIX: dev # this is prod for default module name
+      DATABASE_POSTFIX: ${{ secrets.DATABASE_POSTFIX }}
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v2"
@@ -148,4 +151,4 @@ jobs:
           gcloud app services set-traffic --project ${APP_ID} --splits ${VERSION}=1 ${MODULE_NAME} --migrate
 
           # Test the site - again!
-          curl -I https://${VERSION}-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"
+          curl -I https://default-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"

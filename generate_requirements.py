@@ -6,7 +6,7 @@ requirements = "\n".join(
     [
         f"codeforlife-portal=={portal_version}",
         f"aimmo=={aimmo_version}",
-        # "./aimmo",  # Uncomment this to install a custom aimmo built in build.sh
+        # "./aimmo",  # Uncomment this to install a custom aimmo built in deploy_gcloud workflow
         f"rapid-router=={rapid_router_version}",
         "requests-toolbelt==0.9.*",
         "mysqlclient==1.4.*",
