@@ -4,7 +4,8 @@ from lib.game import __version__ as rapid_router_version
 
 requirements = "\n".join(
     [
-        f"codeforlife-portal=={portal_version}",
+        # f"codeforlife-portal=={portal_version}",
+        "git+https://github.com/ocadotechnology/codeforlife-portal@recaptchav3",
         f"aimmo=={aimmo_version}",
         # "./aimmo",  # Uncomment this to install a custom aimmo built in build.sh
         f"rapid-router=={rapid_router_version}",
