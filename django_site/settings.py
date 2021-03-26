@@ -133,18 +133,21 @@ ANYMAIL = {
     },
 }
 
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "HOST": os.getenv("DATABASE_HOST"),
+        "NAME": os.getenv("DATABASE_NAME"),
+        "USER": "root",
+    }
+}
+
+PIPELINE_ENABLED = True
+
+# Running on App Engine, so use additional settings
 if os.getenv("GAE_APPLICATION", None):
     MODULE_NAME = os.getenv("MODULE_NAME")
 
-    # Running on production App Engine, so use a Google Cloud SQL database.
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.mysql",
-            "HOST": "/cloudsql/decent-digit-629:europe-west1:db",
-            "NAME": os.getenv("DATABASE_NAME"),
-            "USER": "root",
-        }
-    }
     CACHES = {
         "default": {
             "BACKEND": "django_redis.cache.RedisCache",
@@ -153,7 +156,6 @@ if os.getenv("GAE_APPLICATION", None):
             "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
         }
     }
-    PIPELINE_ENABLED = True
     # inject the lib folder into the python path
     import sys
 
@@ -170,17 +172,6 @@ if os.getenv("GAE_APPLICATION", None):
 
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
-
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.mysql",
-            "HOST": "/cloudsql/decent-digit-629:europe-west1:db",
-            "NAME": os.getenv("DATABASE_NAME"),
-            "USER": "root",
-        }
-    }
-    PIPELINE_ENABLED = True
 
 EMAIL_ADDRESS = "no-reply@codeforlife.education"
 

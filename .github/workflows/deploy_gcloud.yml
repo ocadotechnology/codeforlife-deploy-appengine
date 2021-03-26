@@ -94,24 +94,6 @@ jobs:
         run: python clusters_setup/deploy.py $MODULE_NAME
 
       - name: "Deploy"
-        env:
-          CLOUDSDK_CORE_DISABLE_PROMPTS: 1
-          CLOUDSDK_PYTHON_SITEPACKAGES: 1
-          DATABASE_NAME: cfl_${{env.DATABASE_POSTFIX}}
-          CACHE_PREFIX: ${{ env.MODULE_NAME }}-
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          DJANGO_SECRET: ${{ secrets.DJANGO_SECRET }}
-          DJANGO_PORTAL_CONTACT_FORM_EMAIL: ${{ secrets.DJANGO_PORTAL_CONTACT_FORM_EMAIL }}
-          DOTMAILER_CREATE_CONTACT_URL: ${{ secrets.DOTMAILER_CREATE_CONTACT_URL }}
-          DOTMAILER_ADDRESS_BOOK_URL: ${{ secrets.DOTMAILER_ADDRESS_BOOK_URL }}
-          DOTMAILER_USER: ${{ secrets.DOTMAILER_USER }}
-          DOTMAILER_PASSWORD: ${{ secrets.DOTMAILER_PASSWORD }}
-          DOTMAILER_DEFAULT_PREFERENCES: ${{ secrets.DOTMAILER_DEFAULT_PREFERENCES }}
-          RECAPTCHA_PUBLIC_KEY: ${{ secrets.RECAPTCHA_PUBLIC_KEY }}
-          RECAPTCHA_PRIVATE_KEY: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
-          REDIS_IP: ${{ secrets.REDIS_IP }}
-          REDIS_PORT: ${{ secrets.REDIS_PORT }}
         run: |
           # Install Cloud SQL Proxy
           wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O /tmp/cloud_sql_proxy
@@ -152,3 +134,22 @@ jobs:
 
           # Test the site - again!
           curl -I https://default-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"
+        env:
+          CLOUDSDK_CORE_DISABLE_PROMPTS: 1
+          CLOUDSDK_PYTHON_SITEPACKAGES: 1
+          DATABASE_NAME: cfl_${{env.DATABASE_POSTFIX}}
+          DATABASE_HOST: /cloudsql/decent-digit-629:europe-west1:db
+          CACHE_PREFIX: ${{ env.MODULE_NAME }}-
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          DJANGO_SECRET: ${{ secrets.DJANGO_SECRET }}
+          DJANGO_PORTAL_CONTACT_FORM_EMAIL: ${{ secrets.DJANGO_PORTAL_CONTACT_FORM_EMAIL }}
+          DOTMAILER_CREATE_CONTACT_URL: ${{ secrets.DOTMAILER_CREATE_CONTACT_URL }}
+          DOTMAILER_ADDRESS_BOOK_URL: ${{ secrets.DOTMAILER_ADDRESS_BOOK_URL }}
+          DOTMAILER_USER: ${{ secrets.DOTMAILER_USER }}
+          DOTMAILER_PASSWORD: ${{ secrets.DOTMAILER_PASSWORD }}
+          DOTMAILER_DEFAULT_PREFERENCES: ${{ secrets.DOTMAILER_DEFAULT_PREFERENCES }}
+          RECAPTCHA_PUBLIC_KEY: ${{ secrets.RECAPTCHA_PUBLIC_KEY }}
+          RECAPTCHA_PRIVATE_KEY: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
+          REDIS_IP: ${{ secrets.REDIS_IP }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
