@@ -142,7 +142,7 @@ DATABASES = {
     }
 }
 
-PIPELINE_ENABLED = True
+PIPELINE_ENABLED = True  # True if assets should be compressed, False if not.
 
 # Running on App Engine, so use additional settings
 if os.getenv("GAE_APPLICATION", None):
