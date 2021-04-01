@@ -1,3 +1,4 @@
+# Versions will be fetched from the init of each package (portal, aimmo, game) after they are installed in lib - this happens in the "Build" step.
 from lib.portal import __version__ as portal_version
 from lib.aimmo import __version__ as aimmo_version
 from lib.game import __version__ as rapid_router_version
