@@ -172,6 +172,25 @@ if os.getenv("GAE_APPLICATION", None):
 
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+# TODO: remove 'else' later, only needed for semaphore
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "HOST": os.getenv("CLOUD_SQL_HOST"),
+            "NAME": os.getenv("DATABASE_NAME"),
+            "USER": "root",
+            "PASSWORD": os.getenv("CLOUD_SQL_PASSWORD"),
+            "OPTIONS": {
+                "ssl": {
+                    "ca": "server-ca.pem",
+                    "cert": "client-cert.pem",
+                    "cipher": "AES128-SHA",
+                    "key": "client-key.pem",
+                }
+            },
+        }
+    }
 
 EMAIL_ADDRESS = "no-reply@codeforlife.education"
 
