@@ -12,7 +12,7 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-18.04
-    environment: "${{ github.event.inputs.environment }}"
+    environment: dev
     env:
       APP_ID: decent-digit-629
       NODE_ENV: production
