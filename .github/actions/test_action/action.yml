@@ -13,3 +13,7 @@ runs:
       env:
         TEST_INPUT: ${{ inputs.test-input }}
       shell: bash
+    - run: echo ${TEST_ENV}
+      env:
+        TEST_ENV: cfl_${{env.DATABASE_POSTFIX}}
+      shell: bash
