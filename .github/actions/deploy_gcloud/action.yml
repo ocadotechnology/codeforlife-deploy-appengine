@@ -1,0 +1,126 @@
+name: Deploy to Google Cloud
+description: Deploys portal, rapid-router and aimmo to Google Cloud
+runs:
+  using: composite
+  steps:
+    - name: "Setup MySQL"
+      run: |
+        sudo apt-get install libmysqlclient-dev
+        pip install mysqlclient==1.4.*
+      shell: bash
+
+    - name: "Install kubernetes"
+      run: pip install kubernetes
+      shell: bash
+
+    - name: "Build"
+      run: |
+        pip install requests
+        pip install -t lib requests-toolbelt
+
+        pip install -t lib git+https://github.com/ocadotechnology/django-autoconfig
+        pip install -t lib --upgrade codeforlife-portal
+
+        pip install -t lib django-anymail[amazon_ses]
+        pip install -t lib google-auth==1.*
+
+        if [[ $MODULE_NAME = "default" ]]; then
+            pip install -t lib --upgrade --no-deps aimmo
+        else
+            pip install -t lib --pre --upgrade --no-deps aimmo
+
+            # Uncomment the blocks below to install aimmo from a branch - don't forget to uncomment the line in generate_requirements.py too
+            # git clone --depth 1 --branch agones3 https://github.com/ocadotechnology/aimmo.git
+
+            # pushd aimmo
+            # pip install wheel
+            # ./aimmo_runner/build_worker_wheel.sh
+            # popd
+
+            # pushd aimmo/game_frontend
+            # curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+            # export NVM_DIR="$HOME/.nvm"
+            # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+            # nvm install 12.20.2
+            # nvm use 12.20.2
+            # yarn --frozen-lockfile
+            # NODE_ENV=production node djangoBundler.js
+            # popd
+            # pip install -t lib --pre --upgrade --no-deps ./aimmo
+        fi
+
+        python generate_requirements.py
+
+        ./manage.py collectstatic --noinput
+      shell: bash
+
+    - name: "Get cluster credentials"
+      run: |-
+        gcloud container clusters get-credentials "aimmo-$MODULE_NAME" --zone "$GKE_ZONE"
+      shell: bash
+
+    - name: "Deploy k8s"
+      run: python clusters_setup/deploy.py $MODULE_NAME
+      shell: bash
+
+    - name: "Deploy"
+      run: |
+        # Install Cloud SQL Proxy
+        wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O /tmp/cloud_sql_proxy
+        chmod +x /tmp/cloud_sql_proxy
+
+        # Start Cloud SQL Proxy and migrate
+        sudo /tmp/cloud_sql_proxy -dir=/cloudsql &
+
+        # wait for cloudsql-proxy to be ready
+        is_sql_proxy_ready=0
+        for i in {1..30}; do
+            echo "Waiting for cloudsql-proxy to be ready $i/30"
+            if mysqladmin -S /cloudsql/decent-digit-629:europe-west1:db ping; then
+              echo "cloudsql-proxy is ready"
+              is_sql_proxy_ready=1
+              break
+            fi
+            sleep 2
+        done
+
+        if [[ $is_sql_proxy_ready -eq 0 ]]; then
+          exit 1
+        fi
+
+        ./manage.py migrate --no-input
+
+        envsubst <django_site/kubeconfig.yaml.tmpl >django_site/kubeconfig.yaml
+        envsubst <app.yaml.tmpl >app.yaml
+
+        gcloud app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote --no-cache
+        gcloud app --quiet deploy cron.yaml --project ${APP_ID} --version ${VERSION} --no-promote
+
+        # Test the site
+        curl -I https://${VERSION}-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"
+
+        # Promote
+        gcloud app services set-traffic --project ${APP_ID} --splits ${VERSION}=1 ${MODULE_NAME} --migrate
+
+        # Test the site - again!
+        curl -I https://default-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"
+      env:
+        CLOUDSDK_CORE_DISABLE_PROMPTS: "1"
+        CLOUDSDK_PYTHON_SITEPACKAGES: "1"
+        DATABASE_NAME: cfl_${{env.DATABASE_POSTFIX}}
+        DATABASE_HOST: /cloudsql/decent-digit-629:europe-west1:db
+        CACHE_PREFIX: ${{ env.MODULE_NAME }}-
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        DJANGO_SECRET: ${{ secrets.DJANGO_SECRET }}
+        DJANGO_PORTAL_CONTACT_FORM_EMAIL: ${{ secrets.DJANGO_PORTAL_CONTACT_FORM_EMAIL }}
+        DOTMAILER_CREATE_CONTACT_URL: ${{ secrets.DOTMAILER_CREATE_CONTACT_URL }}
+        DOTMAILER_ADDRESS_BOOK_URL: ${{ secrets.DOTMAILER_ADDRESS_BOOK_URL }}
+        DOTMAILER_USER: ${{ secrets.DOTMAILER_USER }}
+        DOTMAILER_PASSWORD: ${{ secrets.DOTMAILER_PASSWORD }}
+        DOTMAILER_DEFAULT_PREFERENCES: ${{ secrets.DOTMAILER_DEFAULT_PREFERENCES }}
+        RECAPTCHA_PUBLIC_KEY: ${{ secrets.RECAPTCHA_PUBLIC_KEY }}
+        RECAPTCHA_PRIVATE_KEY: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
+        REDIS_IP: ${{ secrets.REDIS_IP }}
+        REDIS_PORT: ${{ secrets.REDIS_PORT }}
+      shell: bash
