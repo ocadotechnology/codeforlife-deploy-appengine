@@ -32,10 +32,24 @@ jobs:
           service_account_key: ${{ secrets.GCLOUD_AUTH }}
           project_id: ${{ env.APP_ID }}
 
-      # - name: Deploy to Google Cloud
-      #   uses: ./.github/actions/deploy_gcloud
-
-      - name: Test action
-        uses: ./.github/actions/test_action
+      - name: Deploy to Google Cloud
+        uses: ./.github/actions/deploy_gcloud
         with:
-          test-input: Hello World
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          django-secret: ${{ secrets.DJANGO_SECRET }}
+          django-portal-contact-form-email: ${{ secrets.DJANGO_PORTAL_CONTACT_FORM_EMAIL }}
+          dotmailer-create-contact-url: ${{ secrets.DOTMAILER_CREATE_CONTACT_URL }}
+          dotmailer-address-book-url: ${{ secrets.DOTMAILER_ADDRESS_BOOK_URL }}
+          dotmailer-user: ${{ secrets.DOTMAILER_USER }}
+          dotmailer-password: ${{ secrets.DOTMAILER_PASSWORD }}
+          dotmailer-default-preferences: ${{ secrets.DOTMAILER_DEFAULT_PREFERENCES }}
+          recaptcha-public-key: ${{ secrets.RECAPTCHA_PUBLIC_KEY }}
+          recaptcha-private-key: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
+          redis-ip: ${{ secrets.REDIS_IP }}
+          redis-port: ${{ secrets.REDIS_PORT }}
+
+      # - name: Test action
+      #   uses: ./.github/actions/test_action
+      #   with:
+      #     test-input: Hello World

@@ -1,5 +1,45 @@
 name: Deploy to Google Cloud
 description: Deploys portal, rapid-router and aimmo to Google Cloud
+inputs:
+  aws-access-key-id:
+    description: AWS access key ID
+    required: true
+  aws-secret-access-key:
+    description: AWS secret access key
+    required: true
+  django-secret:
+    description: Django secret
+    required: true
+  django-portal-contact-form-email:
+    description: Portal contact form email
+    required: true
+  dotmailer-create-contact-url:
+    description: URL for Dotmailer create contact
+    required: true
+  dotmailer-address-book-url:
+    description: URL for Dotmailer address book
+    required: true
+  dotmailer-user:
+    description: Dotmailer user
+    required: true
+  dotmailer-password:
+    description: Dotmailer password
+    required: true
+  dotmailer-default-preferences:
+    description: Dotmailer default preferences
+    required: true
+  recaptcha-public-key:
+    description: Recaptcha public key
+    required: true
+  recaptcha-private-key:
+    description: Recaptcha private key
+    required: true
+  redis-ip:
+    description: Redis IP
+    required: true
+  redis-port:
+    description: Redis port
+    required: true
 runs:
   using: composite
   steps:
@@ -110,17 +150,17 @@ runs:
         DATABASE_NAME: cfl_${{env.DATABASE_POSTFIX}}
         DATABASE_HOST: /cloudsql/decent-digit-629:europe-west1:db
         CACHE_PREFIX: ${{ env.MODULE_NAME }}-
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        DJANGO_SECRET: ${{ secrets.DJANGO_SECRET }}
-        DJANGO_PORTAL_CONTACT_FORM_EMAIL: ${{ secrets.DJANGO_PORTAL_CONTACT_FORM_EMAIL }}
-        DOTMAILER_CREATE_CONTACT_URL: ${{ secrets.DOTMAILER_CREATE_CONTACT_URL }}
-        DOTMAILER_ADDRESS_BOOK_URL: ${{ secrets.DOTMAILER_ADDRESS_BOOK_URL }}
-        DOTMAILER_USER: ${{ secrets.DOTMAILER_USER }}
-        DOTMAILER_PASSWORD: ${{ secrets.DOTMAILER_PASSWORD }}
-        DOTMAILER_DEFAULT_PREFERENCES: ${{ secrets.DOTMAILER_DEFAULT_PREFERENCES }}
-        RECAPTCHA_PUBLIC_KEY: ${{ secrets.RECAPTCHA_PUBLIC_KEY }}
-        RECAPTCHA_PRIVATE_KEY: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
-        REDIS_IP: ${{ secrets.REDIS_IP }}
-        REDIS_PORT: ${{ secrets.REDIS_PORT }}
+        AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
+        AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
+        DJANGO_SECRET: ${{ inputs.django-secret }}
+        DJANGO_PORTAL_CONTACT_FORM_EMAIL: ${{ inputs.django-portal-contact-form-email }}
+        DOTMAILER_CREATE_CONTACT_URL: ${{ inputs.dotmailer-create-contact-url }}
+        DOTMAILER_ADDRESS_BOOK_URL: ${{ inputs.dotmailer-address-book-url }}
+        DOTMAILER_USER: ${{ inputs.dotmailer-user }}
+        DOTMAILER_PASSWORD: ${{ inputs.dotmailer-password }}
+        DOTMAILER_DEFAULT_PREFERENCES: ${{ inputs.dotmailer-default-preferences }}
+        RECAPTCHA_PUBLIC_KEY: ${{ inputs.recaptcha-public-key }}
+        RECAPTCHA_PRIVATE_KEY: ${{ inputs.recaptcha-private-key }}
+        REDIS_IP: ${{ inputs.redis-ip }}
+        REDIS_PORT: ${{ inputs.redis-port }}
       shell: bash
