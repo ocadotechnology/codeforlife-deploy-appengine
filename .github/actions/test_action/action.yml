@@ -1,0 +1,15 @@
+name: Test
+description: test
+inputs:
+  test-input:
+    description: test input
+    required: true
+runs:
+  using: composite
+  steps:
+    - run: echo ${VERSION}
+      shell: bash
+    - run: echo ${TEST_INPUT}
+      env:
+        TEST_INPUT: ${{ inputs.test-input }}
+      shell: bash

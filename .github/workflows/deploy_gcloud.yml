@@ -32,5 +32,10 @@ jobs:
           service_account_key: ${{ secrets.GCLOUD_AUTH }}
           project_id: ${{ env.APP_ID }}
 
-      - name: Deploy to Google Cloud
-        uses: ./.github/actions/deploy_gcloud
+      # - name: Deploy to Google Cloud
+      #   uses: ./.github/actions/deploy_gcloud
+
+      - name: Test action
+        uses: ./.github/actions/test_action
+        with:
+          test-input: Hello World
