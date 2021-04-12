@@ -18,6 +18,7 @@ export MODULE_NAME=$1
 export VERSION="$2"
 export DATABASE_POSTFIX="$3"
 export DATABASE_NAME="cfl_${DATABASE_POSTFIX}"
+export DATABASE_HOST="/cloudsql/decent-digit-629:europe-west1:db"
 export CACHE_PREFIX="${MODULE_NAME}-"
 export GOOGLE_APPLICATION_CREDENTIALS=/home/runner/codeforlife-deploy-appengine/.gcloud-key
 
