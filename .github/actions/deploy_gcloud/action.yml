@@ -41,7 +41,7 @@ inputs:
     description: URL for Dotmailer send campaign
     required: true
   dotmailer-thanks-for-staying-campaign-id:
-    description: URL for Dotmailer thanks for staying campaign
+    description: ID for Dotmailer thanks for staying campaign
     required: true
   dotmailer-user:
     description: Dotmailer user
