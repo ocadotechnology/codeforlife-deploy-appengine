@@ -143,7 +143,7 @@ runs:
         # Start Cloud SQL Proxy and migrate
         sudo /tmp/cloud_sql_proxy -dir=/cloudsql &
 
-        gcloud config configurations list
+        echo $GOOGLE_APPLICATION_CREDENTIALS
 
         exit 1
 
