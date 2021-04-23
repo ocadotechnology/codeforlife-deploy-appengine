@@ -45,6 +45,10 @@ jobs:
           django-portal-contact-form-email: ${{ secrets.DJANGO_PORTAL_CONTACT_FORM_EMAIL }}
           dotmailer-create-contact-url: ${{ secrets.DOTMAILER_CREATE_CONTACT_URL }}
           dotmailer-address-book-url: ${{ secrets.DOTMAILER_ADDRESS_BOOK_URL }}
+          dotmailer-get-user-by-email-url: ${{ secrets.DOTMAILER_GET_USER_BY_EMAIL_URL }}
+          dotmailer-put-consent-data-url: ${{ secrets.DOTMAILER_PUT_CONSENT_DATA_URL }}
+          dotmailer-send-campaign-url: ${{ secrets.DOTMAILER_SEND_CAMPAIGN_URL }}
+          dotmailer-thanks-for-staying-campaign-id: ${{ secrets.DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID }}
           dotmailer-user: ${{ secrets.DOTMAILER_USER }}
           dotmailer-password: ${{ secrets.DOTMAILER_PASSWORD }}
           dotmailer-default-preferences: ${{ secrets.DOTMAILER_DEFAULT_PREFERENCES }}

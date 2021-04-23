@@ -31,6 +31,18 @@ inputs:
   dotmailer-address-book-url:
     description: URL for Dotmailer address book
     required: true
+  dotmailer-get-user-by-email-url:
+    description: URL for Dotmailer get user by email
+    required: true
+  dotmailer-put-consent-data-url:
+    description: URL for Dotmailer put consent data
+    required: true
+  dotmailer-send-campaign-url:
+    description: URL for Dotmailer send campaign
+    required: true
+  dotmailer-thanks-for-staying-campaign-id:
+    description: URL for Dotmailer thanks for staying campaign
+    required: true
   dotmailer-user:
     description: Dotmailer user
     required: true
@@ -178,6 +190,10 @@ runs:
         DJANGO_PORTAL_CONTACT_FORM_EMAIL: ${{ inputs.django-portal-contact-form-email }}
         DOTMAILER_CREATE_CONTACT_URL: ${{ inputs.dotmailer-create-contact-url }}
         DOTMAILER_ADDRESS_BOOK_URL: ${{ inputs.dotmailer-address-book-url }}
+        DOTMAILER_GET_USER_BY_EMAIL_URL: ${{ inputs.dotmailer-get-user-by-email-url }}
+        DOTMAILER_PUT_CONSENT_DATA_URL: ${{ inputs.dotmailer-put-consent-data-url }}
+        DOTMAILER_SEND_CAMPAIGN_URL: ${{ inputs.dotmailer-send-campaign-url }}
+        DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID: ${{ inputs.dotmailer-thanks-for-staying-campaign-id }}
         DOTMAILER_USER: ${{ inputs.dotmailer-user }}
         DOTMAILER_PASSWORD: ${{ inputs.dotmailer-password }}
         DOTMAILER_DEFAULT_PREFERENCES: ${{ inputs.dotmailer-default-preferences }}
