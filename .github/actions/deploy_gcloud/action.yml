@@ -145,7 +145,7 @@ runs:
         chmod +x /tmp/cloud_sql_proxy
 
         # Start Cloud SQL Proxy and migrate
-        sudo /tmp/cloud_sql_proxy -dir=/cloudsql &
+        sudo "PATH=$PATH" /tmp/cloud_sql_proxy -dir=/cloudsql &
 
         # wait for cloudsql-proxy to be ready
         is_sql_proxy_ready=0
