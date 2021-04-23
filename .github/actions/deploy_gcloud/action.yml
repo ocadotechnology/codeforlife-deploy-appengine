@@ -1,6 +1,18 @@
 name: Deploy to Google Cloud
 description: Deploys portal, rapid-router and aimmo to Google Cloud
 inputs:
+  app-id:
+    description: App ID
+    required: true
+  module-name:
+    description: The name of the module
+    required: true
+  gke-zone:
+    description: GKE Zone
+    required: true
+  version:
+    description: Version number to deploy
+    required: true
   aws-access-key-id:
     description: AWS access key ID
     required: true
@@ -92,15 +104,22 @@ runs:
         python generate_requirements.py
 
         ./manage.py collectstatic --noinput
+      env:
+        MODULE_NAME: ${{ inputs.module-name }}
       shell: bash
 
     - name: "Get cluster credentials"
       run: |-
         gcloud container clusters get-credentials "aimmo-$MODULE_NAME" --zone "$GKE_ZONE"
+      env:
+        MODULE_NAME: ${{ inputs.module-name }}
+        GKE_ZONE: ${{ inputs.gke-zone }}
       shell: bash
 
     - name: "Deploy k8s"
       run: python clusters_setup/deploy.py $MODULE_NAME
+      env:
+        MODULE_NAME: ${{ inputs.module-name }}
       shell: bash
 
     - name: "Deploy"
@@ -145,6 +164,9 @@ runs:
         # Test the site - again!
         curl -I https://default-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"
       env:
+        APP_ID: ${{ inputs.app-id }}
+        MODULE_NAME: ${{ inputs.module-name }}
+        VERSION: ${{ inputs.version }}
         CLOUDSDK_CORE_DISABLE_PROMPTS: "1"
         CLOUDSDK_PYTHON_SITEPACKAGES: "1"
         DATABASE_NAME: cfl_${{env.DATABASE_POSTFIX}}

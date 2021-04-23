@@ -35,6 +35,10 @@ jobs:
       - name: Deploy to Google Cloud
         uses: ./.github/actions/deploy_gcloud
         with:
+          app-id: ${{ env.APP_ID }}
+          module-name: ${{ env.MODULE_NAME }}
+          gke-zone: ${{ env.GKE_ZONE }}
+          version: ${{ env.VERSION }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           django-secret: ${{ secrets.DJANGO_SECRET }}
@@ -48,8 +52,3 @@ jobs:
           recaptcha-private-key: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
           redis-ip: ${{ secrets.REDIS_IP }}
           redis-port: ${{ secrets.REDIS_PORT }}
-
-      # - name: Test action
-      #   uses: ./.github/actions/test_action
-      #   with:
-      #     test-input: Hello World
