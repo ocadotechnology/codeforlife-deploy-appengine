@@ -178,7 +178,6 @@ runs:
         # Test the site - again!
         curl -I https://default-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"
       env:
-        GKE_ZONE: ${{ inputs.gke-zone }}
         APP_ID: ${{ inputs.app-id }}
         MODULE_NAME: ${{ inputs.module-name }}
         VERSION: ${{ inputs.version }}
