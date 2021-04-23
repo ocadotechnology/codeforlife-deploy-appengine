@@ -143,7 +143,7 @@ runs:
         # Start Cloud SQL Proxy and migrate
         sudo /tmp/cloud_sql_proxy -dir=/cloudsql &
 
-        ls -al /root/.config/gcloud/configurations/
+        sudo ls -al /root/.config/gcloud/configurations/
 
         # wait for cloudsql-proxy to be ready
         is_sql_proxy_ready=0
