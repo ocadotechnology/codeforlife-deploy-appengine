@@ -141,6 +141,7 @@ runs:
         chmod +x /tmp/cloud_sql_proxy
 
         gcloud auth list
+        gcloud config set account semaphore-ci@decent-digit-629.iam.gserviceaccount.com
 
         # Start Cloud SQL Proxy and migrate
         sudo /tmp/cloud_sql_proxy -dir=/cloudsql &
