@@ -140,12 +140,10 @@ runs:
         wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O /tmp/cloud_sql_proxy
         chmod +x /tmp/cloud_sql_proxy
 
+        gcloud auth login
+
         # Start Cloud SQL Proxy and migrate
         sudo /tmp/cloud_sql_proxy -dir=/cloudsql &
-
-        echo $GOOGLE_APPLICATION_CREDENTIALS
-
-        exit 1
 
         # wait for cloudsql-proxy to be ready
         is_sql_proxy_ready=0
