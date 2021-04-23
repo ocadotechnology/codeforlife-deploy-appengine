@@ -134,10 +134,6 @@ runs:
         MODULE_NAME: ${{ inputs.module-name }}
       shell: bash
 
-    - name: "env"
-      run: sudo env
-      shell: bash
-
     - name: "Deploy"
       run: |
         # Install Cloud SQL Proxy
@@ -145,7 +141,7 @@ runs:
         chmod +x /tmp/cloud_sql_proxy
 
         # Start Cloud SQL Proxy and migrate
-        sudo "PATH=$PATH" /tmp/cloud_sql_proxy -dir=/cloudsql &
+        /tmp/cloud_sql_proxy -dir=/cloudsql &
 
         # wait for cloudsql-proxy to be ready
         is_sql_proxy_ready=0
