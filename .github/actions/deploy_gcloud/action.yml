@@ -135,7 +135,7 @@ runs:
       shell: bash
 
     - name: "env"
-      run: env
+      run: sudo env
       shell: bash
 
     - name: "Deploy"
