@@ -1,0 +1,70 @@
+name: Deploy to Default
+
+on: workflow_dispatch
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-20.04
+    environment: default
+    env:
+      APP_ID: decent-digit-629
+      NODE_ENV: production
+      DB_PORT: 3306
+      GKE_ZONE: europe-west1-b
+      MODULE_NAME: default
+      VERSION: ${{ github.run_number }}
+      DATABASE_POSTFIX: ${{ secrets.DATABASE_POSTFIX }}
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+
+      - name: "Setup python"
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.7.x"
+          architecture: "x64"
+
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          version: "331.0.0"
+          service_account_key: ${{ secrets.GCLOUD_AUTH }}
+          project_id: ${{ env.APP_ID }}
+
+      - name: Deploy to Google Cloud
+        uses: ./.github/actions/deploy_gcloud
+        with:
+          app-id: ${{ env.APP_ID }}
+          module-name: ${{ env.MODULE_NAME }}
+          gke-zone: ${{ env.GKE_ZONE }}
+          version: ${{ env.VERSION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          django-secret: ${{ secrets.DJANGO_SECRET }}
+          django-portal-contact-form-email: ${{ secrets.DJANGO_PORTAL_CONTACT_FORM_EMAIL }}
+          dotmailer-create-contact-url: ${{ secrets.DOTMAILER_CREATE_CONTACT_URL }}
+          dotmailer-address-book-url: ${{ secrets.DOTMAILER_ADDRESS_BOOK_URL }}
+          dotmailer-get-user-by-email-url: ${{ secrets.DOTMAILER_GET_USER_BY_EMAIL_URL }}
+          dotmailer-put-consent-data-url: ${{ secrets.DOTMAILER_PUT_CONSENT_DATA_URL }}
+          dotmailer-send-campaign-url: ${{ secrets.DOTMAILER_SEND_CAMPAIGN_URL }}
+          dotmailer-thanks-for-staying-campaign-id: ${{ secrets.DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID }}
+          dotmailer-user: ${{ secrets.DOTMAILER_USER }}
+          dotmailer-password: ${{ secrets.DOTMAILER_PASSWORD }}
+          dotmailer-default-preferences: ${{ secrets.DOTMAILER_DEFAULT_PREFERENCES }}
+          recaptcha-public-key: ${{ secrets.RECAPTCHA_PUBLIC_KEY }}
+          recaptcha-private-key: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
+          redis-ip: ${{ secrets.REDIS_IP }}
+          redis-port: ${{ secrets.REDIS_PORT }}
+
+      - name: Notify successful deployment
+        if: ${{ success() }}
+        run: ./notify_deployment.py
+        env:
+          DEPLOY_NOTIFY_URL: ${{ secrets.DEPLOY_NOTIFY_URL }}
+
+      - name: Notify failed deployment
+        if: ${{ failure() }}
+        run: ./notify_deployment.py 1
+        env:
+          DEPLOY_NOTIFY_URL: ${{ secrets.DEPLOY_NOTIFY_URL }}
