@@ -57,14 +57,7 @@ jobs:
           redis-ip: ${{ secrets.REDIS_IP }}
           redis-port: ${{ secrets.REDIS_PORT }}
 
-      - name: Notify successful deployment
-        if: ${{ success() }}
-        run: ./notify_deployment.py
-        env:
-          DEPLOY_NOTIFY_URL: ${{ secrets.DEPLOY_NOTIFY_URL }}
-
-      - name: Notify failed deployment
-        if: ${{ failure() }}
-        run: ./notify_deployment.py 1
+      - name: Notify deployment
+        run: ./notify_deployment.py ${{ success() }}
         env:
           DEPLOY_NOTIFY_URL: ${{ secrets.DEPLOY_NOTIFY_URL }}
