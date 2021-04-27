@@ -65,6 +65,6 @@ jobs:
 
       - name: Notify failed deployment
         if: ${{ failure() }}
-        run: ./notify_deployment.py 1
+        run: ./notify_deployment.py 0
         env:
           DEPLOY_NOTIFY_URL: ${{ secrets.DEPLOY_NOTIFY_URL }}
