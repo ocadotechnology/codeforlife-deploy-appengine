@@ -28,7 +28,7 @@ jobs:
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@master
         with:
-          version: "331.0.0"
+          version: "337.0.0"
           service_account_key: ${{ secrets.GCLOUD_AUTH }}
           project_id: ${{ env.APP_ID }}
 
@@ -56,3 +56,15 @@ jobs:
           recaptcha-private-key: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
           redis-ip: ${{ secrets.REDIS_IP }}
           redis-port: ${{ secrets.REDIS_PORT }}
+
+      - name: Notify successful deployment
+        if: ${{ success() }}
+        run: ./notify_deployment.py
+        env:
+          DEPLOY_NOTIFY_URL: ${{ secrets.DEPLOY_NOTIFY_URL }}
+
+      - name: Notify failed deployment
+        if: ${{ failure() }}
+        run: ./notify_deployment.py 0
+        env:
+          DEPLOY_NOTIFY_URL: ${{ secrets.DEPLOY_NOTIFY_URL }}

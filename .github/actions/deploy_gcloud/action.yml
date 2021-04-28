@@ -140,8 +140,11 @@ runs:
         wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O /tmp/cloud_sql_proxy
         chmod +x /tmp/cloud_sql_proxy
 
+        sudo mkdir /cloudsql
+        sudo chown runner:runner /cloudsql
+
         # Start Cloud SQL Proxy and migrate
-        sudo /tmp/cloud_sql_proxy -dir=/cloudsql &
+        /tmp/cloud_sql_proxy -dir=/cloudsql &
 
         # wait for cloudsql-proxy to be ready
         is_sql_proxy_ready=0

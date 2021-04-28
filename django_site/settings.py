@@ -28,7 +28,9 @@ DOTMAILER_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_ADDRESS_BOOK_URL", "")
 DOTMAILER_GET_USER_BY_EMAIL_URL = os.getenv("DOTMAILER_GET_USER_BY_EMAIL_URL", "")
 DOTMAILER_PUT_CONSENT_DATA_URL = os.getenv("DOTMAILER_PUT_CONSENT_DATA_URL", "")
 DOTMAILER_SEND_CAMPAIGN_URL = os.getenv("DOTMAILER_SEND_CAMPAIGN_URL", "")
-DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID = os.getenv("DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID", "")
+DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID = os.getenv(
+    "DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID", ""
+)
 DOTMAILER_USER = os.getenv("DOTMAILER_USER", "")
 DOTMAILER_PASSWORD = os.getenv("DOTMAILER_PASSWORD", "")
 DOTMAILER_DEFAULT_PREFERENCES = json.loads(
@@ -176,8 +178,7 @@ if os.getenv("GAE_APPLICATION", None):
 
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
-# TODO: remove 'else' later, only needed for semaphore
-else:
+elif os.getenv("SEMAPHORE", None):  # This is only needed if running on SemaphoreCI
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.mysql",

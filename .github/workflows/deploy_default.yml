@@ -1,4 +1,4 @@
-name: Deploy to Staging
+name: Deploy to Default
 
 on: workflow_dispatch
 
@@ -6,13 +6,13 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-20.04
-    environment: staging
+    environment: default
     env:
       APP_ID: decent-digit-629
       NODE_ENV: production
       DB_PORT: 3306
       GKE_ZONE: europe-west1-b
-      MODULE_NAME: staging
+      MODULE_NAME: default
       VERSION: ${{ github.run_number }}
       DATABASE_POSTFIX: ${{ secrets.DATABASE_POSTFIX }}
     steps:
