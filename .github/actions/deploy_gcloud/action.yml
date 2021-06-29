@@ -64,6 +64,9 @@ inputs:
   redis-port:
     description: Redis port
     required: true
+  portal-branch:
+    description: Optional portal branch to deploy
+    default: ""
 runs:
   using: composite
   steps:
@@ -83,7 +86,13 @@ runs:
         pip install -t lib requests-toolbelt
 
         pip install -t lib git+https://github.com/ocadotechnology/django-autoconfig
-        pip install -t lib --upgrade codeforlife-portal
+        if [[ -z $PORTAL_BRANCH ]]; then
+          pip install -t lib --upgrade codeforlife-portal
+        else
+          pushd build
+          git clone --depth 1 --branch $PORTAL_BRANCH https://github.com/ocadotechnology/codeforlife-portal.git
+          popd
+        fi
 
         pip install -t lib django-anymail[amazon_ses]
         pip install -t lib google-auth==1.*
@@ -118,6 +127,7 @@ runs:
         ./manage.py collectstatic --noinput
       env:
         MODULE_NAME: ${{ inputs.module-name }}
+        PORTAL_BRANCH: ${{ inputs.portal-branch }}
       shell: bash
 
     - name: "Get cluster credentials"
