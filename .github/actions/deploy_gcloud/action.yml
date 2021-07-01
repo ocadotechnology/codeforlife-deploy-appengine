@@ -1,0 +1,207 @@
+name: Deploy to Google Cloud
+description: Deploys portal, rapid-router and aimmo to Google Cloud
+inputs:
+  app-id:
+    description: App ID
+    required: true
+  module-name:
+    description: The name of the module
+    required: true
+  gke-zone:
+    description: GKE Zone
+    required: true
+  version:
+    description: Version number to deploy
+    required: true
+  aws-access-key-id:
+    description: AWS access key ID
+    required: true
+  aws-secret-access-key:
+    description: AWS secret access key
+    required: true
+  django-secret:
+    description: Django secret
+    required: true
+  django-portal-contact-form-email:
+    description: Portal contact form email
+    required: true
+  dotmailer-create-contact-url:
+    description: URL for Dotmailer create contact
+    required: true
+  dotmailer-address-book-url:
+    description: URL for Dotmailer address book
+    required: true
+  dotmailer-get-user-by-email-url:
+    description: URL for Dotmailer get user by email
+    required: true
+  dotmailer-put-consent-data-url:
+    description: URL for Dotmailer put consent data
+    required: true
+  dotmailer-send-campaign-url:
+    description: URL for Dotmailer send campaign
+    required: true
+  dotmailer-thanks-for-staying-campaign-id:
+    description: ID for Dotmailer thanks for staying campaign
+    required: true
+  dotmailer-user:
+    description: Dotmailer user
+    required: true
+  dotmailer-password:
+    description: Dotmailer password
+    required: true
+  dotmailer-default-preferences:
+    description: Dotmailer default preferences
+    required: true
+  recaptcha-public-key:
+    description: Recaptcha public key
+    required: true
+  recaptcha-private-key:
+    description: Recaptcha private key
+    required: true
+  redis-ip:
+    description: Redis IP
+    required: true
+  redis-port:
+    description: Redis port
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: "Setup MySQL"
+      run: |
+        sudo apt-get install libmysqlclient-dev
+        pip install mysqlclient==1.4.*
+      shell: bash
+
+    - name: "Install kubernetes"
+      run: pip install kubernetes
+      shell: bash
+
+    - name: "Build"
+      run: |
+        pip install requests
+        pip install -t lib requests-toolbelt
+
+        pip install -t lib git+https://github.com/ocadotechnology/django-autoconfig
+        pip install -t lib --upgrade codeforlife-portal
+
+        pip install -t lib django-anymail[amazon_ses]
+        pip install -t lib google-auth==1.*
+
+        if [[ $MODULE_NAME = "default" ]]; then
+            pip install -t lib --upgrade --no-deps aimmo
+        else
+            pip install -t lib --pre --upgrade --no-deps aimmo
+
+            # Uncomment the blocks below to install aimmo from a branch - don't forget to uncomment the line in generate_requirements.py too
+            # git clone --depth 1 --branch agones3 https://github.com/ocadotechnology/aimmo.git
+
+            # pushd aimmo
+            # pip install wheel
+            # ./aimmo_runner/build_worker_wheel.sh
+            # popd
+
+            # pushd aimmo/game_frontend
+            # curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+            # export NVM_DIR="$HOME/.nvm"
+            # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+            # nvm install 12.20.2
+            # nvm use 12.20.2
+            # yarn --frozen-lockfile
+            # NODE_ENV=production node djangoBundler.js
+            # popd
+            # pip install -t lib --pre --upgrade --no-deps ./aimmo
+        fi
+
+        python generate_requirements.py
+
+        ./manage.py collectstatic --noinput
+      env:
+        MODULE_NAME: ${{ inputs.module-name }}
+      shell: bash
+
+    - name: "Get cluster credentials"
+      run: |-
+        gcloud container clusters get-credentials "aimmo-$MODULE_NAME" --zone "$GKE_ZONE"
+      env:
+        MODULE_NAME: ${{ inputs.module-name }}
+        GKE_ZONE: ${{ inputs.gke-zone }}
+      shell: bash
+
+    - name: "Deploy k8s"
+      run: python clusters_setup/deploy.py $MODULE_NAME
+      env:
+        MODULE_NAME: ${{ inputs.module-name }}
+      shell: bash
+
+    - name: "Deploy"
+      run: |
+        # Install Cloud SQL Proxy
+        wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O /tmp/cloud_sql_proxy
+        chmod +x /tmp/cloud_sql_proxy
+
+        sudo mkdir /cloudsql
+        sudo chown runner:runner /cloudsql
+
+        # Start Cloud SQL Proxy and migrate
+        /tmp/cloud_sql_proxy -dir=/cloudsql &
+
+        # wait for cloudsql-proxy to be ready
+        is_sql_proxy_ready=0
+        for i in {1..30}; do
+            echo "Waiting for cloudsql-proxy to be ready $i/30"
+            if mysqladmin -S /cloudsql/decent-digit-629:europe-west1:db ping; then
+              echo "cloudsql-proxy is ready"
+              is_sql_proxy_ready=1
+              break
+            fi
+            sleep 2
+        done
+
+        if [[ $is_sql_proxy_ready -eq 0 ]]; then
+          exit 1
+        fi
+
+        ./manage.py migrate --no-input
+
+        envsubst <django_site/kubeconfig.yaml.tmpl >django_site/kubeconfig.yaml
+        envsubst <app.yaml.tmpl >app.yaml
+
+        gcloud app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote --no-cache
+        gcloud app --quiet deploy cron.yaml --project ${APP_ID} --version ${VERSION} --no-promote
+
+        # Test the site
+        curl -I https://${VERSION}-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"
+
+        # Promote
+        gcloud app services set-traffic --project ${APP_ID} --splits ${VERSION}=1 ${MODULE_NAME} --migrate
+
+        # Test the site - again!
+        curl -I https://default-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"
+      env:
+        APP_ID: ${{ inputs.app-id }}
+        MODULE_NAME: ${{ inputs.module-name }}
+        VERSION: ${{ inputs.version }}
+        CLOUDSDK_CORE_DISABLE_PROMPTS: "1"
+        CLOUDSDK_PYTHON_SITEPACKAGES: "1"
+        DATABASE_NAME: cfl_${{env.DATABASE_POSTFIX}}
+        DATABASE_HOST: /cloudsql/decent-digit-629:europe-west1:db
+        CACHE_PREFIX: ${{ env.MODULE_NAME }}-
+        AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
+        AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
+        DJANGO_SECRET: ${{ inputs.django-secret }}
+        DJANGO_PORTAL_CONTACT_FORM_EMAIL: ${{ inputs.django-portal-contact-form-email }}
+        DOTMAILER_CREATE_CONTACT_URL: ${{ inputs.dotmailer-create-contact-url }}
+        DOTMAILER_ADDRESS_BOOK_URL: ${{ inputs.dotmailer-address-book-url }}
+        DOTMAILER_GET_USER_BY_EMAIL_URL: ${{ inputs.dotmailer-get-user-by-email-url }}
+        DOTMAILER_PUT_CONSENT_DATA_URL: ${{ inputs.dotmailer-put-consent-data-url }}
+        DOTMAILER_SEND_CAMPAIGN_URL: ${{ inputs.dotmailer-send-campaign-url }}
+        DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID: ${{ inputs.dotmailer-thanks-for-staying-campaign-id }}
+        DOTMAILER_USER: ${{ inputs.dotmailer-user }}
+        DOTMAILER_PASSWORD: ${{ inputs.dotmailer-password }}
+        DOTMAILER_DEFAULT_PREFERENCES: ${{ inputs.dotmailer-default-preferences }}
+        RECAPTCHA_PUBLIC_KEY: ${{ inputs.recaptcha-public-key }}
+        RECAPTCHA_PRIVATE_KEY: ${{ inputs.recaptcha-private-key }}
+        REDIS_IP: ${{ inputs.redis-ip }}
+        REDIS_PORT: ${{ inputs.redis-port }}
+      shell: bash
