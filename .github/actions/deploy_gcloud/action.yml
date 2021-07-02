@@ -93,7 +93,7 @@ runs:
           pip install -t lib --upgrade codeforlife-portal
         else
           REQUIREMENTS_ARGS+="--portal-branch \"${PORTAL_BRANCH}\" "
-          pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=portal"
+          pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=codeforlife-portal"
         fi
 
         pip install -t lib django-anymail[amazon_ses]

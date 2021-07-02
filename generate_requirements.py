@@ -22,8 +22,8 @@ if args.portal_branch is None:
     portal_requirement = f"codeforlife-portal=={portal_version}"
     common_requirement = ""
 else:
-    portal_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=portal"
-    common_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=common&subdirectory=cfl_common"
+    portal_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=codeforlife-portal"
+    common_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=cfl-common&subdirectory=cfl_common"
 
 
 requirements = "\n".join(
