@@ -1,15 +1,28 @@
-from pathlib import Path
+import argparse
+
+# from pathlib import Path
 
 # Versions will be fetched from the init of each package (portal, aimmo, game) after they are installed in lib - this happens in the "Build" step.
 from lib.portal import __version__ as portal_version
 from lib.aimmo import __version__ as aimmo_version
 from lib.game import __version__ as rapid_router_version
 
+# portal_requirement = f"codeforlife-portal=={portal_version}"
+# common_requirement = ""
+# if Path("build/codeforlife-portal").is_dir():
+#     portal_requirement = "./build/codeforlife-portal"
+#     common_requirement = "./build/codeforlife-portal/cfl_common"
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--portal-branch")
+args = parser.parse_args()
+
 portal_requirement = f"codeforlife-portal=={portal_version}"
 common_requirement = ""
-if Path("build/codeforlife-portal").is_dir():
-    portal_requirement = "./build/codeforlife-portal"
-    common_requirement = "./build/codeforlife-portal/cfl_common"
+if args.portal_branch is not None:
+    portal_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=portal"
+    common_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=common&subdirectory=cfl_common"
+
 
 requirements = "\n".join(
     [

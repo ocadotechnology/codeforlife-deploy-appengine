@@ -67,6 +67,7 @@ inputs:
   portal-branch:
     description: Optional portal branch to deploy
     default: ""
+    required: false
 runs:
   using: composite
   steps:
@@ -86,12 +87,12 @@ runs:
         pip install -t lib requests-toolbelt
 
         pip install -t lib git+https://github.com/ocadotechnology/django-autoconfig
+
+        $REQUIREMENTS_ARGS=""
         if [[ -z $PORTAL_BRANCH ]]; then
           pip install -t lib --upgrade codeforlife-portal
         else
-          pushd build
-          git clone --depth 1 --branch $PORTAL_BRANCH https://github.com/ocadotechnology/codeforlife-portal.git
-          popd
+          $REQUIREMENTS_ARGS+="--portal-branch \"${PORTAL_BRANCH}\" "
         fi
 
         pip install -t lib django-anymail[amazon_ses]
@@ -122,7 +123,7 @@ runs:
             # pip install -t lib --pre --upgrade --no-deps ./aimmo
         fi
 
-        python generate_requirements.py
+        python generate_requirements.py $REQUIREMENTS_ARGS
 
         ./manage.py collectstatic --noinput
       env:
