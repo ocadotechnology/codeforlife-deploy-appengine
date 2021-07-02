@@ -88,11 +88,11 @@ runs:
 
         pip install -t lib git+https://github.com/ocadotechnology/django-autoconfig
 
-        $REQUIREMENTS_ARGS=""
+        REQUIREMENTS_ARGS=""
         if [[ -z $PORTAL_BRANCH ]]; then
           pip install -t lib --upgrade codeforlife-portal
         else
-          $REQUIREMENTS_ARGS+="--portal-branch \"${PORTAL_BRANCH}\" "
+          REQUIREMENTS_ARGS+="--portal-branch \"${PORTAL_BRANCH}\" "
         fi
 
         pip install -t lib django-anymail[amazon_ses]
