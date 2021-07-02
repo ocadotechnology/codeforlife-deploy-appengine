@@ -92,7 +92,7 @@ runs:
         if [[ -z $PORTAL_BRANCH ]]; then
           pip install -t lib --upgrade codeforlife-portal
         else
-          REQUIREMENTS_ARGS+="--portal-branch \"${PORTAL_BRANCH}\" "
+          REQUIREMENTS_ARGS+="--portal-branch "\"$PORTAL_BRANCH\"" "
           pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=codeforlife-portal"
         fi
 
