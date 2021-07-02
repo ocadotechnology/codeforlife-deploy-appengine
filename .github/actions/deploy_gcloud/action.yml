@@ -88,6 +88,8 @@ runs:
 
         pip install -t lib git+https://github.com/ocadotechnology/django-autoconfig
 
+        pip install -t lib --upgrade rapid-router
+
         REQUIREMENTS_ARGS=""
         if [[ -z $PORTAL_BRANCH ]]; then
           pip install -t lib --upgrade codeforlife-portal
