@@ -7,7 +7,7 @@ pip install requests
 pip install -t lib requests-toolbelt
 
 pip install -t lib git+https://github.com/ocadotechnology/django-autoconfig
-pip install -t lib git+https://github.com/ocadotechnology/codeforlife-portal@upgrade_recaptcha_v3
+pip install -t lib git+https://github.com/ocadotechnology/codeforlife-portal@recaptcha_v3_score
 
 pip install -t lib django-anymail[amazon_ses]
 pip install -t lib google-auth==1.*
