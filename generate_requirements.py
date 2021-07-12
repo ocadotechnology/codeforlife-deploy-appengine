@@ -5,8 +5,7 @@ from lib.game import __version__ as rapid_router_version
 
 requirements = "\n".join(
     [
-        # f"codeforlife-portal=={portal_version}",
-        "git+https://github.com/ocadotechnology/codeforlife-portal@recaptcha_v3_score",
+        f"codeforlife-portal=={portal_version}",
         f"aimmo=={aimmo_version}",
         # "./aimmo",  # Uncomment this to install a custom aimmo built in deploy_gcloud workflow
         f"rapid-router=={rapid_router_version}",
