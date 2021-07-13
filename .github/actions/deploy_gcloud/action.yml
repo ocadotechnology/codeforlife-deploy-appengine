@@ -58,9 +58,6 @@ inputs:
   recaptcha-private-key:
     description: Recaptcha private key
     required: true
-  recaptcha-required-score:
-    description: Recaptcha required score
-    required: true
   redis-ip:
     description: Redis IP
     required: true
@@ -205,7 +202,6 @@ runs:
         DOTMAILER_DEFAULT_PREFERENCES: ${{ inputs.dotmailer-default-preferences }}
         RECAPTCHA_PUBLIC_KEY: ${{ inputs.recaptcha-public-key }}
         RECAPTCHA_PRIVATE_KEY: ${{ inputs.recaptcha-private-key }}
-        RECAPTCHA_REQUIRED_SCORE: ${{ inputs.recaptcha-required-score }}
         REDIS_IP: ${{ inputs.redis-ip }}
         REDIS_PORT: ${{ inputs.redis-port }}
       shell: bash
