@@ -54,7 +54,6 @@ jobs:
           dotmailer-default-preferences: ${{ secrets.DOTMAILER_DEFAULT_PREFERENCES }}
           recaptcha-public-key: ${{ secrets.RECAPTCHA_PUBLIC_KEY }}
           recaptcha-private-key: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
-          recaptcha-required-score: ${{ secrets.RECAPTCHA_REQUIRED_SCORE }}
           redis-ip: ${{ secrets.REDIS_IP }}
           redis-port: ${{ secrets.REDIS_PORT }}
 
