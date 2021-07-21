@@ -11,8 +11,8 @@ if __name__ == "__main__":
 
     # Need to setup GKE if running migrations
     if sys.argv[1] == "migrate":
-        from django_site.apps import setup_gke
+        import kubernetes
 
-        setup_gke()
+        kubernetes.config.load_kube_config("/home/runner/.kube/config")
 
     execute_from_command_line(sys.argv)
