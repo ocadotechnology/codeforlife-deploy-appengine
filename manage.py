@@ -2,8 +2,6 @@
 import os
 import sys
 
-from django_site.apps import setup_gke
-
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "lib"))
 
 if __name__ == "__main__":
@@ -11,6 +9,10 @@ if __name__ == "__main__":
 
     from django.core.management import execute_from_command_line
 
-    execute_from_command_line(sys.argv)
+    # Need to setup GKE if running migrations
+    if sys.argv[1] == "migrate":
+        from django_site.apps import setup_gke
 
-    setup_gke()
+        setup_gke()
+
+    execute_from_command_line(sys.argv)
