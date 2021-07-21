@@ -2,7 +2,7 @@
 import os
 import sys
 
-import kubernetes
+from django_site.apps import setup_gke
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "lib"))
 
@@ -13,4 +13,4 @@ if __name__ == "__main__":
 
     execute_from_command_line(sys.argv)
 
-    kubernetes.config.load_kube_config("django_site/kubeconfig.yaml")
+    setup_gke()
