@@ -162,10 +162,10 @@ runs:
           exit 1
         fi
 
-        ./manage.py migrate --no-input
-
         envsubst <django_site/kubeconfig.yaml.tmpl >django_site/kubeconfig.yaml
         envsubst <app.yaml.tmpl >app.yaml
+
+        ./manage.py migrate --no-input
 
         gcloud app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote --no-cache
         gcloud app --quiet deploy cron.yaml --project ${APP_ID} --version ${VERSION} --no-promote
