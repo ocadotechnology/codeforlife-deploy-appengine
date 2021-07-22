@@ -19,6 +19,9 @@ inputs:
   aws-secret-access-key:
     description: AWS secret access key
     required: true
+  database-host:
+    description: Database host
+    required: true
   django-secret:
     description: Django secret
     required: true
@@ -185,7 +188,7 @@ runs:
         CLOUDSDK_CORE_DISABLE_PROMPTS: "1"
         CLOUDSDK_PYTHON_SITEPACKAGES: "1"
         DATABASE_NAME: cfl_${{env.DATABASE_POSTFIX}}
-        DATABASE_HOST: /cloudsql/decent-digit-629:europe-west1:db
+        DATABASE_HOST: ${{ inputs.database-host }}
         CACHE_PREFIX: ${{ env.MODULE_NAME }}-
         AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
         AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
