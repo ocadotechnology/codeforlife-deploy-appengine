@@ -75,6 +75,10 @@ inputs:
     description: Optional rapid-router branch to deploy
     default: ""
     required: false
+  aimmo-branch:
+    description: Optional rapid-router branch to deploy
+    default: ""
+    required: false
 runs:
   using: composite
   steps:
@@ -112,26 +116,26 @@ runs:
         if [[ $MODULE_NAME = "default" ]]; then
             pip install -t lib --upgrade --no-deps aimmo
         else
+          if [[ -z $AIMMO_BRANCH ]]; then
             pip install -t lib --pre --upgrade --no-deps aimmo
+          else:
+            REQUIREMENTS_ARGS+="--aimmo-branch ${AIMMO_BRANCH} "
 
-            # Uncomment the blocks below to install aimmo from a branch - don't forget to uncomment the line in generate_requirements.py too
-            # git clone --depth 1 --branch agones3 https://github.com/ocadotechnology/aimmo.git
+            git clone --depth 1 --branch ${AIMMO_BRANCH} https://github.com/ocadotechnology/aimmo.git
 
-            # pushd aimmo
-            # pip install wheel
-            # ./aimmo_runner/build_worker_wheel.sh
-            # popd
+            pushd aimmo
+            pip install wheel
+            ./aimmo_runner/build_worker_wheel.sh
+            popd
 
-            # pushd aimmo/game_frontend
-            # curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
-            # export NVM_DIR="$HOME/.nvm"
-            # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-            # nvm install 12.20.2
-            # nvm use 12.20.2
-            # yarn --frozen-lockfile
-            # NODE_ENV=production node djangoBundler.js
-            # popd
-            # pip install -t lib --pre --upgrade --no-deps ./aimmo
+            pushd aimmo/game_frontend
+            nvm install 12.20.2
+            nvm use 12.20.2
+            yarn --frozen-lockfile
+            NODE_ENV=production node djangoBundler.js
+            popd
+            pip install -t lib --pre --upgrade --no-deps ./aimmo
+          fi
         fi
 
         python generate_requirements.py $REQUIREMENTS_ARGS

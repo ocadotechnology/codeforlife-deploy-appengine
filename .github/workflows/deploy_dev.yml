@@ -3,6 +3,10 @@ name: Deploy to Dev
 on:
   workflow_dispatch:
     inputs:
+      aimmo-branch:
+        description: "aimmo branch"
+        required: false
+        default: ""
       portal-branch:
         description: "portal branch"
         required: false
@@ -67,6 +71,7 @@ jobs:
           recaptcha-private-key: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
           redis-ip: ${{ secrets.REDIS_IP }}
           redis-port: ${{ secrets.REDIS_PORT }}
+          aimmo-branch: ${{ github.event.inputs.aimmo-branch }}
           portal-branch: ${{ github.event.inputs.portal-branch }}
           rapid-router-branch: ${{ github.event.inputs.rapid-router-branch }}
 
