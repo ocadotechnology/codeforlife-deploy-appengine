@@ -1,6 +1,12 @@
 name: Deploy to Dev
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      rapid-router-branch:
+        description: "rapid-router branch"
+        required: false
+        default: ""
 
 jobs:
   deploy:
@@ -58,7 +64,7 @@ jobs:
           redis-ip: ${{ secrets.REDIS_IP }}
           redis-port: ${{ secrets.REDIS_PORT }}
           portal-branch: contributor
-          rapid-router-branch: raz-test
+          rapid-router-branch: ${{ github.event.inputs.rapid-router-branch }}
 
       - name: Notify successful deployment
         if: ${{ success() }}
