@@ -67,15 +67,15 @@ inputs:
   redis-port:
     description: Redis port
     required: true
+  aimmo-branch:
+    description: Optional rapid-router branch to deploy
+    default: ""
+    required: false
   portal-branch:
     description: Optional portal branch to deploy
     default: ""
     required: false
   rapid-router-branch:
-    description: Optional rapid-router branch to deploy
-    default: ""
-    required: false
-  aimmo-branch:
     description: Optional rapid-router branch to deploy
     default: ""
     required: false
@@ -143,6 +143,7 @@ runs:
         ./manage.py collectstatic --noinput
       env:
         MODULE_NAME: ${{ inputs.module-name }}
+        AIMMO_BRANCH: ${{ inputs.aimmo-branch }}
         PORTAL_BRANCH: ${{ inputs.portal-branch }}
         RAPID_ROUTER_BRANCH: ${{ inputs.rapid-router-branch }}
       shell: bash
