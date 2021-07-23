@@ -118,7 +118,7 @@ runs:
         else
           if [[ -z $AIMMO_BRANCH ]]; then
             pip install -t lib --pre --upgrade --no-deps aimmo
-          else:
+          else
             REQUIREMENTS_ARGS+="--aimmo-branch ${AIMMO_BRANCH} "
 
             git clone --depth 1 --branch ${AIMMO_BRANCH} https://github.com/ocadotechnology/aimmo.git
