@@ -129,6 +129,8 @@ runs:
             popd
 
             pushd aimmo/game_frontend
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
             nvm install 12.20.2
             nvm use 12.20.2
             yarn --frozen-lockfile
