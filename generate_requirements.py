@@ -14,6 +14,7 @@ from lib.game import __version__ as rapid_router_version
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--portal-branch")
+parser.add_argument("--rapid-router-branch")
 args = parser.parse_args()
 
 if args.portal_branch is None:
@@ -25,6 +26,11 @@ else:
     portal_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=codeforlife-portal"
     common_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=cfl-common&subdirectory=cfl_common"
 
+if args.rapid_router_branch is None:
+    rapid_router_requirement = f"rapid-router=={rapid_router_version}"
+else:
+    rapid_router_requirement = f"git+https://github.com/ocadotechnology/rapid-router@{args.rapid_router_branch}#egg=rapid-router"
+
 
 requirements = "\n".join(
     [
@@ -32,7 +38,7 @@ requirements = "\n".join(
         common_requirement,
         f"aimmo=={aimmo_version}",
         # "./aimmo",  # Uncomment this to install a custom aimmo built in deploy_gcloud workflow
-        f"rapid-router=={rapid_router_version}",
+        rapid_router_requirement,
         "requests-toolbelt==0.9.*",
         "mysqlclient==1.4.*",
         "redis==3.3.*",

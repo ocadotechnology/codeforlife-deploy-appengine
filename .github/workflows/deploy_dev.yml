@@ -57,7 +57,8 @@ jobs:
           recaptcha-private-key: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
           redis-ip: ${{ secrets.REDIS_IP }}
           redis-port: ${{ secrets.REDIS_PORT }}
-          portal-branch: raz-test
+          portal-branch: contributor
+          rapid-router-branch: raz-test
 
       - name: Notify successful deployment
         if: ${{ success() }}

@@ -71,6 +71,10 @@ inputs:
     description: Optional portal branch to deploy
     default: ""
     required: false
+  rapid-router-branch:
+    description: Optional rapid-router branch to deploy
+    default: ""
+    required: false
 runs:
   using: composite
   steps:
@@ -97,6 +101,9 @@ runs:
         else
           REQUIREMENTS_ARGS+="--portal-branch ${PORTAL_BRANCH} "
           pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=codeforlife-portal"
+        fi
+        if [[ -n $RAPID_ROUTER_BRANCH ]]; then
+          REQUIREMENTS_ARGS+="--rapid-router-branch ${RAPID_ROUTER_BRANCH} "
         fi
 
         pip install -t lib django-anymail[amazon_ses]
@@ -133,6 +140,7 @@ runs:
       env:
         MODULE_NAME: ${{ inputs.module-name }}
         PORTAL_BRANCH: ${{ inputs.portal-branch }}
+        RAPID_ROUTER_BRANCH: ${{ inputs.rapid-router-branch }}
       shell: bash
 
     - name: "Get cluster credentials"
