@@ -3,6 +3,10 @@ name: Deploy to Dev
 on:
   workflow_dispatch:
     inputs:
+      portal-branch:
+        description: "portal branch"
+        required: false
+        default: ""
       rapid-router-branch:
         description: "rapid-router branch"
         required: false
@@ -63,7 +67,7 @@ jobs:
           recaptcha-private-key: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
           redis-ip: ${{ secrets.REDIS_IP }}
           redis-port: ${{ secrets.REDIS_PORT }}
-          portal-branch: contributor
+          portal-branch: ${{ github.event.inputs.portal-branch }}
           rapid-router-branch: ${{ github.event.inputs.rapid-router-branch }}
 
       - name: Notify successful deployment
