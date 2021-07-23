@@ -9,4 +9,10 @@ if __name__ == "__main__":
 
     from django.core.management import execute_from_command_line
 
+    # Need to setup GKE if running migrations
+    if sys.argv[1] == "migrate":
+        import kubernetes
+
+        kubernetes.config.load_kube_config("/home/runner/.kube/config")
+
     execute_from_command_line(sys.argv)
