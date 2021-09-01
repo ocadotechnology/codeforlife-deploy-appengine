@@ -1,14 +1,48 @@
+import argparse
+
+# from pathlib import Path
+
 # Versions will be fetched from the init of each package (portal, aimmo, game) after they are installed in lib - this happens in the "Build" step.
-from lib.portal import __version__ as portal_version
 from lib.aimmo import __version__ as aimmo_version
 from lib.game import __version__ as rapid_router_version
 
+# portal_requirement = f"codeforlife-portal=={portal_version}"
+# common_requirement = ""
+# if Path("build/codeforlife-portal").is_dir():
+#     portal_requirement = "./build/codeforlife-portal"
+#     common_requirement = "./build/codeforlife-portal/cfl_common"
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--portal-branch")
+parser.add_argument("--rapid-router-branch")
+parser.add_argument("--aimmo-branch")
+args = parser.parse_args()
+
+if args.portal_branch is None:
+    from lib.portal import __version__ as portal_version
+
+    portal_requirement = f"codeforlife-portal=={portal_version}"
+    common_requirement = ""
+else:
+    portal_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=codeforlife-portal"
+    common_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=cfl-common&subdirectory=cfl_common"
+
+if args.rapid_router_branch is None:
+    rapid_router_requirement = f"rapid-router=={rapid_router_version}"
+else:
+    rapid_router_requirement = f"git+https://github.com/ocadotechnology/rapid-router@{args.rapid_router_branch}#egg=rapid-router"
+
+if args.aimmo_branch is None:
+    aimmo_requirement = f"aimmo=={aimmo_version}"
+else:
+    aimmo_requirement = "./aimmo"
+
 requirements = "\n".join(
-    [
-        f"rapid-router=={rapid_router_version}",
-        f"codeforlife-portal=={portal_version}",
-        f"aimmo=={aimmo_version}",
-        # "./aimmo",  # Uncomment this to install a custom aimmo built in deploy_gcloud workflow        
+    [        
+        rapid_router_requirement,
+        portal_requirement,
+        common_requirement,        
+        aimmo_requirement,
         "requests-toolbelt==0.9.*",
         "mysqlclient==1.4.*",
         "redis==3.3.*",
