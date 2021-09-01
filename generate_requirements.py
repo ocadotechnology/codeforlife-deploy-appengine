@@ -39,9 +39,9 @@ else:
 
 requirements = "\n".join(
     [
+        rapid_router_requirement,
         portal_requirement,
         common_requirement,
-        rapid_router_requirement,
         aimmo_requirement,
         "requests-toolbelt==0.9.*",
         "mysqlclient==1.4.*",
