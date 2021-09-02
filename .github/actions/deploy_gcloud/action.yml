@@ -108,6 +108,7 @@ runs:
         fi
         if [[ -n $RAPID_ROUTER_BRANCH ]]; then
           REQUIREMENTS_ARGS+="--rapid-router-branch ${RAPID_ROUTER_BRANCH} "
+          pip install -t lib --upgrade "git+https://github.com/ocadotechnology/rapid-router@${RAPID_ROUTER_BRANCH}#egg=rapid-router"
         fi
 
         pip install -t lib django-anymail[amazon_ses]
