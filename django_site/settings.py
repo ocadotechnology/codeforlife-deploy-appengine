@@ -150,18 +150,19 @@ DATABASES = {
 
 PIPELINE_ENABLED = True  # True if assets should be compressed, False if not.
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"redis://{os.getenv('REDIS_IP')}:{os.getenv('REDIS_PORT')}/0",
+        "KEY_PREFIX": os.getenv("CACHE_PREFIX"),
+        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+    }
+}
+
 # Running on App Engine, so use additional settings
 if os.getenv("GAE_APPLICATION", None):
     MODULE_NAME = os.getenv("MODULE_NAME")
 
-    CACHES = {
-        "default": {
-            "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": f"redis://{os.getenv('REDIS_IP')}:{os.getenv('REDIS_PORT')}/0",
-            "KEY_PREFIX": os.getenv("CACHE_PREFIX"),
-            "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
-        }
-    }
     # inject the lib folder into the python path
     import sys
 
