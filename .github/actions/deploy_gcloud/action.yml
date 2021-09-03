@@ -212,7 +212,7 @@ runs:
         curl -I https://default-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"
 
         # Clear the cache
-        ./manage.py shell --command="from django.core.cache import cache;cache.clear()"
+        ./manage.py clear_cache
       env:
         APP_ID: ${{ inputs.app-id }}
         MODULE_NAME: ${{ inputs.module-name }}
