@@ -113,6 +113,7 @@ runs:
 
         pip install -t lib django-anymail[amazon_ses]
         pip install -t lib google-auth==1.*
+        pip install -t lib django-redis==4.11.*
 
         if [[ $MODULE_NAME = "default" ]]; then
             pip install -t lib --upgrade --no-deps aimmo
