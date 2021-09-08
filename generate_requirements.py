@@ -11,24 +11,24 @@ parser.add_argument("--rapid-router-branch")
 parser.add_argument("--aimmo-branch")
 args = parser.parse_args()
 
-if args.portal_branch is None:
+if args.portal_branch:
+    portal_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=codeforlife-portal"
+    common_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=cfl-common&subdirectory=cfl_common"
+else:
     from lib.portal import __version__ as portal_version
 
     portal_requirement = f"codeforlife-portal=={portal_version}"
     common_requirement = ""
-else:
-    portal_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=codeforlife-portal"
-    common_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=cfl-common&subdirectory=cfl_common"
 
-if args.rapid_router_branch is None:
-    rapid_router_requirement = f"rapid-router=={rapid_router_version}"
-else:
+if args.rapid_router_branch:
     rapid_router_requirement = f"git+https://github.com/ocadotechnology/rapid-router@{args.rapid_router_branch}#egg=rapid-router"
-
-if args.aimmo_branch is None:
-    aimmo_requirement = f"aimmo=={aimmo_version}"
 else:
+    rapid_router_requirement = f"rapid-router=={rapid_router_version}"
+
+if args.aimmo_branch:
     aimmo_requirement = "./aimmo"
+else:
+    aimmo_requirement = f"aimmo=={aimmo_version}"
 
 requirements = "\n".join(
     [
