@@ -67,6 +67,18 @@ inputs:
   redis-port:
     description: Redis port
     required: true
+  aimmo-branch:
+    description: Optional rapid-router branch to deploy
+    default: ""
+    required: false
+  portal-branch:
+    description: Optional portal branch to deploy
+    default: ""
+    required: false
+  rapid-router-branch:
+    description: Optional rapid-router branch to deploy
+    default: ""
+    required: false
 runs:
   using: composite
   steps:
@@ -86,7 +98,18 @@ runs:
         pip install -t lib requests-toolbelt
 
         pip install -t lib git+https://github.com/ocadotechnology/django-autoconfig
-        pip install -t lib --upgrade codeforlife-portal
+
+        REQUIREMENTS_ARGS=""
+        if [[ -z $PORTAL_BRANCH ]]; then
+          pip install -t lib --upgrade codeforlife-portal
+        else
+          REQUIREMENTS_ARGS+="--portal-branch ${PORTAL_BRANCH} "
+          pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=codeforlife-portal"
+        fi
+        if [[ -n $RAPID_ROUTER_BRANCH ]]; then
+          REQUIREMENTS_ARGS+="--rapid-router-branch ${RAPID_ROUTER_BRANCH} "
+          pip install -t lib --upgrade "git+https://github.com/ocadotechnology/rapid-router@${RAPID_ROUTER_BRANCH}#egg=rapid-router"
+        fi
 
         pip install -t lib django-anymail[amazon_ses]
         pip install -t lib google-auth==1.*
@@ -94,33 +117,38 @@ runs:
         if [[ $MODULE_NAME = "default" ]]; then
             pip install -t lib --upgrade --no-deps aimmo
         else
+          if [[ -z $AIMMO_BRANCH ]]; then
             pip install -t lib --pre --upgrade --no-deps aimmo
+          else
+            REQUIREMENTS_ARGS+="--aimmo-branch ${AIMMO_BRANCH} "
 
-            # Uncomment the blocks below to install aimmo from a branch - don't forget to uncomment the line in generate_requirements.py too
-            # git clone --depth 1 --branch agones3 https://github.com/ocadotechnology/aimmo.git
+            git clone --depth 1 --branch ${AIMMO_BRANCH} https://github.com/ocadotechnology/aimmo.git
 
-            # pushd aimmo
-            # pip install wheel
-            # ./aimmo_runner/build_worker_wheel.sh
-            # popd
+            pushd aimmo
+            pip install wheel
+            ./aimmo_runner/build_worker_wheel.sh
+            popd
 
-            # pushd aimmo/game_frontend
-            # curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
-            # export NVM_DIR="$HOME/.nvm"
-            # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-            # nvm install 12.20.2
-            # nvm use 12.20.2
-            # yarn --frozen-lockfile
-            # NODE_ENV=production node djangoBundler.js
-            # popd
-            # pip install -t lib --pre --upgrade --no-deps ./aimmo
+            pushd aimmo/game_frontend
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+            nvm install 12.20.2
+            nvm use 12.20.2
+            yarn --frozen-lockfile
+            NODE_ENV=production node djangoBundler.js
+            popd
+            pip install -t lib --pre --upgrade --no-deps ./aimmo
+          fi
         fi
 
-        python generate_requirements.py
+        python generate_requirements.py $REQUIREMENTS_ARGS
 
         ./manage.py collectstatic --noinput
       env:
         MODULE_NAME: ${{ inputs.module-name }}
+        AIMMO_BRANCH: ${{ inputs.aimmo-branch }}
+        PORTAL_BRANCH: ${{ inputs.portal-branch }}
+        RAPID_ROUTER_BRANCH: ${{ inputs.rapid-router-branch }}
       shell: bash
 
     - name: "Get cluster credentials"
