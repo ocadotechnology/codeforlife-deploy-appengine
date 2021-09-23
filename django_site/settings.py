@@ -94,7 +94,7 @@ CSRF_FAILURE_VIEW = "deploy.views.csrf_failure"
 
 LANGUAGE_CODE = "en-gb"
 
-LANGUAGES = (("en-gb", "English"), ("tr", "Turkish"))
+LANGUAGES = ("en-gb", "English")
 
 TIME_ZONE = "Europe/London"
 
