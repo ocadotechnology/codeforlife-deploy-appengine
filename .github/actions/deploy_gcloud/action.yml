@@ -105,6 +105,7 @@ runs:
         else
           REQUIREMENTS_ARGS+="--portal-branch ${PORTAL_BRANCH} "
           pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=codeforlife-portal"
+          pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=cfl-common&subdirectory=cfl_common"
         fi
         if [[ -n $RAPID_ROUTER_BRANCH ]]; then
           REQUIREMENTS_ARGS+="--rapid-router-branch ${RAPID_ROUTER_BRANCH} "
