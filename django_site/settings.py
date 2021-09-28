@@ -247,6 +247,11 @@ AIMMO_GAME_SERVER_SSL_FLAG = True
 
 IS_CLOUD_SCHEDULER_FUNCTION = is_cloud_scheduler
 
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "portal.backends.StudentLoginBackend",
+]
+
 # Keep this at the bottom
 from django_autoconfig.autoconfig import configure_settings
 
