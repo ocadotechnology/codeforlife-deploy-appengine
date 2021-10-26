@@ -178,6 +178,10 @@ if os.getenv("GAE_APPLICATION", None):
 
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+
+    AIMMO_DJANGO_BASE_URL = (
+        f"https://{os.getenv('GAE_SERVICE')}-dot-decent-digit-629.appspot.com"
+    )
 elif os.getenv("SEMAPHORE", None):  # This is only needed if running on SemaphoreCI
     DATABASES = {
         "default": {
