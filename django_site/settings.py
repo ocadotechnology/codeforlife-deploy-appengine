@@ -182,6 +182,15 @@ if os.getenv("GAE_APPLICATION", None):
     AIMMO_DJANGO_BASE_URL = (
         f"https://{os.getenv('GAE_SERVICE')}-dot-decent-digit-629.appspot.com"
     )
+
+    AIMMO_GAME_SERVER_URL_FUNCTION = lambda game: (
+        f"{os.getenv('GAE_SERVICE')}-aimmo.codeforlife.education",
+        f"/game-{game}/socket.io",
+    )
+
+    AIMMO_GAME_SERVER_PORT_FUNCTION = lambda game: 0
+    AIMMO_GAME_SERVER_SSL_FLAG = True
+
 elif os.getenv("SEMAPHORE", None):  # This is only needed if running on SemaphoreCI
     DATABASES = {
         "default": {
@@ -236,18 +245,6 @@ TEMPLATES = [
 ]
 
 CMS_TEMPLATES = (("portal/base.html", "Template One"),)
-
-
-AIMMO_GAME_SERVER_URL_FUNCTION = lambda game: (
-    f"{os.getenv('GAE_SERVICE')}-aimmo.codeforlife.education",
-    f"/game-{game}/socket.io",
-)
-
-
-AIMMO_GAME_SERVER_PORT_FUNCTION = lambda game: 0
-
-
-AIMMO_GAME_SERVER_SSL_FLAG = True
 
 IS_CLOUD_SCHEDULER_FUNCTION = is_cloud_scheduler
 
