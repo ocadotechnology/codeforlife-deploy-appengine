@@ -27,7 +27,7 @@ jobs:
 
       - id: gcauth
         name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v0.4.3
+        uses: google-github-actions/auth@v0
         with:
           credentials_json: ${{ secrets.GCLOUD_AUTH }}
 
