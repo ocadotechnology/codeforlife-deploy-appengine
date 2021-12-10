@@ -86,3 +86,6 @@ jobs:
         run: ./notify_deployment.py 0
         env:
           DEPLOY_NOTIFY_URL: ${{ secrets.DEPLOY_NOTIFY_URL }}
+          AIMMO_BRANCH: ${{ github.event.inputs.aimmo-branch }}
+          PORTAL_BRANCH: ${{ github.event.inputs.portal-branch }}
+          RAPID_ROUTER_BRANCH: ${{ github.event.inputs.rapid-router-branch }}
