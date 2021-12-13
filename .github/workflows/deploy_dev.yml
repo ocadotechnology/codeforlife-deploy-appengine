@@ -39,11 +39,16 @@ jobs:
           python-version: "3.7.x"
           architecture: "x64"
 
+      - id: gcauth
+        name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0
+        with:
+          credentials_json: ${{ secrets.GCLOUD_AUTH }}
+
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@master
         with:
           version: "337.0.0"
-          service_account_key: ${{ secrets.GCLOUD_AUTH }}
           project_id: ${{ env.APP_ID }}
 
       - name: Deploy to Google Cloud
@@ -80,6 +85,9 @@ jobs:
         run: ./notify_deployment.py
         env:
           DEPLOY_NOTIFY_URL: ${{ secrets.DEPLOY_NOTIFY_URL }}
+          AIMMO_BRANCH: ${{ github.event.inputs.aimmo-branch }}
+          PORTAL_BRANCH: ${{ github.event.inputs.portal-branch }}
+          RAPID_ROUTER_BRANCH: ${{ github.event.inputs.rapid-router-branch }}
 
       - name: Notify failed deployment
         if: ${{ failure() }}

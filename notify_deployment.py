@@ -10,6 +10,9 @@ import requests
 logging.basicConfig()
 
 MODULE_NAME = os.environ.get("MODULE_NAME")
+AIMMO_BRANCH = os.environ.get("AIMMO_BRANCH")
+PORTAL_BRANCH = os.environ.get("PORTAL_BRANCH")
+RAPID_ROUTER_BRANCH = os.environ.get("RAPID_ROUTER_BRANCH")
 
 success = True
 
@@ -29,6 +32,13 @@ if success:
         ).json()
     except:
         logging.exception("Error occurred while getting versions")
+
+    if AIMMO_BRANCH:
+        versions["aimmo"] = AIMMO_BRANCH
+    if PORTAL_BRANCH:
+        versions["codeforlife-portal"] = PORTAL_BRANCH
+    if RAPID_ROUTER_BRANCH:
+        versions["rapid-router"] = RAPID_ROUTER_BRANCH
 
     message += (
         f"completed successfully :tada:\n"
