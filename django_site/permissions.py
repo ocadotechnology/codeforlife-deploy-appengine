@@ -9,7 +9,9 @@ LOGGER = logging.getLogger(__name__)
 CLOUD_SCHEDULER_SERVICE_ACCOUNT_NAME = (
     "cloud-scheduler@decent-digit-629.iam.gserviceaccount.com"
 )
-CLOUD_SCHEDULER_AUDIENCE = f"https://{os.getenv('GAE_SERVICE')}-dot-{os.getenv('GOOGLE_CLOUD_PROJECT')}.appspot.com/users/inactive/"
+INACTIVE_USERS_AUDIENCE = f"https://{os.getenv('GAE_SERVICE')}-dot-{os.getenv('GOOGLE_CLOUD_PROJECT')}.appspot.com/users/inactive/"
+INDY_CLEANUP_AUDIENCE = f"https://{os.getenv('GAE_SERVICE')}-dot-{os.getenv('GOOGLE_CLOUD_PROJECT')}.appspot.com/indycleanup/"
+
 GOOGLE_ISSUER = "https://accounts.google.com"
 
 
@@ -28,11 +30,17 @@ def is_cloud_scheduler(request):
         )
         return False
 
+    uri = request.build_absolute_uri()
+    if uri.endswith("/indycleanup/"):
+        audience = INDY_CLEANUP_AUDIENCE
+    else:
+        audience = INACTIVE_USERS_AUDIENCE
+
     try:
         id_info = id_token.verify_oauth2_token(
             token,
             verify_request,
-            CLOUD_SCHEDULER_AUDIENCE,
+            audience,
         )
         is_correct_issuer = id_info["iss"] == GOOGLE_ISSUER
         is_cloud_scheduler_service_account = (
