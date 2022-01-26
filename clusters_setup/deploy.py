@@ -63,7 +63,7 @@ def create_fleet_yaml(module_name, aimmo_version):
     :return: python object containing yaml with modified values.
     """
     # DEBUG ONLY
-    aimmo_version = "debug-change-worksheet2"
+    aimmo_version = "debug-change-worksheet3"
 
     path = os.path.join(CURR_DIR, "fleet.yaml")
 
