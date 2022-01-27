@@ -1,5 +1,5 @@
-import os
 import logging
+import os
 import time
 from threading import Thread
 
@@ -16,7 +16,7 @@ def setup_gke():
     config_dict = yaml.safe_load(open(filename, "r").read())
     config_reload_interval = 15 * 60  # 15 minutes
 
-    def load_kube_config_indefinitely(interval):
+    def load_kube_config_periodically(interval):
         while True:
             try:
                 logging.info("Loading kube config")
@@ -27,7 +27,7 @@ def setup_gke():
 
     # Start a thread that loads kube config periodically
     thread = Thread(
-        target=load_kube_config_indefinitely,
+        target=load_kube_config_periodically,
         args=(config_reload_interval,),
         daemon=True,
     )
