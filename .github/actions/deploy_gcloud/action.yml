@@ -84,6 +84,7 @@ runs:
   steps:
     - name: "Setup MySQL"
       run: |
+        sudo apt-get update
         sudo apt-get install libmysqlclient-dev
         pip install mysqlclient==1.4.*
       shell: bash
