@@ -90,7 +90,7 @@ runs:
       shell: bash
 
     - name: "Install kubernetes"
-      run: pip install kubernetes
+      run: pip install kubernetes==21.7.0
       shell: bash
 
     - name: "Build"
