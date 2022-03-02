@@ -50,7 +50,10 @@ jobs:
           django-secret: ${{ secrets.DJANGO_SECRET }}
           django-portal-contact-form-email: ${{ secrets.DJANGO_PORTAL_CONTACT_FORM_EMAIL }}
           dotmailer-create-contact-url: ${{ secrets.DOTMAILER_CREATE_CONTACT_URL }}
-          dotmailer-address-book-url: ${{ secrets.DOTMAILER_ADDRESS_BOOK_URL }}
+          dotmailer-main-address-book-url: ${{ secrets.DOTMAILER_MAIN_ADDRESS_BOOK_URL }}
+          dotmailer-teacher-address-book-url: ${{ secrets.DOTMAILER_TEACHER_ADDRESS_BOOK_URL }}
+          dotmailer-student-address-book-url: ${{ secrets.DOTMAILER_STUDENT_ADDRESS_BOOK_URL }}
+          dotmailer-no-account-address-book-url: ${{ secrets.DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL }}
           dotmailer-get-user-by-email-url: ${{ secrets.DOTMAILER_GET_USER_BY_EMAIL_URL }}
           dotmailer-put-consent-data-url: ${{ secrets.DOTMAILER_PUT_CONSENT_DATA_URL }}
           dotmailer-send-campaign-url: ${{ secrets.DOTMAILER_SEND_CAMPAIGN_URL }}
