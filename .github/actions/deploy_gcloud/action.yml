@@ -227,7 +227,10 @@ runs:
         DJANGO_SECRET: ${{ inputs.django-secret }}
         DJANGO_PORTAL_CONTACT_FORM_EMAIL: ${{ inputs.django-portal-contact-form-email }}
         DOTMAILER_CREATE_CONTACT_URL: ${{ inputs.dotmailer-create-contact-url }}
-        DOTMAILER_ADDRESS_BOOK_URL: ${{ inputs.dotmailer-address-book-url }}
+        DOTMAILER_MAIN_ADDRESS_BOOK_URL: ${{ inputs.dotmailer-main-address-book-url }}
+        DOTMAILER_TEACHER_ADDRESS_BOOK_URL: ${{ inputs.dotmailer-teacher-address-book-url }}
+        DOTMAILER_STUDENT_ADDRESS_BOOK_URL: ${{ inputs.dotmailer-student-address-book-url }}
+        DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL: ${{ inputs.dotmailer-no-account-address-book-url }}
         DOTMAILER_GET_USER_BY_EMAIL_URL: ${{ inputs.dotmailer-get-user-by-email-url }}
         DOTMAILER_PUT_CONSENT_DATA_URL: ${{ inputs.dotmailer-put-consent-data-url }}
         DOTMAILER_SEND_CAMPAIGN_URL: ${{ inputs.dotmailer-send-campaign-url }}
