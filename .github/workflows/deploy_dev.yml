@@ -69,6 +69,7 @@ jobs:
           dotmailer-student-address-book-url: ${{ secrets.DOTMAILER_STUDENT_ADDRESS_BOOK_URL }}
           dotmailer-no-account-address-book-url: ${{ secrets.DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL }}
           dotmailer-get-user-by-email-url: ${{ secrets.DOTMAILER_GET_USER_BY_EMAIL_URL }}
+          dotmailer-delete-user-by-id-url: ${{ secrets.DOTMAILER_DELETE_USER_BY_ID_URL }}
           dotmailer-put-consent-data-url: ${{ secrets.DOTMAILER_PUT_CONSENT_DATA_URL }}
           dotmailer-send-campaign-url: ${{ secrets.DOTMAILER_SEND_CAMPAIGN_URL }}
           dotmailer-thanks-for-staying-campaign-id: ${{ secrets.DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID }}

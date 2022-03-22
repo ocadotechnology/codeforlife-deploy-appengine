@@ -232,6 +232,7 @@ runs:
         DOTMAILER_STUDENT_ADDRESS_BOOK_URL: ${{ inputs.dotmailer-student-address-book-url }}
         DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL: ${{ inputs.dotmailer-no-account-address-book-url }}
         DOTMAILER_GET_USER_BY_EMAIL_URL: ${{ inputs.dotmailer-get-user-by-email-url }}
+        DOTMAILER_DELETE_USER_BY_ID_URL: ${{ inputs.dotmailer-delete-user-by-id-url }}
         DOTMAILER_PUT_CONSENT_DATA_URL: ${{ inputs.dotmailer-put-consent-data-url }}
         DOTMAILER_SEND_CAMPAIGN_URL: ${{ inputs.dotmailer-send-campaign-url }}
         DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID: ${{ inputs.dotmailer-thanks-for-staying-campaign-id }}
