@@ -32,9 +32,9 @@ jobs:
           credentials_json: ${{ secrets.GCLOUD_AUTH }}
 
       - name: Setup gcloud CLI
-        uses: google-github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@v0
         with:
-          version: "331.0.0"
+          version: "337.0.0"
           project_id: ${{ env.APP_ID }}
 
       - name: Deploy to Google Cloud
