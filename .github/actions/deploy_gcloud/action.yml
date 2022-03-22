@@ -37,6 +37,9 @@ inputs:
   dotmailer-get-user-by-email-url:
     description: URL for Dotmailer get user by email
     required: true
+  dotmailer-delete-user-by-id-url:
+    description: URL for Dotmailer delete user by id
+    required: true
   dotmailer-put-consent-data-url:
     description: URL for Dotmailer put consent data
     required: true
