@@ -119,8 +119,8 @@ runs:
           npm install --save-dev @babel/plugin-proposal-private-property-in-object
           yarn build
           popd
-          pip install -t lib --upgrade --no-deps ./codeforlife-portal
-          pip install -t lib --upgrade --no-deps ./codeforlife-portal/cfl_common
+          pip install -t lib --upgrade ./codeforlife-portal
+          pip install -t lib --upgrade ./codeforlife-portal/cfl_common
         fi
 
         if [[ -n $RAPID_ROUTER_BRANCH ]]; then

@@ -8,9 +8,6 @@ from lib.portal import __version__ as portal_version
 
 TEMP = "4.0.6"
 
-
-AIMMO_TEMP = "2.0.1"
-
 parser = argparse.ArgumentParser()
 parser.add_argument("--portal-branch")
 parser.add_argument("--rapid-router-branch")
@@ -34,7 +31,7 @@ else:
 if args.aimmo_branch:
     aimmo_requirement = "./aimmo"
 else:
-    aimmo_requirement = f"aimmo=={AIMMO_TEMP}"
+    aimmo_requirement = f"aimmo=={aimmo_version}"
 
 requirements = "\n".join(
     [
