@@ -18,7 +18,7 @@ if args.portal_branch:
     #    portal_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=codeforlife-portal"
     #    common_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=cfl-common&subdirectory=cfl_common"
     portal_requirement = "./codeforlife-portal"
-    portal_requirement = "./codeforlife-portal/cfl_common"
+    common_requirement = "./codeforlife-portal/cfl_common"
 else:
     portal_requirement = f"codeforlife-portal=={portal_version}"
     common_requirement = ""
