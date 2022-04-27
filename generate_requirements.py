@@ -6,6 +6,7 @@ from lib.aimmo import __version__ as aimmo_version
 # from lib.game import __version__ as rapid_router_version
 from lib.portal import __version__ as portal_version
 
+TEMP = "4.0.6"
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--portal-branch")
@@ -25,7 +26,7 @@ else:
 if args.rapid_router_branch:
     rapid_router_requirement = f"git+https://github.com/ocadotechnology/rapid-router@{args.rapid_router_branch}#egg=rapid-router"
 else:
-    rapid_router_requirement = f"rapid-router=={rapid_router_version}"
+    rapid_router_requirement = f"rapid-router=={TEMP}"
 
 if args.aimmo_branch:
     aimmo_requirement = "./aimmo"
