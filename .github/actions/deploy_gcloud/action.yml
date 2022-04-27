@@ -118,6 +118,7 @@ runs:
           yarn --frozen-lockfile
           npm install --save-dev @babel/plugin-proposal-private-property-in-object
           yarn build
+          mv build ../portal/frontend
           popd
           pip install -t lib --upgrade ./codeforlife-portal
           pip install -t lib --upgrade ./codeforlife-portal/cfl_common
