@@ -110,11 +110,14 @@ runs:
         else
           REQUIREMENTS_ARGS+="--portal-branch ${PORTAL_BRANCH} "
           git clone --depth 1 --branch ${PORTAL_BRANCH} https://github.com/ocadotechnology/codeforlife-portal
-          cd portal_frontend
+          pushd codeforlife-portal/portal_frontend
           nvm install 16.15.0
           nvm use 16.15.0
           yarn install
           yarn build
+          popd
+          pip install -t lib --upgrade --no-deps ./codeforlife-portal
+          pip install -t lib --upgrade --no-deps ./codeforlife-portal/cfl_common
         fi
 
         if [[ -n $RAPID_ROUTER_BRANCH ]]; then
