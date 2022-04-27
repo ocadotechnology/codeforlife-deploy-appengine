@@ -116,7 +116,7 @@ runs:
           nvm install 16.15.0
           nvm use 16.15.0
           yarn --frozen-lockfile
-          yarn install @babel/plugin-proposal-private-property-in-object
+          npm install --save-dev @babel/plugin-proposal-private-property-in-object
           yarn build
           popd
           pip install -t lib --upgrade --no-deps ./codeforlife-portal
