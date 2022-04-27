@@ -111,6 +111,8 @@ runs:
           REQUIREMENTS_ARGS+="--portal-branch ${PORTAL_BRANCH} "
           git clone --depth 1 --branch ${PORTAL_BRANCH} https://github.com/ocadotechnology/codeforlife-portal
           pushd codeforlife-portal/portal_frontend
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
           nvm install 16.15.0
           nvm use 16.15.0
           yarn install
