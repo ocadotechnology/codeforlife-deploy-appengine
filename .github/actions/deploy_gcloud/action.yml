@@ -107,6 +107,10 @@ runs:
 
         if [[ -z $PORTAL_BRANCH ]]; then
           pip install -t lib --upgrade codeforlife-portal
+          nvm install 12.20.2
+          nvm use 12.20.2
+          npm install
+          npm build
         else
           REQUIREMENTS_ARGS+="--portal-branch ${PORTAL_BRANCH} "
           pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=codeforlife-portal"
