@@ -115,7 +115,7 @@ runs:
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
           nvm install 16.15.0
           nvm use 16.15.0
-          yarn install
+          yarn --frozen-lockfile
           yarn build
           popd
           pip install -t lib --upgrade --no-deps ./codeforlife-portal
