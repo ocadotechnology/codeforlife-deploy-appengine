@@ -3,7 +3,7 @@ import argparse
 # Versions will be fetched from the init of each package (portal, aimmo, game) after they are installed in lib - this happens in the "Build" step.
 from lib.aimmo import __version__ as aimmo_version
 
-# from lib.game import __version__ as rapid_router_version
+from lib.game import __version__ as rapid_router_version
 from lib.portal import __version__ as portal_version
 
 TEMP = "4.0.6"
@@ -15,10 +15,10 @@ parser.add_argument("--aimmo-branch")
 args = parser.parse_args()
 
 if args.portal_branch:
-    #    portal_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=codeforlife-portal"
-    #    common_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=cfl-common&subdirectory=cfl_common"
+    # portal_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=codeforlife-portal"
+    # common_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=cfl-common&subdirectory=cfl_common"
     portal_requirement = "./codeforlife-portal"
-    common_requirement = "./codeforlife-portal/cfl_common"
+    common_requirement = ""  # TODO: build common package as well in the future, otherwise we won't see changes on the branch
 else:
     portal_requirement = f"codeforlife-portal=={portal_version}"
     common_requirement = ""
@@ -26,7 +26,7 @@ else:
 if args.rapid_router_branch:
     rapid_router_requirement = f"git+https://github.com/ocadotechnology/rapid-router@{args.rapid_router_branch}#egg=rapid-router"
 else:
-    rapid_router_requirement = f"rapid-router=={TEMP}"
+    rapid_router_requirement = f"rapid-router=={rapid_router_version}"
 
 if args.aimmo_branch:
     aimmo_requirement = "./aimmo"
