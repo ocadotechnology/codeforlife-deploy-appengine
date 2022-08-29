@@ -255,6 +255,6 @@ AIMMO_GAME_SERVER_SSL_FLAG = True
 IS_CLOUD_SCHEDULER_FUNCTION = is_cloud_scheduler
 
 # Keep this at the bottom
-from django_autoconfig.autoconfig import configure_settings
+# from django_autoconfig.autoconfig import configure_settings
 
-configure_settings(globals())
+# configure_settings(globals())
