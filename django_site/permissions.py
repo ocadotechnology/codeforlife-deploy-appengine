@@ -14,7 +14,7 @@ INDY_CLEANUP_AUDIENCE = f"https://{os.getenv('GAE_SERVICE')}-dot-{os.getenv('GOO
 
 GOOGLE_ISSUER = "https://accounts.google.com"
 
-
+# help
 def is_cloud_scheduler(request):
     verify_request = requests.Request()
     auth_header = request.META.get("HTTP_AUTHORIZATION")
