@@ -68,6 +68,9 @@ INSTALLED_APPS = (
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django_countries",
+    "django_otp",
+    "django_otp.plugins.otp_static",
+    "django_otp.plugins.otp_totp",
     "rest_framework",
     "treebeard",
     "sekizai",  # for javascript and css management
@@ -254,8 +257,3 @@ AIMMO_GAME_SERVER_PORT_FUNCTION = lambda game: 0
 AIMMO_GAME_SERVER_SSL_FLAG = True
 
 IS_CLOUD_SCHEDULER_FUNCTION = is_cloud_scheduler
-
-# Keep this at the bottom
-# from django_autoconfig.autoconfig import configure_settings
-
-# configure_settings(globals())
