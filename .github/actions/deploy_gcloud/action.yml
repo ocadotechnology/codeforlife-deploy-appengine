@@ -144,8 +144,8 @@ runs:
             yarn --frozen-lockfile
             NODE_ENV=production node djangoBundler.js
             popd
-#            pip install -t lib --pre --upgrade --no-deps ./aimmo
-            pip install -t lib --upgrade "git+https://github.com/ocadotechnology/aimmo@${AIMMO_BRANCH}#egg=aimmo"
+            pip install -t lib --pre --upgrade --no-deps ./aimmo
+#            pip install -t lib --upgrade "git+https://github.com/ocadotechnology/aimmo@${AIMMO_BRANCH}#egg=aimmo"
           fi
         fi
 
