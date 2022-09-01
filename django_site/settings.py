@@ -27,21 +27,15 @@ DOTMAILER_CREATE_CONTACT_URL = os.getenv("DOTMAILER_CREATE_CONTACT_URL", "")
 DOTMAILER_MAIN_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_MAIN_ADDRESS_BOOK_URL", "")
 DOTMAILER_TEACHER_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_TEACHER_ADDRESS_BOOK_URL", "")
 DOTMAILER_STUDENT_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_STUDENT_ADDRESS_BOOK_URL", "")
-DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL = os.getenv(
-    "DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL", ""
-)
+DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL", "")
 DOTMAILER_GET_USER_BY_EMAIL_URL = os.getenv("DOTMAILER_GET_USER_BY_EMAIL_URL", "")
 DOTMAILER_DELETE_USER_BY_ID_URL = os.getenv("DOTMAILER_DELETE_USER_BY_ID_URL", "")
 DOTMAILER_PUT_CONSENT_DATA_URL = os.getenv("DOTMAILER_PUT_CONSENT_DATA_URL", "")
 DOTMAILER_SEND_CAMPAIGN_URL = os.getenv("DOTMAILER_SEND_CAMPAIGN_URL", "")
-DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID = os.getenv(
-    "DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID", ""
-)
+DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID = os.getenv("DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID", "")
 DOTMAILER_USER = os.getenv("DOTMAILER_USER", "")
 DOTMAILER_PASSWORD = os.getenv("DOTMAILER_PASSWORD", "")
-DOTMAILER_DEFAULT_PREFERENCES = json.loads(
-    os.getenv("DOTMAILER_DEFAULT_PREFERENCES", "[]") or "[]"
-)
+DOTMAILER_DEFAULT_PREFERENCES = json.loads(os.getenv("DOTMAILER_DEFAULT_PREFERENCES", "[]") or "[]")
 
 SECURE_HSTS_SECONDS = 31536000  # One year
 SECURE_SSL_REDIRECT = True
@@ -148,7 +142,7 @@ ANYMAIL = {
         "aws_access_key_id": os.getenv("AWS_ACCESS_KEY_ID"),
         "aws_secret_access_key": os.getenv("AWS_SECRET_ACCESS_KEY"),
         "region_name": "eu-west-1",
-    },
+    }
 }
 
 DATABASES = {
@@ -160,25 +154,27 @@ DATABASES = {
     }
 }
 
-PIPELINE_ENABLED = False  # True if assets should be compressed, False if not.
+PIPELINE_ENABLED = True  # True if assets should be compressed, False if not.
 
 PIPELINE = {
     "COMPILERS": ("portal.pipeline_compilers.LibSassCompiler",),
     "STYLESHEETS": {
         "css": {
             "source_filenames": (
-                # "portal/sass/bootstrap.scss",
-                # "portal/sass/colorbox.scss",
-                # "portal/sass/styles.scss",
                 rel("static/portal/sass/bootstrap.scss"),
                 rel("static/portal/sass/colorbox.scss"),
                 rel("static/portal/sass/styles.scss"),
             ),
             "output_filename": "portal.css",
         },
+        "game-scss": {
+            "source_filenames": (
+                rel("static/game/sass/game.scss"),
+            ),
+            "output_filename": "game.css",
+        },
         "popup": {
             "source_filenames": (
-                # "portal/sass/partials/_popup.scss",
                 rel("static/portal/sass/partials/_popup.scss"),
             ),
             "output_filename": "popup.css",
@@ -190,7 +186,16 @@ PIPELINE = {
 
 STATICFILES_FINDERS = ["pipeline.finders.PipelineFinder", "django.contrib.staticfiles.finders.FileSystemFinder"]
 STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "lib/portal/static/")]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "lib/portal/static/"),
+    os.path.join(BASE_DIR, "lib/game/static/"),
+    os.path.join(BASE_DIR, "lib/aimmo/static/"),
+    os.path.join(BASE_DIR, "lib/common/static/"),
+    os.path.join(BASE_DIR, "lib/deploy/static/"),
+    os.path.join(BASE_DIR, "lib/treebeard/static/"),
+    os.path.join(BASE_DIR, "lib/django_countries/static/"),
+    os.path.join(BASE_DIR, "lib/rest_framework/static/"),
+]
 
 # Running on App Engine, so use additional settings
 if os.getenv("GAE_APPLICATION", None):
