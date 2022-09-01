@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: rel(rel_path)
 import os
 import json
+
+from aimmo.csp_config import *
+from portal.csp_config import *
+from game.csp_config import *
+
 from .permissions import is_cloud_scheduler
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
