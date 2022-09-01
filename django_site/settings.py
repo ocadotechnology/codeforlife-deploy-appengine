@@ -288,3 +288,4 @@ AIMMO_GAME_SERVER_PORT_FUNCTION = lambda game: 0
 AIMMO_GAME_SERVER_SSL_FLAG = True
 
 IS_CLOUD_SCHEDULER_FUNCTION = is_cloud_scheduler
+CLOUD_STORAGE_PREFIX = "https://storage.googleapis.com/codeforlife-assets/"
