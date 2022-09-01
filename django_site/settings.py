@@ -12,9 +12,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 import json
 
-from aimmo.csp_config import *
-from portal.csp_config import *
-from game.csp_config import *
+from common.app_settings import domain, MODULE_NAME
 
 from .permissions import is_cloud_scheduler
 
@@ -181,16 +179,9 @@ PIPELINE = {
             ),
             "output_filename": "portal.css",
         },
-        "game-scss": {
-            "source_filenames": (
-                rel("static/game/sass/game.scss"),
-            ),
-            "output_filename": "game.css",
-        },
+        "game-scss": {"source_filenames": (rel("static/game/sass/game.scss"),), "output_filename": "game.css"},
         "popup": {
-            "source_filenames": (
-                rel("static/portal/sass/partials/_popup.scss"),
-            ),
+            "source_filenames": (rel("static/portal/sass/partials/_popup.scss"),),
             "output_filename": "popup.css",
         },
     },
@@ -290,3 +281,82 @@ AIMMO_GAME_SERVER_SSL_FLAG = True
 
 IS_CLOUD_SCHEDULER_FUNCTION = is_cloud_scheduler
 CLOUD_STORAGE_PREFIX = "https://storage.googleapis.com/codeforlife-assets/"
+
+
+CSP_DEFAULT_SRC = ("self",)
+CSP_CONNECT_SRC = (
+    "'self'",
+    "https://*.onetrust.com/",
+    "https://euc-widget.freshworks.com/",
+    "https://codeforlife.freshdesk.com/",
+    "https://api.iconify.design/",
+    "https://api.simplesvg.com/",
+    "https://api.unisvg.com/",
+    "https://www.google-analytics.com/",
+    "https://pyodide-cdn2.iodide.io/v0.15.0/full/",
+    f"wss://{MODULE_NAME}-aimmo.codeforlife.education/",
+    f"https://{MODULE_NAME}-aimmo.codeforlife.education/",
+    "https://crowdin.com/",
+)
+CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com/", "https://fonts.googleapis.com/", "https://use.typekit.net/")
+CSP_SCRIPT_SRC = (
+    "'self'",
+    "'unsafe-inline'",
+    "'unsafe-eval'",
+    "https://cdn.crowdin.com/",
+    "https://*.onetrust.com/",
+    "https://code.jquery.com/",
+    "https://euc-widget.freshworks.com/",
+    "https://cdn-ukwest.onetrust.com/",
+    "https://code.iconify.design/2/2.0.3/iconify.min.js",
+    "https://www.googletagmanager.com/gtm.js",
+    "https://cdn.mouseflow.com/",
+    "https://www.google-analytics.com/analytics.js",
+    "https://www.recaptcha.net/",
+    "https://www.google.com/recaptcha/",
+    "https://www.gstatic.com/recaptcha/",
+    "https://use.typekit.net/mrl4ieu.js",
+    "https://pyodide-cdn2.iodide.io/v0.15.0/full/",
+    f"{domain()}/static/portal/",
+    f"{domain()}/static/common/",
+)
+CSP_STYLE_SRC = (
+    "'self'",
+    "'unsafe-inline'",
+    "https://euc-widget.freshworks.com/",
+    "https://cdn-ukwest.onetrust.com/",
+    "https://fonts.googleapis.com/",
+    "https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css",
+    "https://cdn.crowdin.com/",
+    f"{domain()}/static/portal/",
+)
+CSP_FRAME_SRC = (
+    "https://storage.googleapis.com/",
+    "https://www.youtube-nocookie.com/",
+    "https://www.recaptcha.net/",
+    "https://www.google.com/recaptcha/",
+    f"{domain()}/static/common/img/",
+    f"{domain()}/static/game/image/",
+    "https://crowdin.com/",
+)
+CSP_IMG_SRC = (
+    "https://storage.googleapis.com/codeforlife-assets/images/",
+    "https://cdn-ukwest.onetrust.com/",
+    f"{domain()}/static/portal/img/",
+    f"{domain()}/static/portal/static/portal/img/",  # temo1
+    f"{domain()}/static/portal/img/",  # temo2
+    f"{domain()}/favicon.ico",
+    f"{domain()}/img/",
+    f"{domain()}/account/two_factor/qrcode/",
+    f"{domain()}/static/",
+    "https://p.typekit.net/",
+    f"{domain()}/static/game/image/",
+    f"{domain()}/static/game/raphael_image/",
+    f"{domain()}/static/game/js/blockly/media/",
+    f"{domain()}/static/icons/",
+    "https://cdn.crowdin.com/",
+    "https://crowdin-static.downloads.crowdin.com/",
+    "data:",
+)
+
+CSP_OBJECT_SRC = (f"{domain()}/static/common/img/", f"{domain()}/static/game/image/")
