@@ -48,28 +48,28 @@ DEBUG = True
 INSTALLED_APPS = (
     "anymail",
     "deploy",
+    "aimmo",
+    "game",
     "pipeline",
     "portal",
-    "common",
     "captcha",
-    "game",
-    #'djangocms_admin_style',  # for the admin skin. You **must** add 'djangocms_admin_style' in the list **before** 'django.contrib.admin'.
+    "common",
     "django.contrib.admin",
     "django.contrib.admindocs",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles",
     "django.contrib.sites",
-    "django_countries",
+    "django.contrib.staticfiles",
+    "rest_framework",
     "django_otp",
     "django_otp.plugins.otp_static",
     "django_otp.plugins.otp_totp",
-    "rest_framework",
-    "treebeard",
     "sekizai",  # for javascript and css management
-    "aimmo",
+    "treebeard",
+    "two_factor",
+    "preventconcurrentlogins",
 )
 
 MIDDLEWARE = [
