@@ -40,6 +40,8 @@ DOTMAILER_DEFAULT_PREFERENCES = json.loads(os.getenv("DOTMAILER_DEFAULT_PREFEREN
 SECURE_HSTS_SECONDS = 31536000  # One year
 SECURE_SSL_REDIRECT = True
 
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -62,6 +64,7 @@ INSTALLED_APPS = (
     "django.contrib.messages",
     "django.contrib.sites",
     "django.contrib.staticfiles",
+    "django_js_reverse",
     "rest_framework",
     "django_otp",
     "django_otp.plugins.otp_static",
@@ -73,15 +76,21 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE = [
+    "deploy.middleware.admin_access.AdminAccessMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
-    "django.middleware.security.SecurityMiddleware",
+    "deploy.middleware.security.CustomSecurityMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "deploy.middleware.session_timeout.SessionTimeoutMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware",
+    "django_otp.middleware.OTPMiddleware",
+    "preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware",
+    "csp.middleware.CSPMiddleware",
+    "deploy.middleware.screentime_warning.ScreentimeWarningMiddleware",
 ]
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
@@ -225,24 +234,6 @@ if os.getenv("GAE_APPLICATION", None):
 
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
-elif os.getenv("SEMAPHORE", None):  # This is only needed if running on SemaphoreCI
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.mysql",
-            "HOST": os.getenv("CLOUD_SQL_HOST"),
-            "NAME": os.getenv("DATABASE_NAME"),
-            "USER": "root",
-            "PASSWORD": os.getenv("CLOUD_SQL_PASSWORD"),
-            "OPTIONS": {
-                "ssl": {
-                    "ca": "server-ca.pem",
-                    "cert": "client-cert.pem",
-                    "cipher": "AES128-SHA",
-                    "key": "client-key.pem",
-                }
-            },
-        }
-    }
 
 EMAIL_ADDRESS = "no-reply@codeforlife.education"
 
