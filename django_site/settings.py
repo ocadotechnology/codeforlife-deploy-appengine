@@ -12,9 +12,22 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 import json
 
-from common.app_settings import domain, MODULE_NAME
-
 from .permissions import is_cloud_scheduler
+
+MODULE_NAME = os.getenv("MODULE_NAME")
+
+
+def domain():
+    """Returns the full domain depending on whether it's local, dev, staging or prod."""
+    domain = "https://www.codeforlife.education"
+
+    if MODULE_NAME == "local":
+        domain = "localhost:8000"
+    elif MODULE_NAME == "staging" or MODULE_NAME == "dev":
+        domain = f"https://{MODULE_NAME}-dot-decent-digit-629.appspot.com"
+
+    return domain
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 rel = lambda rel_path: os.path.join(BASE_DIR, rel_path)
@@ -204,8 +217,6 @@ STATICFILES_DIRS = [
 
 # Running on App Engine, so use additional settings
 if os.getenv("GAE_APPLICATION", None):
-    MODULE_NAME = os.getenv("MODULE_NAME")
-
     CACHES = {
         "default": {
             "BACKEND": "django_redis.cache.RedisCache",
