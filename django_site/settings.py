@@ -201,7 +201,7 @@ STATICFILES_FINDERS = [
 ]
 STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
 STATICFILES_DIRS = [
-    rel("static/lib/portal/static"),
+    rel("static"),
     # rel("fakeStatic")
     # os.path.join(BASE_DIR, "lib/game/static/"),
     # os.path.join(BASE_DIR, "lib/aimmo/static/"),

@@ -7,7 +7,7 @@ import yaml
 # Root directory of the project.
 BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 CURR_DIR = os.path.abspath(os.path.dirname(__file__))
-LIB_DIR = os.path.join(BASE_DIR, "static/lib")
+LIB_DIR = os.path.join(BASE_DIR, "lib")
 
 
 def get_aimmo_version():
