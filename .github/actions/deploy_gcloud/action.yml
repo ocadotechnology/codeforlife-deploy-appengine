@@ -99,31 +99,31 @@ runs:
     - name: "Build"
       run: |
         pip install requests
-        pip install -t lib requests-toolbelt
+        pip install -t static/lib  requests-toolbelt
 
         REQUIREMENTS_ARGS=""
 
         if [[ -z $PORTAL_BRANCH ]]; then
-          pip install -t lib --upgrade codeforlife-portal
+          pip install -t static/lib  --upgrade codeforlife-portal
         else
           REQUIREMENTS_ARGS+="--portal-branch ${PORTAL_BRANCH} "
-          pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=codeforlife-portal"
-          pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=cfl-common&subdirectory=cfl_common"
+          pip install -t static/lib  --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=codeforlife-portal"
+          pip install -t static/lib  --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=cfl-common&subdirectory=cfl_common"
         fi
 
         if [[ -n $RAPID_ROUTER_BRANCH ]]; then
           REQUIREMENTS_ARGS+="--rapid-router-branch ${RAPID_ROUTER_BRANCH} "
-          pip install -t lib --upgrade "git+https://github.com/ocadotechnology/rapid-router@${RAPID_ROUTER_BRANCH}#egg=rapid-router"
+          pip install -t static/lib  --upgrade "git+https://github.com/ocadotechnology/rapid-router@${RAPID_ROUTER_BRANCH}#egg=rapid-router"
         fi
 
-        pip install -t lib django-anymail[amazon_ses]
-        pip install -t lib google-auth==1.*
+        pip install -t static/lib  django-anymail[amazon_ses]
+        pip install -t static/lib  google-auth==1.*
 
         if [[ $MODULE_NAME = "default" ]]; then
-            pip install -t lib --upgrade --no-deps aimmo
+            pip install -t static/lib  --upgrade --no-deps aimmo
         else
           if [[ -z $AIMMO_BRANCH ]]; then
-            pip install -t lib --pre --upgrade --no-deps aimmo
+            pip install -t static/lib  --pre --upgrade --no-deps aimmo
           else
             REQUIREMENTS_ARGS+="--aimmo-branch ${AIMMO_BRANCH} "
 
@@ -142,7 +142,7 @@ runs:
             yarn --frozen-lockfile
             NODE_ENV=production node djangoBundler.js
             popd
-            pip install -t lib --pre --upgrade --no-deps ./aimmo
+            pip install -t static/lib  --pre --upgrade --no-deps ./aimmo
           fi
         fi
 

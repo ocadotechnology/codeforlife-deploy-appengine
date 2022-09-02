@@ -14,7 +14,7 @@ import json
 from .permissions import is_cloud_scheduler
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-rel = lambda rel_path: os.path.join(BASE_DIR, rel_path)
+rel = lambda *paths: os.path.join(BASE_DIR, *paths)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("DJANGO_SECRET", "NOT A SECRET")
@@ -27,15 +27,21 @@ DOTMAILER_CREATE_CONTACT_URL = os.getenv("DOTMAILER_CREATE_CONTACT_URL", "")
 DOTMAILER_MAIN_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_MAIN_ADDRESS_BOOK_URL", "")
 DOTMAILER_TEACHER_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_TEACHER_ADDRESS_BOOK_URL", "")
 DOTMAILER_STUDENT_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_STUDENT_ADDRESS_BOOK_URL", "")
-DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL", "")
+DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL = os.getenv(
+    "DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL", ""
+)
 DOTMAILER_GET_USER_BY_EMAIL_URL = os.getenv("DOTMAILER_GET_USER_BY_EMAIL_URL", "")
 DOTMAILER_DELETE_USER_BY_ID_URL = os.getenv("DOTMAILER_DELETE_USER_BY_ID_URL", "")
 DOTMAILER_PUT_CONSENT_DATA_URL = os.getenv("DOTMAILER_PUT_CONSENT_DATA_URL", "")
 DOTMAILER_SEND_CAMPAIGN_URL = os.getenv("DOTMAILER_SEND_CAMPAIGN_URL", "")
-DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID = os.getenv("DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID", "")
+DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID = os.getenv(
+    "DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID", ""
+)
 DOTMAILER_USER = os.getenv("DOTMAILER_USER", "")
 DOTMAILER_PASSWORD = os.getenv("DOTMAILER_PASSWORD", "")
-DOTMAILER_DEFAULT_PREFERENCES = json.loads(os.getenv("DOTMAILER_DEFAULT_PREFERENCES", "[]") or "[]")
+DOTMAILER_DEFAULT_PREFERENCES = json.loads(
+    os.getenv("DOTMAILER_DEFAULT_PREFERENCES", "[]") or "[]"
+)
 
 SECURE_HSTS_SECONDS = 31536000  # One year
 SECURE_SSL_REDIRECT = True
@@ -43,7 +49,7 @@ SECURE_SSL_REDIRECT = True
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Application definition
 
@@ -125,9 +131,9 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = rel("static")
 
-MEDIA_ROOT = rel("static") + "/email_media/"
+MEDIA_ROOT = rel("static", "email_media")
 
 # Auth URLs
 
@@ -177,15 +183,11 @@ PIPELINE = {
             "output_filename": "portal.css",
         },
         "game-scss": {
-            "source_filenames": (
-                rel("static/game/sass/game.scss"),
-            ),
+            "source_filenames": (rel("static/game/sass/game.scss"),),
             "output_filename": "game.css",
         },
         "popup": {
-            "source_filenames": (
-                rel("static/portal/sass/partials/_popup.scss"),
-            ),
+            "source_filenames": (rel("static/portal/sass/partials/_popup.scss"),),
             "output_filename": "popup.css",
         },
     },
@@ -193,17 +195,21 @@ PIPELINE = {
     "SASS_ARGUMENTS": "--quiet",
 }
 
-STATICFILES_FINDERS = ["pipeline.finders.PipelineFinder", "django.contrib.staticfiles.finders.FileSystemFinder"]
+STATICFILES_FINDERS = [
+    "pipeline.finders.PipelineFinder",
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+]
 STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "lib/portal/static/"),
-    os.path.join(BASE_DIR, "lib/game/static/"),
-    os.path.join(BASE_DIR, "lib/aimmo/static/"),
-    os.path.join(BASE_DIR, "lib/common/static/"),
-    os.path.join(BASE_DIR, "lib/deploy/static/"),
-    os.path.join(BASE_DIR, "lib/treebeard/static/"),
-    os.path.join(BASE_DIR, "lib/django_countries/static/"),
-    os.path.join(BASE_DIR, "lib/rest_framework/static/"),
+    rel("static/lib/portal/static"),
+    # rel("fakeStatic")
+    # os.path.join(BASE_DIR, "lib/game/static/"),
+    # os.path.join(BASE_DIR, "lib/aimmo/static/"),
+    # os.path.join(BASE_DIR, "lib/common/static/"),
+    # os.path.join(BASE_DIR, "lib/deploy/static/"),
+    # os.path.join(BASE_DIR, "lib/treebeard/static/"),
+    # os.path.join(BASE_DIR, "lib/django_countries/static/"),
+    # os.path.join(BASE_DIR, "lib/rest_framework/static/"),
 ]
 
 # Running on App Engine, so use additional settings
