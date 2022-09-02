@@ -221,8 +221,8 @@ STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
 try:
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, "static/lib/portal/static/"),
-        # os.path.join(BASE_DIR, "static/lib/game/static/"),
-        # os.path.join(BASE_DIR, "static/lib/aimmo/static/"),
+        os.path.join(BASE_DIR, "static/lib/game/static/"),
+        os.path.join(BASE_DIR, "static/lib/aimmo/static/"),
         # os.path.join(BASE_DIR, "static/lib/common/static/"),
         # os.path.join(BASE_DIR, "static/lib/deploy/static/"),
         # os.path.join(BASE_DIR, "static/lib/treebeard/static/"),
