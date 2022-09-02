@@ -13,6 +13,7 @@ import os
 import json
 
 from .permissions import is_cloud_scheduler
+from django.core.exceptions import SuspiciousFileOperation
 
 MODULE_NAME = os.getenv("MODULE_NAME")
 
@@ -216,16 +217,19 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
 ]
 STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "lib/portal/static/"),
-    os.path.join(BASE_DIR, "lib/game/static/"),
-    os.path.join(BASE_DIR, "lib/aimmo/static/"),
-    os.path.join(BASE_DIR, "lib/common/static/"),
-    os.path.join(BASE_DIR, "lib/deploy/static/"),
-    os.path.join(BASE_DIR, "lib/treebeard/static/"),
-    os.path.join(BASE_DIR, "lib/django_countries/static/"),
-    os.path.join(BASE_DIR, "lib/rest_framework/static/"),
-]
+try:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "lib/portal/static/"),
+        os.path.join(BASE_DIR, "lib/game/static/"),
+        os.path.join(BASE_DIR, "lib/aimmo/static/"),
+        os.path.join(BASE_DIR, "lib/common/static/"),
+        os.path.join(BASE_DIR, "lib/deploy/static/"),
+        os.path.join(BASE_DIR, "lib/treebeard/static/"),
+        os.path.join(BASE_DIR, "lib/django_countries/static/"),
+        os.path.join(BASE_DIR, "lib/rest_framework/static/"),
+    ]
+except SuspiciousFileOperation:
+    pass
 
 # Running on App Engine, so use additional settings
 if os.getenv("GAE_APPLICATION", None):
