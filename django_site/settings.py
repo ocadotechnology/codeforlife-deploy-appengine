@@ -227,7 +227,7 @@ if os.getenv("GAE_APPLICATION", None):
     # inject the lib folder into the python path
     import sys
 
-    lib_path = os.path.join(os.path.dirname(__file__), "lib")
+    lib_path = os.path.join(os.path.dirname(__file__), "static/lib")
     if lib_path not in sys.path:
         sys.path.append(lib_path)
     # setup email on app engine

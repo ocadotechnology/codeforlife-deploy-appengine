@@ -27,6 +27,6 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_site.settings")
 
 setup_gke()
 
-from lib.django.core.wsgi import get_wsgi_application
+from static.lib.django.core.wsgi import get_wsgi_application
 
 application = get_wsgi_application()
