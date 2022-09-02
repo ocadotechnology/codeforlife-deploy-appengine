@@ -6,6 +6,7 @@ from static.lib.aimmo import __version__ as aimmo_version
 # from staitc.lib.game import __version__ as rapid_router_version
 from static.lib.portal import __version__ as portal_version
 
+rapid_router_version = "5.4.1"  # this is for debug reasons :)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--portal-branch")
