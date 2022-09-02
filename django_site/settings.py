@@ -217,19 +217,21 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
 ]
 STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
+
 try:
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, "static/lib/portal/static/"),
-        os.path.join(BASE_DIR, "static/lib/game/static/"),
-        os.path.join(BASE_DIR, "static/lib/aimmo/static/"),
-        os.path.join(BASE_DIR, "static/lib/common/static/"),
-        os.path.join(BASE_DIR, "static/lib/deploy/static/"),
-        os.path.join(BASE_DIR, "static/lib/treebeard/static/"),
-        os.path.join(BASE_DIR, "static/lib/django_countries/static/"),
-        os.path.join(BASE_DIR, "static/lib/rest_framework/static/"),
+        # os.path.join(BASE_DIR, "static/lib/game/static/"),
+        # os.path.join(BASE_DIR, "static/lib/aimmo/static/"),
+        # os.path.join(BASE_DIR, "static/lib/common/static/"),
+        # os.path.join(BASE_DIR, "static/lib/deploy/static/"),
+        # os.path.join(BASE_DIR, "static/lib/treebeard/static/"),
+        # os.path.join(BASE_DIR, "static/lib/django_countries/static/"),
+        # os.path.join(BASE_DIR, "static/lib/rest_framework/static/"),
     ]
 except SuspiciousFileOperation:
     pass
+
 
 # Running on App Engine, so use additional settings
 if os.getenv("GAE_APPLICATION", None):
