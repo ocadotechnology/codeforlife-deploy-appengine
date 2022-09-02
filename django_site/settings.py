@@ -176,18 +176,18 @@ PIPELINE = {
     "STYLESHEETS": {
         "css": {
             "source_filenames": (
-                rel("static/portal/sass/bootstrap.scss"),
-                rel("static/portal/sass/colorbox.scss"),
-                rel("static/portal/sass/styles.scss"),
+                # rel("static/portal/sass/bootstrap.scss"),
+                # rel("static/portal/sass/colorbox.scss"),
+                # rel("static/portal/sass/styles.scss"),
             ),
             "output_filename": "portal.css",
         },
         "game-scss": {
-            "source_filenames": (rel("static/game/sass/game.scss"),),
+            # "source_filenames": (rel("static/game/sass/game.scss"),),
             "output_filename": "game.css",
         },
         "popup": {
-            "source_filenames": (rel("static/portal/sass/partials/_popup.scss"),),
+            # "source_filenames": (rel("static/portal/sass/partials/_popup.scss"),),
             "output_filename": "popup.css",
         },
     },
