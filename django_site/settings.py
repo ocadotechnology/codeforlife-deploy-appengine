@@ -219,14 +219,14 @@ STATICFILES_FINDERS = [
 STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
 try:
     STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, "lib/portal/static/"),
-        os.path.join(BASE_DIR, "lib/game/static/"),
-        os.path.join(BASE_DIR, "lib/aimmo/static/"),
-        os.path.join(BASE_DIR, "lib/common/static/"),
-        os.path.join(BASE_DIR, "lib/deploy/static/"),
-        os.path.join(BASE_DIR, "lib/treebeard/static/"),
-        os.path.join(BASE_DIR, "lib/django_countries/static/"),
-        os.path.join(BASE_DIR, "lib/rest_framework/static/"),
+        os.path.join(BASE_DIR, "static/lib/portal/static/"),
+        os.path.join(BASE_DIR, "static/lib/game/static/"),
+        os.path.join(BASE_DIR, "static/lib/aimmo/static/"),
+        os.path.join(BASE_DIR, "static/lib/common/static/"),
+        os.path.join(BASE_DIR, "static/lib/deploy/static/"),
+        os.path.join(BASE_DIR, "static/lib/treebeard/static/"),
+        os.path.join(BASE_DIR, "static/lib/django_countries/static/"),
+        os.path.join(BASE_DIR, "static/lib/rest_framework/static/"),
     ]
 except SuspiciousFileOperation:
     pass
