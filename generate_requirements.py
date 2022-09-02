@@ -1,9 +1,9 @@
 import argparse
 
 # Versions will be fetched from the init of each package (portal, aimmo, game) after they are installed in lib - this happens in the "Build" step.
-from lib.aimmo import __version__ as aimmo_version
-from lib.game import __version__ as rapid_router_version
-from lib.portal import __version__ as portal_version
+from static.lib.aimmo import __version__ as aimmo_version
+from staitc.lib.game import __version__ as rapid_router_version
+from static.lib.portal import __version__ as portal_version
 
 
 parser = argparse.ArgumentParser()
