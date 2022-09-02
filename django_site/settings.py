@@ -11,10 +11,26 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: rel(rel_path)
 import os
 import json
+
 from .permissions import is_cloud_scheduler
 
+MODULE_NAME = os.getenv("MODULE_NAME")
+
+
+def domain():
+    """Returns the full domain depending on whether it's local, dev, staging or prod."""
+    domain = "https://www.codeforlife.education"
+
+    if MODULE_NAME == "local":
+        domain = "localhost:8000"
+    elif MODULE_NAME == "staging" or MODULE_NAME == "dev":
+        domain = f"https://{MODULE_NAME}-dot-decent-digit-629.appspot.com"
+
+    return domain
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-rel = lambda *paths: os.path.join(BASE_DIR, *paths)
+rel = lambda rel_path: os.path.join(BASE_DIR, rel_path)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("DJANGO_SECRET", "NOT A SECRET")
@@ -49,7 +65,7 @@ SECURE_SSL_REDIRECT = True
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # Application definition
 
@@ -131,9 +147,9 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-STATIC_ROOT = rel("static")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-MEDIA_ROOT = rel("static", "email_media")
+MEDIA_ROOT = rel("static") + "/email_media/"
 
 # Auth URLs
 
@@ -176,18 +192,18 @@ PIPELINE = {
     "STYLESHEETS": {
         "css": {
             "source_filenames": (
-                # rel("static/portal/sass/bootstrap.scss"),
-                # rel("static/portal/sass/colorbox.scss"),
-                # rel("static/portal/sass/styles.scss"),
+                rel("static/portal/sass/bootstrap.scss"),
+                rel("static/portal/sass/colorbox.scss"),
+                rel("static/portal/sass/styles.scss"),
             ),
             "output_filename": "portal.css",
         },
         "game-scss": {
-            # "source_filenames": (rel("static/game/sass/game.scss"),),
+            "source_filenames": (rel("static/game/sass/game.scss"),),
             "output_filename": "game.css",
         },
         "popup": {
-            # "source_filenames": (rel("static/portal/sass/partials/_popup.scss"),),
+            "source_filenames": (rel("static/portal/sass/partials/_popup.scss"),),
             "output_filename": "popup.css",
         },
     },
@@ -201,21 +217,18 @@ STATICFILES_FINDERS = [
 ]
 STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
 STATICFILES_DIRS = [
-    rel("static"),
-    # rel("fakeStatic")
-    # os.path.join(BASE_DIR, "lib/game/static/"),
-    # os.path.join(BASE_DIR, "lib/aimmo/static/"),
-    # os.path.join(BASE_DIR, "lib/common/static/"),
-    # os.path.join(BASE_DIR, "lib/deploy/static/"),
-    # os.path.join(BASE_DIR, "lib/treebeard/static/"),
-    # os.path.join(BASE_DIR, "lib/django_countries/static/"),
-    # os.path.join(BASE_DIR, "lib/rest_framework/static/"),
+    os.path.join(BASE_DIR, "lib/portal/static/"),
+    os.path.join(BASE_DIR, "lib/game/static/"),
+    os.path.join(BASE_DIR, "lib/aimmo/static/"),
+    os.path.join(BASE_DIR, "lib/common/static/"),
+    os.path.join(BASE_DIR, "lib/deploy/static/"),
+    os.path.join(BASE_DIR, "lib/treebeard/static/"),
+    os.path.join(BASE_DIR, "lib/django_countries/static/"),
+    os.path.join(BASE_DIR, "lib/rest_framework/static/"),
 ]
 
 # Running on App Engine, so use additional settings
 if os.getenv("GAE_APPLICATION", None):
-    MODULE_NAME = os.getenv("MODULE_NAME")
-
     CACHES = {
         "default": {
             "BACKEND": "django_redis.cache.RedisCache",
@@ -227,7 +240,7 @@ if os.getenv("GAE_APPLICATION", None):
     # inject the lib folder into the python path
     import sys
 
-    lib_path = os.path.join(os.path.dirname(__file__), "static/lib")
+    lib_path = os.path.join(os.path.dirname(__file__), "lib")
     if lib_path not in sys.path:
         sys.path.append(lib_path)
     # setup email on app engine
@@ -291,3 +304,87 @@ AIMMO_GAME_SERVER_SSL_FLAG = True
 
 IS_CLOUD_SCHEDULER_FUNCTION = is_cloud_scheduler
 CLOUD_STORAGE_PREFIX = "https://storage.googleapis.com/codeforlife-assets/"
+
+
+CSP_DEFAULT_SRC = ("self",)
+CSP_CONNECT_SRC = (
+    "'self'",
+    "https://*.onetrust.com/",
+    "https://euc-widget.freshworks.com/",
+    "https://codeforlife.freshdesk.com/",
+    "https://api.iconify.design/",
+    "https://api.simplesvg.com/",
+    "https://api.unisvg.com/",
+    "https://www.google-analytics.com/",
+    "https://pyodide-cdn2.iodide.io/v0.15.0/full/",
+    f"wss://{MODULE_NAME}-aimmo.codeforlife.education/",
+    f"https://{MODULE_NAME}-aimmo.codeforlife.education/",
+    "https://crowdin.com/",
+)
+CSP_FONT_SRC = (
+    "'self'",
+    "https://fonts.gstatic.com/",
+    "https://fonts.googleapis.com/",
+    "https://use.typekit.net/",
+)
+CSP_SCRIPT_SRC = (
+    "'self'",
+    "'unsafe-inline'",
+    "'unsafe-eval'",
+    "https://cdn.crowdin.com/",
+    "https://*.onetrust.com/",
+    "https://code.jquery.com/",
+    "https://euc-widget.freshworks.com/",
+    "https://cdn-ukwest.onetrust.com/",
+    "https://code.iconify.design/2/2.0.3/iconify.min.js",
+    "https://www.googletagmanager.com/gtm.js",
+    "https://cdn.mouseflow.com/",
+    "https://www.google-analytics.com/analytics.js",
+    "https://www.recaptcha.net/",
+    "https://www.google.com/recaptcha/",
+    "https://www.gstatic.com/recaptcha/",
+    "https://use.typekit.net/mrl4ieu.js",
+    "https://pyodide-cdn2.iodide.io/v0.15.0/full/",
+    f"{domain()}/static/portal/",
+    f"{domain()}/static/common/",
+)
+CSP_STYLE_SRC = (
+    "'self'",
+    "'unsafe-inline'",
+    "https://euc-widget.freshworks.com/",
+    "https://cdn-ukwest.onetrust.com/",
+    "https://fonts.googleapis.com/",
+    "https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css",
+    "https://cdn.crowdin.com/",
+    f"{domain()}/static/portal/",
+)
+CSP_FRAME_SRC = (
+    "https://storage.googleapis.com/",
+    "https://www.youtube-nocookie.com/",
+    "https://www.recaptcha.net/",
+    "https://www.google.com/recaptcha/",
+    f"{domain()}/static/common/img/",
+    f"{domain()}/static/game/image/",
+    "https://crowdin.com/",
+)
+CSP_IMG_SRC = (
+    "https://storage.googleapis.com/codeforlife-assets/images/",
+    "https://cdn-ukwest.onetrust.com/",
+    f"{domain()}/static/portal/img/",
+    f"{domain()}/static/portal/static/portal/img/",  # temo1
+    f"{domain()}/static/portal/img/",  # temo2
+    f"{domain()}/favicon.ico",
+    f"{domain()}/img/",
+    f"{domain()}/account/two_factor/qrcode/",
+    f"{domain()}/static/",
+    "https://p.typekit.net/",
+    f"{domain()}/static/game/image/",
+    f"{domain()}/static/game/raphael_image/",
+    f"{domain()}/static/game/js/blockly/media/",
+    f"{domain()}/static/icons/",
+    "https://cdn.crowdin.com/",
+    "https://crowdin-static.downloads.crowdin.com/",
+    "data:",
+)
+
+CSP_OBJECT_SRC = (f"{domain()}/static/common/img/", f"{domain()}/static/game/image/")
