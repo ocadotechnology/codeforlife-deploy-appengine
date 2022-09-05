@@ -181,35 +181,32 @@ DATABASES = {
 
 PIPELINE_ENABLED = False  # True if assets should be compressed, False if not.
 
-PIPELINE = {}
+PIPELINE = {
+    "COMPILERS": ("portal.pipeline_compilers.LibSassCompiler",),
+    "STYLESHEETS": {
+        "css": {
+            "source_filenames": (
+                rel("static/portal/sass/bootstrap.scss"),
+                rel("static/portal/sass/colorbox.scss"),
+                rel("static/portal/sass/styles.scss"),
+            ),
+            "output_filename": "portal.css",
+        },
+        "game-scss": {"source_filenames": (rel("static/game/sass/game.scss"),), "output_filename": "game.css"},
+        "popup": {
+            "source_filenames": (rel("static/portal/sass/partials/_popup.scss"),),
+            "output_filename": "popup.css",
+        },
+    },
+    "CSS_COMPRESSOR": None,
+    "SASS_ARGUMENTS": "--quiet",
+}
 
-# PIPELINE = {
-#     "COMPILERS": ("portal.pipeline_compilers.LibSassCompiler",),
-#     "STYLESHEETS": {
-#         "css": {
-#             "source_filenames": (
-#                 rel("static/portal/sass/bootstrap.scss"),
-#                 rel("static/portal/sass/colorbox.scss"),
-#                 rel("static/portal/sass/styles.scss"),
-#             ),
-#             "output_filename": "portal.css",
-#         },
-#         "game-scss": {"source_filenames": (rel("static/game/sass/game.scss"),), "output_filename": "game.css"},
-#         "popup": {
-#             "source_filenames": (rel("static/portal/sass/partials/_popup.scss"),),
-#             "output_filename": "popup.css",
-#         },
-#     },
-#     "CSS_COMPRESSOR": None,
-#     "SASS_ARGUMENTS": "--quiet",
-# }
-
-STATICFILES_FINDERS = [
-    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-]
+STATICFILES_FINDERS = ["pipeline.finders.PipelineFinder"]
 STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "lib"),
+    os.path.join(BASE_DIR, "static/portal/"),
+    os.path.join(BASE_DIR, "static/game/"),
 ]
 
 # Running on App Engine, so use additional settings

@@ -149,6 +149,7 @@ runs:
         python generate_requirements.py $REQUIREMENTS_ARGS
 
         ./manage.py collectstatic --noinput
+        ./manage.py collectstatic --noinput --settings django_site.pipeline_settings
       env:
         MODULE_NAME: ${{ inputs.module-name }}
         AIMMO_BRANCH: ${{ inputs.aimmo-branch }}
