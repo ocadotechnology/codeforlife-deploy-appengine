@@ -101,8 +101,6 @@ runs:
         pip install requests
         pip install -t lib requests-toolbelt
 
-        pip install -t lib git+https://github.com/ocadotechnology/django-autoconfig
-
         REQUIREMENTS_ARGS=""
 
         if [[ -z $PORTAL_BRANCH ]]; then
@@ -151,6 +149,7 @@ runs:
         python generate_requirements.py $REQUIREMENTS_ARGS
 
         ./manage.py collectstatic --noinput
+        ./manage.py collectstatic --noinput --settings django_site.pipeline_settings
       env:
         MODULE_NAME: ${{ inputs.module-name }}
         AIMMO_BRANCH: ${{ inputs.aimmo-branch }}
