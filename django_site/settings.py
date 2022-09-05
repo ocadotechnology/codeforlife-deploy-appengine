@@ -2,10 +2,10 @@
 Django settings for codeforlife-deploy.
 
 For more information on this file, see
-https://docs.djangoproject.com/en/1.6/topics/settings/
+https://docs.djangoproject.com/en/3.2/topics/settings/
 
 For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.6/ref/settings/
+https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 # Build paths inside the project like this: rel(rel_path)
@@ -15,20 +15,6 @@ import json
 from .permissions import is_cloud_scheduler
 
 MODULE_NAME = os.getenv("MODULE_NAME")
-
-
-def domain():
-    """Returns the full domain depending on whether it's local, dev, staging or prod."""
-    domain = "https://www.codeforlife.education"
-
-    if MODULE_NAME == "local":
-        domain = "localhost:8000"
-    elif MODULE_NAME == "staging" or MODULE_NAME == "dev":
-        domain = f"https://{MODULE_NAME}-dot-decent-digit-629.appspot.com"
-
-    return domain
-
-
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 rel = lambda rel_path: os.path.join(BASE_DIR, rel_path)
 
@@ -59,7 +45,7 @@ SECURE_SSL_REDIRECT = True
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Application definition
 
@@ -121,7 +107,7 @@ WSGI_APPLICATION = "django_site.wsgi.application"
 CSRF_FAILURE_VIEW = "deploy.views.csrf_failure"
 
 # Internationalization
-# https://docs.djangoproject.com/en/1.6/topics/i18n/
+# https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGE_CODE = "en-gb"
 
@@ -137,13 +123,21 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
+# https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 MEDIA_ROOT = rel("static") + "/email_media/"
+
+PIPELINE_ENABLED = False  # True if assets should be compressed, False if not.
+
+# Leaving an empty PIPELINE dict here so that the build doesn't complain about it not being initialised
+PIPELINE = {}
+
+# Gets all the static files from the apps mentioned above in INSTALLED_APPS
+STATICFILES_FINDERS = ["django.contrib.staticfiles.finders.AppDirectoriesFinder"]
 
 # Auth URLs
 
@@ -178,21 +172,6 @@ DATABASES = {
         "USER": "root",
     }
 }
-
-PIPELINE_ENABLED = False  # True if assets should be compressed, False if not.
-
-PIPELINE = {}
-
-STATICFILES_FINDERS = [
-    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-]
-# STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "lib/portal/static"),
-    os.path.join(BASE_DIR, "lib/common/static"),
-    os.path.join(BASE_DIR, "lib/game/static"),
-    os.path.join(BASE_DIR, "lib/aimmo/static"),
-]
 
 # Running on App Engine, so use additional settings
 if os.getenv("GAE_APPLICATION", None):
@@ -271,6 +250,18 @@ AIMMO_GAME_SERVER_SSL_FLAG = True
 
 IS_CLOUD_SCHEDULER_FUNCTION = is_cloud_scheduler
 CLOUD_STORAGE_PREFIX = "https://storage.googleapis.com/codeforlife-assets/"
+
+
+def domain():
+    """Returns the full domain depending on whether it's local, dev, staging or prod."""
+    domain_name = "https://www.codeforlife.education"
+
+    if MODULE_NAME == "local":
+        domain_name = "localhost:8000"
+    elif MODULE_NAME == "staging" or MODULE_NAME == "dev":
+        domain_name = f"https://{MODULE_NAME}-dot-decent-digit-629.appspot.com"
+
+    return domain_name
 
 
 CSP_DEFAULT_SRC = ("self",)
