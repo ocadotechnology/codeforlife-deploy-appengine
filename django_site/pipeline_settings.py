@@ -363,5 +363,5 @@ CSP_IMG_SRC = (
     "https://crowdin-static.downloads.crowdin.com/",
     "data:",
 )
-
 CSP_OBJECT_SRC = (f"{domain()}/static/common/img/", f"{domain()}/static/game/image/")
+CSP_MEDIA_SRC = (f"{domain()}/static/game/sound/", f"{domain()}/static/game/js/blockly/media/")

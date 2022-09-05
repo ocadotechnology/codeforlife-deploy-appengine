@@ -183,33 +183,15 @@ PIPELINE_ENABLED = False  # True if assets should be compressed, False if not.
 
 PIPELINE = {}
 
-# PIPELINE = {
-#     "COMPILERS": ("portal.pipeline_compilers.LibSassCompiler",),
-#     "STYLESHEETS": {
-#         "css": {
-#             "source_filenames": (
-#                 rel("static/portal/sass/bootstrap.scss"),
-#                 rel("static/portal/sass/colorbox.scss"),
-#                 rel("static/portal/sass/styles.scss"),
-#             ),
-#             "output_filename": "portal.css",
-#         },
-#         "game-scss": {"source_filenames": (rel("static/game/sass/game.scss"),), "output_filename": "game.css"},
-#         "popup": {
-#             "source_filenames": (rel("static/portal/sass/partials/_popup.scss"),),
-#             "output_filename": "popup.css",
-#         },
-#     },
-#     "CSS_COMPRESSOR": None,
-#     "SASS_ARGUMENTS": "--quiet",
-# }
-
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
-STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
+# STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "lib"),
+    os.path.join(BASE_DIR, "lib/portal/static"),
+    os.path.join(BASE_DIR, "lib/common/static"),
+    os.path.join(BASE_DIR, "lib/game/static"),
+    os.path.join(BASE_DIR, "lib/aimmo/static"),
 ]
 
 # Running on App Engine, so use additional settings
@@ -302,9 +284,9 @@ CSP_CONNECT_SRC = (
     "https://api.unisvg.com/",
     "https://www.google-analytics.com/",
     "https://pyodide-cdn2.iodide.io/v0.15.0/full/",
+    "https://crowdin.com/",
     f"wss://{MODULE_NAME}-aimmo.codeforlife.education/",
     f"https://{MODULE_NAME}-aimmo.codeforlife.education/",
-    "https://crowdin.com/",
 )
 CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com/", "https://fonts.googleapis.com/", "https://use.typekit.net/")
 CSP_SCRIPT_SRC = (
@@ -343,28 +325,28 @@ CSP_FRAME_SRC = (
     "https://www.youtube-nocookie.com/",
     "https://www.recaptcha.net/",
     "https://www.google.com/recaptcha/",
+    "https://crowdin.com/",
     f"{domain()}/static/common/img/",
     f"{domain()}/static/game/image/",
-    "https://crowdin.com/",
 )
 CSP_IMG_SRC = (
     "https://storage.googleapis.com/codeforlife-assets/images/",
     "https://cdn-ukwest.onetrust.com/",
+    "https://p.typekit.net/",
+    "https://cdn.crowdin.com/",
+    "https://crowdin-static.downloads.crowdin.com/",
+    "data:",
     f"{domain()}/static/portal/img/",
-    f"{domain()}/static/portal/static/portal/img/",  # temo1
-    f"{domain()}/static/portal/img/",  # temo2
+    f"{domain()}/static/portal/static/portal/img/",
+    f"{domain()}/static/portal/img/",
     f"{domain()}/favicon.ico",
     f"{domain()}/img/",
     f"{domain()}/account/two_factor/qrcode/",
     f"{domain()}/static/",
-    "https://p.typekit.net/",
     f"{domain()}/static/game/image/",
     f"{domain()}/static/game/raphael_image/",
     f"{domain()}/static/game/js/blockly/media/",
     f"{domain()}/static/icons/",
-    "https://cdn.crowdin.com/",
-    "https://crowdin-static.downloads.crowdin.com/",
-    "data:",
 )
-
 CSP_OBJECT_SRC = (f"{domain()}/static/common/img/", f"{domain()}/static/game/image/")
+CSP_MEDIA_SRC = (f"{domain()}/static/game/sound/", f"{domain()}/static/game/js/blockly/media/")
