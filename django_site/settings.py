@@ -278,6 +278,8 @@ CSP_CONNECT_SRC = (
     "https://www.google-analytics.com/",
     "https://pyodide-cdn2.iodide.io/v0.15.0/full/",
     "https://crowdin.com/",
+    "https://o2.mouseflow.com/",
+    "https://stats.g.doubleclick.net/",
     f"wss://{MODULE_NAME}-aimmo.codeforlife.education/",
     f"https://{MODULE_NAME}-aimmo.codeforlife.education/",
 )
