@@ -83,17 +83,19 @@ MIDDLEWARE = [
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
-    "deploy.middleware.security.CustomSecurityMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "deploy.middleware.session_timeout.SessionTimeoutMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware",
+    "deploy.middleware.security.CustomSecurityMiddleware",
+    "deploy.middleware.session_timeout.SessionTimeoutMiddleware",
     "django_otp.middleware.OTPMiddleware",
     "preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware",
     "csp.middleware.CSPMiddleware",
     "deploy.middleware.screentime_warning.ScreentimeWarningMiddleware",
 ]
+
+AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.ModelBackend", "portal.backends.StudentLoginBackend"]
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_COOKIE_AGE = 60 * 60
@@ -276,6 +278,8 @@ CSP_CONNECT_SRC = (
     "https://www.google-analytics.com/",
     "https://pyodide-cdn2.iodide.io/v0.15.0/full/",
     "https://crowdin.com/",
+    "https://o2.mouseflow.com/",
+    "https://stats.g.doubleclick.net/",
     f"wss://{MODULE_NAME}-aimmo.codeforlife.education/",
     f"https://{MODULE_NAME}-aimmo.codeforlife.education/",
 )
