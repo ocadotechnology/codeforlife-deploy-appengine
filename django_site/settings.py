@@ -330,6 +330,7 @@ CSP_IMG_SRC = (
     "https://p.typekit.net/",
     "https://cdn.crowdin.com/",
     "https://crowdin-static.downloads.crowdin.com/",
+    "https://www.google-analytics.com/",
     "data:",
     f"{domain()}/static/portal/img/",
     f"{domain()}/static/portal/static/portal/img/",
@@ -344,4 +345,9 @@ CSP_IMG_SRC = (
     f"{domain()}/static/icons/",
 )
 CSP_OBJECT_SRC = (f"{domain()}/static/common/img/", f"{domain()}/static/game/image/")
-CSP_MEDIA_SRC = (f"{domain()}/static/game/sound/", f"{domain()}/static/game/js/blockly/media/")
+CSP_MEDIA_SRC = (
+    f"{domain()}/static/game/sound/",
+    f"{domain()}/static/game/js/blockly/media/",
+    f"{domain()}/static/portal/video/",
+)
+CSP_MANIFEST_SRC = (f"{domain()}/static/manifest.json",)
