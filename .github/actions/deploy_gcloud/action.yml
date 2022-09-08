@@ -127,7 +127,7 @@ runs:
           else
             REQUIREMENTS_ARGS+="--aimmo-branch ${AIMMO_BRANCH} "
 
-            git clone --depth 1 --branch ${AIMMO_BRANCH} https://github.com/ocadotechnology/aimmo.git
+            git clone --depth 1 --branch ${AIMMO_BRANCH} https://github.com/mrniket/aimmo.git
 
             pushd aimmo
             pip install wheel
