@@ -89,7 +89,7 @@ runs:
       run: |
         sudo apt-get update
         sudo apt-get install libmysqlclient-dev
-        pip install mysqlclient==1.4.*
+        pip install mysqlclient==2.1.*
       shell: bash
 
     - name: "Install kubernetes"
