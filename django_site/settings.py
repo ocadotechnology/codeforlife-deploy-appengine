@@ -231,6 +231,8 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "sekizai.context_processors.sekizai",
                 "portal.context_processors.process_newsletter_form",
+                "common.context_processors.module_name",
+                "common.context_processors.cookie_management_enabled",
             ],
         },
     }
@@ -252,6 +254,8 @@ AIMMO_GAME_SERVER_SSL_FLAG = True
 
 IS_CLOUD_SCHEDULER_FUNCTION = is_cloud_scheduler
 CLOUD_STORAGE_PREFIX = "https://storage.googleapis.com/codeforlife-assets/"
+
+COOKIE_MANAGEMENT_ENABLED = True
 
 
 def domain():
