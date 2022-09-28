@@ -36,7 +36,7 @@ requirements = "\n".join(
         common_requirement,
         aimmo_requirement,
         "requests-toolbelt==0.9.*",
-        "mysqlclient==1.4.*",
+        "mysqlclient==2.1.*",
         "redis==3.3.*",
         "django-redis==4.11.*",
         "django-anymail[amazon_ses]==7.0.*",
