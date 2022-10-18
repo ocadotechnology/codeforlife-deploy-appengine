@@ -221,8 +221,6 @@ def main(module_name):
     api_instance = kubernetes.client.CoreV1Api()
     apps_api_instance = kubernetes.client.AppsV1Api()
     networking_api_instance = kubernetes.client.NetworkingV1Api()
-    print("Hello Florian")
-    print(networking_api_instance)
     custom_objects_api_instance = kubernetes.client.CustomObjectsApi()
     aimmo_version = get_aimmo_version()
 
