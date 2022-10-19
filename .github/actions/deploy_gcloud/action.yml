@@ -89,11 +89,11 @@ runs:
       run: |
         sudo apt-get update
         sudo apt-get install libmysqlclient-dev
-        pip install mysqlclient==1.4.*
+        pip install mysqlclient==2.1.*
       shell: bash
 
     - name: "Install kubernetes"
-      run: pip install kubernetes==21.7.0
+      run: pip install kubernetes==24.2.0
       shell: bash
 
     - name: "Build"
@@ -149,6 +149,7 @@ runs:
         python generate_requirements.py $REQUIREMENTS_ARGS
 
         ./manage.py collectstatic --noinput
+        ./manage.py collectstatic --noinput --settings django_site.pipeline_settings
       env:
         MODULE_NAME: ${{ inputs.module-name }}
         AIMMO_BRANCH: ${{ inputs.aimmo-branch }}

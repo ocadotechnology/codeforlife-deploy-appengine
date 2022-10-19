@@ -220,7 +220,7 @@ def main(module_name):
     global custom_objects_api_instance
     api_instance = kubernetes.client.CoreV1Api()
     apps_api_instance = kubernetes.client.AppsV1Api()
-    networking_api_instance = kubernetes.client.NetworkingV1beta1Api()
+    networking_api_instance = kubernetes.client.NetworkingV1Api()
     custom_objects_api_instance = kubernetes.client.CustomObjectsApi()
     aimmo_version = get_aimmo_version()
 
