@@ -101,8 +101,6 @@ runs:
         pip install requests
         pip install -t lib requests-toolbelt
 
-        pip install -t lib git+https://github.com/ocadotechnology/django-autoconfig
-
         REQUIREMENTS_ARGS=""
 
         if [[ -z $PORTAL_BRANCH ]]; then
