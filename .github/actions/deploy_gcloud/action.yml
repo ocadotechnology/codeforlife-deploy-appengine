@@ -93,7 +93,7 @@ runs:
       shell: bash
 
     - name: "Install kubernetes"
-      run: pip install kubernetes==24.2.0
+      run: pip install kubernetes==23.6.0
       shell: bash
 
     - name: "Build"
