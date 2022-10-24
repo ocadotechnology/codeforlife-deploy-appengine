@@ -11,7 +11,7 @@ metadata:
   name: worker-manager
 rules:
   - apiGroups: [''] # "" indicates the core API group
-    resources: ['pods']
+    resources: ['pods', 'events']
     verbs: ['create', 'delete', 'get', 'list']
   - apiGroups: ['']
     resources: ['secrets']
