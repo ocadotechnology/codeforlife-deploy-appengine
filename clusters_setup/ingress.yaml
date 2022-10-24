@@ -20,8 +20,8 @@ spec:
       http:
         paths:
           - path: /
-            pathType: Prefix
-            backend:
+            pathType: ImplementationSpecific
+            defaultBackend:
               service:
                 name: default-http-backend
                 port:
