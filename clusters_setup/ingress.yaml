@@ -21,7 +21,7 @@ spec:
         paths:
           - path: /
             pathType: ImplementationSpecific
-            defaultBackend:
+            backend:
               service:
                 name: default-http-backend
                 port:
