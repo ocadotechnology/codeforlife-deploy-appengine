@@ -19,7 +19,7 @@ spec:
     - host: REPLACE_HOST
       http:
         paths:
-          - path: /
+          - path: "/"
             pathType: ImplementationSpecific
             backend:
               service:
