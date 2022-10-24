@@ -21,3 +21,8 @@ spec:
         paths:
           - path: "/"
             pathType: ImplementationSpecific
+            backend:
+              service:
+                name: default-http-backend
+                port:
+                  number: 80
