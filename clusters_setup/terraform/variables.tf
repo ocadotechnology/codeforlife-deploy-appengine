@@ -104,5 +104,5 @@ variable "region" {
 locals {
   cluster_name = "aimmo-${terraform.workspace}"
 
-  agones_version = "1.12.0"
+  agones_version = "1.26.0"
 }
