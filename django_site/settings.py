@@ -29,18 +29,28 @@ DOTMAILER_CREATE_CONTACT_URL = os.getenv("DOTMAILER_CREATE_CONTACT_URL", "")
 DOTMAILER_MAIN_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_MAIN_ADDRESS_BOOK_URL", "")
 DOTMAILER_TEACHER_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_TEACHER_ADDRESS_BOOK_URL", "")
 DOTMAILER_STUDENT_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_STUDENT_ADDRESS_BOOK_URL", "")
-DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL", "")
+DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL = os.getenv(
+    "DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL", ""
+)
 DOTMAILER_GET_USER_BY_EMAIL_URL = os.getenv("DOTMAILER_GET_USER_BY_EMAIL_URL", "")
 DOTMAILER_DELETE_USER_BY_ID_URL = os.getenv("DOTMAILER_DELETE_USER_BY_ID_URL", "")
 DOTMAILER_PUT_CONSENT_DATA_URL = os.getenv("DOTMAILER_PUT_CONSENT_DATA_URL", "")
 DOTMAILER_SEND_CAMPAIGN_URL = os.getenv("DOTMAILER_SEND_CAMPAIGN_URL", "")
-DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID = os.getenv("DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID", "")
+DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID = os.getenv(
+    "DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID", ""
+)
 DOTMAILER_USER = os.getenv("DOTMAILER_USER", "")
 DOTMAILER_PASSWORD = os.getenv("DOTMAILER_PASSWORD", "")
-DOTMAILER_DEFAULT_PREFERENCES = json.loads(os.getenv("DOTMAILER_DEFAULT_PREFERENCES", "[]") or "[]")
+DOTMAILER_DEFAULT_PREFERENCES = json.loads(
+    os.getenv("DOTMAILER_DEFAULT_PREFERENCES", "[]") or "[]"
+)
 
 SECURE_HSTS_SECONDS = 31536000  # One year
 SECURE_SSL_REDIRECT = True
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
@@ -95,7 +105,10 @@ MIDDLEWARE = [
     "deploy.middleware.screentime_warning.ScreentimeWarningMiddleware",
 ]
 
-AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.ModelBackend", "portal.backends.StudentLoginBackend"]
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "portal.backends.StudentLoginBackend",
+]
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_COOKIE_AGE = 60 * 60
@@ -287,7 +300,12 @@ CSP_CONNECT_SRC = (
     f"wss://{MODULE_NAME}-aimmo.codeforlife.education/",
     f"https://{MODULE_NAME}-aimmo.codeforlife.education/",
 )
-CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com/", "https://fonts.googleapis.com/", "https://use.typekit.net/")
+CSP_FONT_SRC = (
+    "'self'",
+    "https://fonts.gstatic.com/",
+    "https://fonts.googleapis.com/",
+    "https://use.typekit.net/",
+)
 CSP_SCRIPT_SRC = (
     "'self'",
     "'unsafe-inline'",
