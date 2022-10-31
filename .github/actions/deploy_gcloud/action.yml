@@ -173,8 +173,8 @@ runs:
 
     - name: "Deploy"
       run: |
-        # Install Cloud SQL Proxy
-        wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O /tmp/cloud_sql_proxy
+        # Install Cloud SQL Proxy - Fixing to version 1.33.0 for now as upgrading to 2 causes an error when pinging the server later
+        wget https://storage.googleapis.com/cloudsql-proxy/v1.33.0/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
         chmod +x /tmp/cloud_sql_proxy
 
         sudo mkdir /cloudsql
