@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     "django.contrib.staticfiles",
     "django_js_reverse",
     "rest_framework",
+    "import_export",
     "django_otp",
     "django_otp.plugins.otp_static",
     "django_otp.plugins.otp_totp",
