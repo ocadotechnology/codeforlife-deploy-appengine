@@ -45,6 +45,7 @@ requirements = "\n".join(
         "google-auth==1.*",
         "kubernetes",
         "google-cloud-container==2.3.0",
+        "django-import-export",
     ]
 )
 
