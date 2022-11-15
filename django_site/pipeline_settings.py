@@ -66,6 +66,8 @@ PIPELINE = {
                 rel("static/portal/sass/bootstrap.scss"),
                 rel("static/portal/sass/colorbox.scss"),
                 rel("static/portal/sass/styles.scss"),
+                rel("static/game/css/level_selection.css"),
+                rel("static/game/css/backgrounds.css"),
             ),
             "output_filename": "portal.css",
         },
