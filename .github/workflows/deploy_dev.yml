@@ -30,11 +30,11 @@ jobs:
       VERSION: ${{ github.run_number }}
       DATABASE_POSTFIX: ${{ secrets.DATABASE_POSTFIX }}
     steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v2"
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: "Setup python"
-        uses: actions/setup-python@v2
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
           python-version: "3.7.x"
           architecture: "x64"
