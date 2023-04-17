@@ -145,6 +145,13 @@ runs:
             pip install -t lib --pre --upgrade --no-deps ./aimmo
           fi
         fi
+        
+        if [[ -z $PORTAL_BRANCH ]]; then
+          pip install -t lib --upgrade codeforlife-portal
+        else
+          REQUIREMENTS_ARGS+="--portal-branch ${PORTAL_BRANCH} "
+          pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=cfl-common&subdirectory=cfl_common"
+        fi
 
         python generate_requirements.py $REQUIREMENTS_ARGS
 
