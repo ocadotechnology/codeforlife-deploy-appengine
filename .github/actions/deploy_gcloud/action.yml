@@ -103,14 +103,15 @@ runs:
 
         REQUIREMENTS_ARGS=""
 
+        # Install portal
         if [[ -z $PORTAL_BRANCH ]]; then
           pip install -t lib --upgrade codeforlife-portal
         else
           REQUIREMENTS_ARGS+="--portal-branch ${PORTAL_BRANCH} "
           pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=codeforlife-portal"
-          pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=cfl-common&subdirectory=cfl_common"
         fi
 
+        # Install rapid router
         if [[ -n $RAPID_ROUTER_BRANCH ]]; then
           REQUIREMENTS_ARGS+="--rapid-router-branch ${RAPID_ROUTER_BRANCH} "
           pip install -t lib --upgrade "git+https://github.com/ocadotechnology/rapid-router@${RAPID_ROUTER_BRANCH}#egg=rapid-router"
@@ -119,6 +120,7 @@ runs:
         pip install -t lib django-anymail[amazon_ses]
         pip install -t lib google-auth==1.*
 
+        # Install aimmo
         if [[ $MODULE_NAME = "default" ]]; then
             pip install -t lib --upgrade --no-deps aimmo
         else
@@ -146,10 +148,9 @@ runs:
           fi
         fi
         
-        if [[ -z $PORTAL_BRANCH ]]; then
-          pip install -t lib --upgrade codeforlife-portal
-        else
-          REQUIREMENTS_ARGS+="--portal-branch ${PORTAL_BRANCH} "
+        # Install custom common package after everything else if deploying a specific portal branch to ensure the
+        # changes from common come through
+        if ! [[ -z $PORTAL_BRANCH ]]; then
           pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=cfl-common&subdirectory=cfl_common"
         fi
 
