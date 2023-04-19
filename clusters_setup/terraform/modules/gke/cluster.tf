@@ -1,0 +1,228 @@
+# Extends https://github.com/googleforgames/agones/blob/v1.26.0/install/terraform/modules/gke/cluster.tf
+
+terraform {
+  required_version = ">= 1.0.0"
+}
+
+data "google_client_config" "default" {}
+
+# A list of all parameters used in interpolation var.cluster
+# Set values to default if not key was not set in original map
+locals {
+  project                 = lookup(var.cluster, "project", "agones")
+  zone                    = lookup(var.cluster, "zone", "us-west1-c")
+  name                    = lookup(var.cluster, "name", "test-cluster")
+  machineType             = lookup(var.cluster, "machineType", "e2-standard-4")
+  initialNodeCount        = lookup(var.cluster, "initialNodeCount", "4")
+  network                 = lookup(var.cluster, "network", "default")
+  subnetwork              = lookup(var.cluster, "subnetwork", "")
+  kubernetesVersion       = lookup(var.cluster, "kubernetesVersion", "1.23")
+  windowsInitialNodeCount = lookup(var.cluster, "windowsInitialNodeCount", "0")
+  windowsMachineType      = lookup(var.cluster, "windowsMachineType", "e2-standard-4")
+}
+
+# echo command used for debugging purpose
+# Run `terraform taint null_resource.test-setting-variables` before second execution
+resource "null_resource" "test-setting-variables" {
+  provisioner "local-exec" {
+    command = <<EOT
+    ${format("echo Current variables set as following - name: %s, project: %s, machineType: %s, initialNodeCount: %s, network: %s, zone: %s, windowsInitialNodeCount: %s, windowsMachineType: %s",
+    local.name,
+    local.project,
+    local.machineType,
+    local.initialNodeCount,
+    local.network,
+    local.zone,
+    local.windowsInitialNodeCount,
+    local.windowsMachineType,
+)}
+    EOT
+  }
+}
+
+resource "google_container_cluster" "primary" {
+  name       = local.name
+  location   = local.zone
+  project    = local.project
+  network    = local.network
+  subnetwork = local.subnetwork
+  enable_shielded_nodes = true
+  enable_intranode_visibility = true
+
+#  private_cluster_config {
+#    enable_private_nodes = true
+#    enable_private_endpoint = true
+#  }
+
+  release_channel {
+    channel = "STABLE"
+  }
+
+  network_policy {
+    provider = "CALICO"
+    enabled = true
+  }
+
+  workload_identity_config {
+    workload_pool = "decent-digit-629.svc.id.goog"
+  }
+
+  binary_authorization {
+    evaluation_mode = "PROJECT_SINGLETON_POLICY_ENFORCE"
+  }
+
+  min_master_version = local.kubernetesVersion
+
+  node_pool {
+    name       = "default"
+    version    = local.kubernetesVersion
+
+    autoscaling {
+      max_node_count = 2
+      min_node_count = 0
+    }
+
+    management {
+      auto_repair = true
+      auto_upgrade = true
+    }
+
+    node_config {
+      machine_type = local.machineType
+      image_type = "COS_CONTAINERD"
+
+      oauth_scopes = [
+        "https://www.googleapis.com/auth/devstorage.read_only",
+        "https://www.googleapis.com/auth/logging.write",
+        "https://www.googleapis.com/auth/monitoring",
+        "https://www.googleapis.com/auth/service.management.readonly",
+        "https://www.googleapis.com/auth/servicecontrol",
+        "https://www.googleapis.com/auth/trace.append",
+      ]
+
+      tags = ["game-server"]
+    }
+  }
+  node_pool {
+    name       = "agones-system"
+    node_count = 1
+    version    = local.kubernetesVersion
+
+    management {
+      auto_repair = true
+      auto_upgrade = true
+    }
+
+    node_config {
+      machine_type = "n1-standard-4"
+      image_type = "COS_CONTAINERD"
+
+      oauth_scopes = [
+        "https://www.googleapis.com/auth/devstorage.read_only",
+        "https://www.googleapis.com/auth/logging.write",
+        "https://www.googleapis.com/auth/monitoring",
+        "https://www.googleapis.com/auth/service.management.readonly",
+        "https://www.googleapis.com/auth/servicecontrol",
+        "https://www.googleapis.com/auth/trace.append",
+      ]
+
+      labels = {
+        "agones.dev/agones-system" = "true"
+      }
+
+      taint {
+        key    = "agones.dev/agones-system"
+        value  = "true"
+        effect = "NO_EXECUTE"
+      }
+    }
+  }
+  node_pool {
+    name       = "agones-metrics"
+    node_count = 1
+    version    = local.kubernetesVersion
+
+    management {
+      auto_repair = true
+      auto_upgrade = true
+    }
+
+    node_config {
+      machine_type = "n1-standard-4"
+      image_type = "COS_CONTAINERD"
+
+      oauth_scopes = [
+        "https://www.googleapis.com/auth/devstorage.read_only",
+        "https://www.googleapis.com/auth/logging.write",
+        "https://www.googleapis.com/auth/monitoring",
+        "https://www.googleapis.com/auth/service.management.readonly",
+        "https://www.googleapis.com/auth/servicecontrol",
+        "https://www.googleapis.com/auth/trace.append",
+      ]
+
+      labels = {
+        "agones.dev/agones-metrics" = "true"
+      }
+
+      taint {
+        key    = "agones.dev/agones-metrics"
+        value  = "true"
+        effect = "NO_EXECUTE"
+      }
+    }
+  }
+  dynamic "ip_allocation_policy" {
+    for_each = tonumber(local.windowsInitialNodeCount) > 0 ? [1] : []
+    content {
+      # Enable Alias IPs to allow Windows Server networking.
+      cluster_ipv4_cidr_block  = "/14"
+      services_ipv4_cidr_block = "/20"
+    }
+  }
+  dynamic "node_pool" {
+    for_each = tonumber(local.windowsInitialNodeCount) > 0 ? [1] : []
+    content {
+      name       = "windows"
+      node_count = local.windowsInitialNodeCount
+      version    = local.kubernetesVersion
+
+      management {
+        auto_upgrade = false
+      }
+
+      node_config {
+        image_type   = "WINDOWS_LTSC"
+        machine_type = local.windowsMachineType
+
+        oauth_scopes = [
+          "https://www.googleapis.com/auth/devstorage.read_only",
+          "https://www.googleapis.com/auth/logging.write",
+          "https://www.googleapis.com/auth/monitoring",
+          "https://www.googleapis.com/auth/service.management.readonly",
+          "https://www.googleapis.com/auth/servicecontrol",
+          "https://www.googleapis.com/auth/trace.append",
+        ]
+
+        tags = ["game-server"]
+      }
+    }
+  }
+  timeouts {
+    create = "30m"
+    update = "40m"
+  }
+}
+
+resource "google_compute_firewall" "default" {
+  name    = length(var.firewallName) == 0 ? "game-server-firewall-${local.name}" : var.firewallName
+  project = local.project
+  network = local.network
+
+  allow {
+    protocol = "udp"
+    ports    = [var.ports]
+  }
+
+  target_tags = ["game-server"]
+  source_ranges = [var.sourceRanges]
+}
