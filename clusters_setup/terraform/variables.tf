@@ -93,7 +93,7 @@ variable "subnetwork" {
 }
 
 variable "kubernetesVersion" {
-  default = "1.23.12-gke.100"
+  default = "1.26.2-gke.1000"
 }
 
 variable "region" {
@@ -104,5 +104,5 @@ variable "region" {
 locals {
   cluster_name = "aimmo-${terraform.workspace}"
 
-  agones_version = "1.26.0"
+  agones_version = "1.31.0"
 }
