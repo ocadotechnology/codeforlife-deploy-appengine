@@ -66,11 +66,6 @@ resource "google_container_cluster" "primary" {
   enable_shielded_nodes = true
   enable_intranode_visibility = true
 
-#  private_cluster_config {
-#    enable_private_nodes = true
-#    enable_private_endpoint = true
-#  }
-
   release_channel {
     channel = local.releaseChannel
   }
