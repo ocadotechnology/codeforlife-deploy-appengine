@@ -25,7 +25,7 @@ variable "crd_cleanup" {
 }
 
 variable "image_registry" {
-  default = "gcr.io/agones-images"
+  default = "us-docker.pkg.dev/agones-images/release"
 }
 
 variable "pull_policy" {
@@ -93,7 +93,7 @@ variable "subnetwork" {
 }
 
 variable "kubernetesVersion" {
-  default = "1.26.2-gke.1000"
+  default = "1.26.3-gke.400"
 }
 
 variable "region" {
