@@ -70,6 +70,9 @@ inputs:
   redis-port:
     description: Redis port
     required: true
+  react-app-kurono-badges-url:
+    description: URL for Kurono badges service
+    required: true
   aimmo-branch:
     description: Optional rapid-router branch to deploy
     default: ""
@@ -253,4 +256,5 @@ runs:
         RECAPTCHA_PRIVATE_KEY: ${{ inputs.recaptcha-private-key }}
         REDIS_IP: ${{ inputs.redis-ip }}
         REDIS_PORT: ${{ inputs.redis-port }}
+        REACT_APP_KURONO_BADGES_URL: ${{ inputs.react-app-kurono-badges-url }}
       shell: bash
