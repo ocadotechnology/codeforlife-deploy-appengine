@@ -80,6 +80,7 @@ jobs:
           recaptcha-private-key: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
           redis-ip: ${{ secrets.REDIS_IP }}
           redis-port: ${{ secrets.REDIS_PORT }}
+          react-app-kurono-badges-url: ${{ secrets.REACT_APP_KURONO_BADGES_URL }}
           aimmo-branch: ${{ github.event.inputs.aimmo-branch }}
           portal-branch: ${{ github.event.inputs.portal-branch }}
           rapid-router-branch: ${{ github.event.inputs.rapid-router-branch }}

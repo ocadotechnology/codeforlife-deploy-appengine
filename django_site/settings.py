@@ -45,6 +45,11 @@ DOTMAILER_DEFAULT_PREFERENCES = json.loads(
     os.getenv("DOTMAILER_DEFAULT_PREFERENCES", "[]") or "[]"
 )
 
+REACT_APP_KURONO_BADGES_URL = os.getenv(
+    "REACT_APP_KURONO_BADGES_URL",
+    "https://development-kurono-badges-dot-decent-digit-629.appspot.com"
+)
+
 SECURE_HSTS_SECONDS = 31536000  # One year
 SECURE_SSL_REDIRECT = True
 
