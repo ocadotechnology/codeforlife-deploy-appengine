@@ -259,15 +259,14 @@ TEMPLATES = [
 
 CMS_TEMPLATES = (("portal/base.html", "Template One"),)
 
+AIMMO_DJANGO_BASE_URL = (f"https://{os.getenv('GAE_SERVICE')}-dot-decent-digit-629.appspot.com")
 
 AIMMO_GAME_SERVER_URL_FUNCTION = lambda game: (
     f"{os.getenv('GAE_SERVICE')}-aimmo.codeforlife.education",
     f"/game-{game}/socket.io",
 )
 
-
 AIMMO_GAME_SERVER_PORT_FUNCTION = lambda game: 0
-
 
 AIMMO_GAME_SERVER_SSL_FLAG = True
 
