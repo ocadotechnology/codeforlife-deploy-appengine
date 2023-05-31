@@ -70,6 +70,9 @@ inputs:
   redis-port:
     description: Redis port
     required: true
+  react-app-kurono-badges-url:
+    description: URL for Kurono badges service
+    required: true
   aimmo-branch:
     description: Optional rapid-router branch to deploy
     default: ""
@@ -93,7 +96,7 @@ runs:
       shell: bash
 
     - name: "Install kubernetes"
-      run: pip install kubernetes==23.6.0
+      run: pip install kubernetes==26.1.0
       shell: bash
 
     - name: "Build"
@@ -103,14 +106,15 @@ runs:
 
         REQUIREMENTS_ARGS=""
 
+        # Install portal
         if [[ -z $PORTAL_BRANCH ]]; then
           pip install -t lib --upgrade codeforlife-portal
         else
           REQUIREMENTS_ARGS+="--portal-branch ${PORTAL_BRANCH} "
           pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=codeforlife-portal"
-          pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=cfl-common&subdirectory=cfl_common"
         fi
 
+        # Install rapid router
         if [[ -n $RAPID_ROUTER_BRANCH ]]; then
           REQUIREMENTS_ARGS+="--rapid-router-branch ${RAPID_ROUTER_BRANCH} "
           pip install -t lib --upgrade "git+https://github.com/ocadotechnology/rapid-router@${RAPID_ROUTER_BRANCH}#egg=rapid-router"
@@ -119,6 +123,7 @@ runs:
         pip install -t lib django-anymail[amazon_ses]
         pip install -t lib google-auth==1.*
 
+        # Install aimmo
         if [[ $MODULE_NAME = "default" ]]; then
             pip install -t lib --upgrade --no-deps aimmo
         else
@@ -144,6 +149,12 @@ runs:
             popd
             pip install -t lib --pre --upgrade --no-deps ./aimmo
           fi
+        fi
+        
+        # Install custom common package after everything else if deploying a specific portal branch to ensure the
+        # changes from common come through
+        if ! [[ -z $PORTAL_BRANCH ]]; then
+          pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=cfl-common&subdirectory=cfl_common"
         fi
 
         python generate_requirements.py $REQUIREMENTS_ARGS
@@ -173,8 +184,8 @@ runs:
 
     - name: "Deploy"
       run: |
-        # Install Cloud SQL Proxy
-        wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O /tmp/cloud_sql_proxy
+        # Install Cloud SQL Proxy - Fixing to version 1.32.0 for now as upgrading to 1.33.0 causes an error when pinging the server later
+        wget https://storage.googleapis.com/cloudsql-proxy/v1.32.0/cloud_sql_proxy.linux.amd64 -O /tmp/cloud_sql_proxy
         chmod +x /tmp/cloud_sql_proxy
 
         sudo mkdir /cloudsql
@@ -245,4 +256,5 @@ runs:
         RECAPTCHA_PRIVATE_KEY: ${{ inputs.recaptcha-private-key }}
         REDIS_IP: ${{ inputs.redis-ip }}
         REDIS_PORT: ${{ inputs.redis-port }}
+        REACT_APP_KURONO_BADGES_URL: ${{ inputs.react-app-kurono-badges-url }}
       shell: bash

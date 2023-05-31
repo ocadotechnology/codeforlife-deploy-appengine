@@ -30,11 +30,11 @@ jobs:
       VERSION: ${{ github.run_number }}
       DATABASE_POSTFIX: ${{ secrets.DATABASE_POSTFIX }}
     steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v2"
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: "Setup python"
-        uses: actions/setup-python@v2
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
           python-version: "3.7.x"
           architecture: "x64"
@@ -80,6 +80,7 @@ jobs:
           recaptcha-private-key: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
           redis-ip: ${{ secrets.REDIS_IP }}
           redis-port: ${{ secrets.REDIS_PORT }}
+          react-app-kurono-badges-url: ${{ secrets.REACT_APP_KURONO_BADGES_URL }}
           aimmo-branch: ${{ github.event.inputs.aimmo-branch }}
           portal-branch: ${{ github.event.inputs.portal-branch }}
           rapid-router-branch: ${{ github.event.inputs.rapid-router-branch }}
