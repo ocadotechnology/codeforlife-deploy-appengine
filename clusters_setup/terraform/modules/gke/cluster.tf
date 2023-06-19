@@ -103,6 +103,10 @@ resource "google_container_cluster" "primary" {
       machine_type = local.machineType
       image_type = "COS_CONTAINERD"
 
+      shielded_instance_config {
+        enable_secure_boot = true
+      }
+
       oauth_scopes = [
         "https://www.googleapis.com/auth/devstorage.read_only",
         "https://www.googleapis.com/auth/logging.write",
@@ -128,6 +132,10 @@ resource "google_container_cluster" "primary" {
     node_config {
       machine_type = "n1-standard-4"
       image_type = "COS_CONTAINERD"
+
+      shielded_instance_config {
+        enable_secure_boot = true
+      }
 
       oauth_scopes = [
         "https://www.googleapis.com/auth/devstorage.read_only",
@@ -162,6 +170,10 @@ resource "google_container_cluster" "primary" {
     node_config {
       machine_type = "n1-standard-4"
       image_type = "COS_CONTAINERD"
+
+      shielded_instance_config {
+        enable_secure_boot = true
+      }
 
       oauth_scopes = [
         "https://www.googleapis.com/auth/devstorage.read_only",
@@ -205,6 +217,10 @@ resource "google_container_cluster" "primary" {
       node_config {
         image_type   = "WINDOWS_LTSC_CONTAINERD"
         machine_type = local.windowsMachineType
+
+        shielded_instance_config {
+          enable_secure_boot = true
+        }
 
         oauth_scopes = [
           "https://www.googleapis.com/auth/devstorage.read_only",
