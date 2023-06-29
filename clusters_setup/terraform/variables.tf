@@ -93,7 +93,7 @@ variable "subnetwork" {
 }
 
 variable "kubernetesVersion" {
-  default = "1.26.3-gke.400"
+  default = "1.26.5-gke.1400"
 }
 
 variable "region" {
