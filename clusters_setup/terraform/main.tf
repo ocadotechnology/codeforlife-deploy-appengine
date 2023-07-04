@@ -172,3 +172,17 @@ resource "kubectl_manifest" "roles" {
   count     = length(data.kubectl_path_documents.cluster_roles.documents)
   yaml_body = element(data.kubectl_path_documents.cluster_roles.documents, count.index)
 }
+
+resource "google_compute_firewall" "tcp" {
+  name    = "game-server-firewall-aimmo-${terraform.workspace}"
+  project = var.project
+  network = var.network
+
+  allow {
+    protocol = "tcp"
+    ports    = ["7000-8000"]
+  }
+
+  target_tags = ["game-server"]
+  source_ranges = ["0.0.0.0/0"]
+}
