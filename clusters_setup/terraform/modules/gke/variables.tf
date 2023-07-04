@@ -32,10 +32,6 @@ variable "udpFirewall" {
   default = false
 }
 
-variable "tcpFirewall" {
-  default = true
-}
-
 # Ports can be overriden using tfvars file
 variable "ports" {
   default = "7000-8000"
