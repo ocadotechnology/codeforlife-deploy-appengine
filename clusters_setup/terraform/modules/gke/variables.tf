@@ -29,7 +29,7 @@ variable "cluster" {
 # udpFirewall specifies whether to create a UDP firewall named
 # `firewallName` with port range `ports`, source range `sourceRanges`
 variable "udpFirewall" {
-  default = true
+  default = false
 }
 
 # Ports can be overriden using tfvars file
