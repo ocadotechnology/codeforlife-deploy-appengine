@@ -128,7 +128,7 @@ runs:
             pip install -t lib --upgrade --no-deps aimmo
         else
           if [[ -z $AIMMO_BRANCH ]]; then
-            pip install -t lib --pre --upgrade --no-deps aimmo==2.9.1
+            pip install -t lib --pre --upgrade --no-deps aimmo==2.9.2
           else
             REQUIREMENTS_ARGS+="--aimmo-branch ${AIMMO_BRANCH} "
 
