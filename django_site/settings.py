@@ -109,6 +109,7 @@ MIDDLEWARE = [
     "preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware",
     "csp.middleware.CSPMiddleware",
     "deploy.middleware.screentime_warning.ScreentimeWarningMiddleware",
+    "aimmo.middleware.game_limit_exceeded.GameLimitExceededMiddleware",
 ]
 
 AUTHENTICATION_BACKENDS = [
