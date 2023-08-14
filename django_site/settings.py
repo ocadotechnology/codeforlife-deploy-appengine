@@ -109,6 +109,7 @@ MIDDLEWARE = [
     "preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware",
     "csp.middleware.CSPMiddleware",
     "deploy.middleware.screentime_warning.ScreentimeWarningMiddleware",
+    "aimmo.middleware.game_limit_exceeded.GameLimitExceededMiddleware",
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -252,7 +253,6 @@ TEMPLATES = [
                 "portal.context_processors.process_newsletter_form",
                 "common.context_processors.module_name",
                 "common.context_processors.cookie_management_enabled",
-                "aimmo.middleware.game_limit_exceeded.GameLimitExceededMiddleware",
             ],
         },
     }
