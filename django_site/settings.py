@@ -252,6 +252,7 @@ TEMPLATES = [
                 "portal.context_processors.process_newsletter_form",
                 "common.context_processors.module_name",
                 "common.context_processors.cookie_management_enabled",
+                "aimmo.middleware.game_limit_exceeded.GameLimitExceededMiddleware",
             ],
         },
     }
