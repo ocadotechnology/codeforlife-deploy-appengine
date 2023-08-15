@@ -7,15 +7,15 @@ cron:
 
   - description: first reminder for users to their verify email
     url: /cron/user/unverified/send-first-reminder/
-    schedule: every 24 hours
+    schedule: every day 10:00
     timezone: Europe/London
 
   - description: second reminder for users to verify their email
     url: /cron/user/unverified/send-second-reminder/
-    schedule: every 24 hours
+    schedule: every day 10:00
     timezone: Europe/London
 
   - description: delete unverified users
     url: /cron/user/unverified/delete/
-    schedule: every 24 hours
+    schedule: every day 10:00
     timezone: Europe/London
