@@ -43,7 +43,7 @@ jobs:
         name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v1
         with:
-          credentials_json: ${{ secrets.GCLOUD_AUTH_NEW }}
+          credentials_json: ${{ secrets.GCLOUD_AUTH }}
 
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@v0
