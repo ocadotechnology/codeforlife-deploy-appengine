@@ -216,7 +216,6 @@ runs:
         ./manage.py migrate --no-input
 
         gcloud app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote --no-cache
-        gcloud app --quiet deploy cron.yaml --project ${APP_ID} --version ${VERSION} --no-promote
 
         # Test the site
         curl -I https://${VERSION}-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"
