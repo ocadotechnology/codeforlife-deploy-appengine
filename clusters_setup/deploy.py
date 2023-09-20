@@ -94,13 +94,6 @@ def restart_pods(ingress_yaml, fleet_yaml):
     :param ingress_yaml: The dict to create the ingress
     :param fleet_yaml: The dict to create the fleet
     """
-    for rs in apps_api_instance.list_namespaced_replica_set("default").items:
-        if rs.metadata.name == "aimmo-game-creator":
-            apps_api_instance.delete_namespaced_replica_set(
-                body=kubernetes.client.V1DeleteOptions(),
-                name=rs.metadata.name,
-                namespace="default",
-            )
     for service in api_instance.list_namespaced_service("default").items:
         if service.metadata.name.startswith("game-"):
             api_instance.delete_namespaced_service(
