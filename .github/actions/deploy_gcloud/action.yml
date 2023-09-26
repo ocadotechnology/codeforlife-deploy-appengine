@@ -184,31 +184,31 @@ runs:
 
     - name: "Deploy"
       run: |
-        # Install Cloud SQL Proxy - Fixing to version 1.32.0 for now as upgrading to 1.33.0 causes an error when pinging the server later
-        wget https://storage.googleapis.com/cloudsql-proxy/v1.32.0/cloud_sql_proxy.linux.amd64 -O /tmp/cloud_sql_proxy
-        chmod +x /tmp/cloud_sql_proxy
-
-        sudo mkdir /cloudsql
-        sudo chown runner:runner /cloudsql
-
-        # Start Cloud SQL Proxy and migrate
-        /tmp/cloud_sql_proxy -dir=/cloudsql &
-
-        # wait for cloudsql-proxy to be ready
-        is_sql_proxy_ready=0
-        for i in {1..30}; do
-            echo "Waiting for cloudsql-proxy to be ready $i/30"
-            if mysqladmin -S /cloudsql/decent-digit-629:europe-west1:db ping; then
-              echo "cloudsql-proxy is ready"
-              is_sql_proxy_ready=1
-              break
-            fi
-            sleep 2
-        done
-
-        if [[ $is_sql_proxy_ready -eq 0 ]]; then
-          exit 1
-        fi
+#        # Install Cloud SQL Proxy - Fixing to version 1.32.0 for now as upgrading to 1.33.0 causes an error when pinging the server later
+#        wget https://storage.googleapis.com/cloudsql-proxy/v1.32.0/cloud_sql_proxy.linux.amd64 -O /tmp/cloud_sql_proxy
+#        chmod +x /tmp/cloud_sql_proxy
+#
+#        sudo mkdir /cloudsql
+#        sudo chown runner:runner /cloudsql
+#
+#        # Start Cloud SQL Proxy and migrate
+#        /tmp/cloud_sql_proxy -dir=/cloudsql &
+#
+#        # wait for cloudsql-proxy to be ready
+#        is_sql_proxy_ready=0
+#        for i in {1..30}; do
+#            echo "Waiting for cloudsql-proxy to be ready $i/30"
+#            if mysqladmin -S /cloudsql/decent-digit-629:europe-west1:db ping; then
+#              echo "cloudsql-proxy is ready"
+#              is_sql_proxy_ready=1
+#              break
+#            fi
+#            sleep 2
+#        done
+#
+#        if [[ $is_sql_proxy_ready -eq 0 ]]; then
+#          exit 1
+#        fi
 
         envsubst <django_site/kubeconfig.yaml.tmpl >django_site/kubeconfig.yaml
         envsubst <app.yaml.tmpl >app.yaml
