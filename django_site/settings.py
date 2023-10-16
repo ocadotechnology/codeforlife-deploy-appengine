@@ -8,9 +8,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import json
 # Build paths inside the project like this: rel(rel_path)
 import os
-import json
 
 from .permissions import is_cloud_scheduler
 
@@ -29,25 +29,18 @@ DOTMAILER_CREATE_CONTACT_URL = os.getenv("DOTMAILER_CREATE_CONTACT_URL", "")
 DOTMAILER_MAIN_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_MAIN_ADDRESS_BOOK_URL", "")
 DOTMAILER_TEACHER_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_TEACHER_ADDRESS_BOOK_URL", "")
 DOTMAILER_STUDENT_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_STUDENT_ADDRESS_BOOK_URL", "")
-DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL = os.getenv(
-    "DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL", ""
-)
+DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL", "")
 DOTMAILER_GET_USER_BY_EMAIL_URL = os.getenv("DOTMAILER_GET_USER_BY_EMAIL_URL", "")
 DOTMAILER_DELETE_USER_BY_ID_URL = os.getenv("DOTMAILER_DELETE_USER_BY_ID_URL", "")
 DOTMAILER_PUT_CONSENT_DATA_URL = os.getenv("DOTMAILER_PUT_CONSENT_DATA_URL", "")
 DOTMAILER_SEND_CAMPAIGN_URL = os.getenv("DOTMAILER_SEND_CAMPAIGN_URL", "")
-DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID = os.getenv(
-    "DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID", ""
-)
+DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID = os.getenv("DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID", "")
 DOTMAILER_USER = os.getenv("DOTMAILER_USER", "")
 DOTMAILER_PASSWORD = os.getenv("DOTMAILER_PASSWORD", "")
-DOTMAILER_DEFAULT_PREFERENCES = json.loads(
-    os.getenv("DOTMAILER_DEFAULT_PREFERENCES", "[]") or "[]"
-)
+DOTMAILER_DEFAULT_PREFERENCES = json.loads(os.getenv("DOTMAILER_DEFAULT_PREFERENCES", "[]") or "[]")
 
 REACT_APP_KURONO_BADGES_URL = os.getenv(
-    "REACT_APP_KURONO_BADGES_URL",
-    "https://development-kurono-badges-dot-decent-digit-629.appspot.com"
+    "REACT_APP_KURONO_BADGES_URL", "https://development-kurono-badges-dot-decent-digit-629.appspot.com"
 )
 
 SECURE_HSTS_SECONDS = 31536000  # One year
@@ -223,6 +216,16 @@ if os.getenv("GAE_APPLICATION", None):
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
 
+    AIMMO_DJANGO_BASE_URL = f"https://{os.getenv('GAE_SERVICE')}-dot-decent-digit-629.appspot.com"
+
+    AIMMO_GAME_SERVER_URL_FUNCTION = lambda game: (
+        f"{os.getenv('GAE_SERVICE')}-aimmo.codeforlife.education",
+        f"/game-{game}/socket.io",
+    )
+
+    AIMMO_GAME_SERVER_PORT_FUNCTION = lambda game: 0
+    AIMMO_GAME_SERVER_SSL_FLAG = True
+
 EMAIL_ADDRESS = "no-reply@codeforlife.education"
 
 LOCALE_PATHS = ("conf/locale",)
@@ -260,18 +263,6 @@ TEMPLATES = [
 ]
 
 CMS_TEMPLATES = (("portal/base.html", "Template One"),)
-
-
-AIMMO_GAME_SERVER_URL_FUNCTION = lambda game: (
-    f"{os.getenv('GAE_SERVICE')}-aimmo.codeforlife.education",
-    f"/game-{game}/socket.io",
-)
-
-
-AIMMO_GAME_SERVER_PORT_FUNCTION = lambda game: 0
-
-
-AIMMO_GAME_SERVER_SSL_FLAG = True
 
 IS_CLOUD_SCHEDULER_FUNCTION = is_cloud_scheduler
 CLOUD_STORAGE_PREFIX = "https://storage.googleapis.com/codeforlife-assets/"
