@@ -231,8 +231,8 @@ runs:
         VERSION: ${{ inputs.version }}
         CLOUDSDK_CORE_DISABLE_PROMPTS: "1"
         CLOUDSDK_PYTHON_SITEPACKAGES: "1"
-        DATABASE_NAME: cfl_prod
-        DATABASE_HOST: ${{ inputs.database-host }}
+        DATABASE_NAME: cfl_dev
+        DATABASE_HOST: '/cloudsql/decent-digit-629:europe-west1:db-clone'
         CACHE_PREFIX: ${{ env.MODULE_NAME }}-
         AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
         AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
