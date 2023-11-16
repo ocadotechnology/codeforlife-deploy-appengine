@@ -213,8 +213,7 @@ runs:
         envsubst <django_site/kubeconfig.yaml.tmpl >django_site/kubeconfig.yaml
         envsubst <app.yaml.tmpl >app.yaml
 
-        ./manage.py migrate common 0047 --no-input --fake
-        ./manage.py migrate --no-input
+        ./manage.py migrate common 0046
 
         gcloud app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote --no-cache
 
