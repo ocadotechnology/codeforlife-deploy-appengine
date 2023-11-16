@@ -214,6 +214,7 @@ runs:
         envsubst <app.yaml.tmpl >app.yaml
 
         ./manage.py migrate common 0047 --no-input --fake
+        ./manage.py migrate --no-input
 
         gcloud app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote --no-cache
 
