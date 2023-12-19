@@ -19,7 +19,7 @@ on:
 jobs:
   deploy:
     name: Deploy
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     environment: dev
     env:
       APP_ID: decent-digit-629
@@ -31,7 +31,7 @@ jobs:
       DATABASE_POSTFIX: ${{ secrets.DATABASE_POSTFIX }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -41,12 +41,12 @@ jobs:
 
       - id: gcauth
         name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v1
+        uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCLOUD_AUTH }}
 
       - name: Setup gcloud CLI
-        uses: google-github-actions/setup-gcloud@v0
+        uses: google-github-actions/setup-gcloud@v2
         with:
           version: "337.0.0"
           project_id: ${{ env.APP_ID }}
