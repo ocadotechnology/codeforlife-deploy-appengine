@@ -33,9 +33,9 @@ jobs:
 
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@v2
-        with:
-          version: "337.0.0"
-          project_id: ${{ env.APP_ID }}
+
+      - name: GKE auth
+        uses: simenandre/setup-gke-gcloud-auth-plugin@v1
 
       - name: Deploy to Google Cloud
         uses: ./.github/actions/deploy_gcloud
