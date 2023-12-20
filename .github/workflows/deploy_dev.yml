@@ -51,11 +51,6 @@ jobs:
       - name: GKE auth
         uses: simenandre/setup-gke-gcloud-auth-plugin@v1
 
-#      - uses: google-github-actions/get-gke-credentials@v2
-#        with:
-#          cluster_name: aimmo-dev
-#          location: europe-west1-b
-
       - name: Deploy to Google Cloud
         uses: ./.github/actions/deploy_gcloud
         with:
