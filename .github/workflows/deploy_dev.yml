@@ -41,15 +41,12 @@ jobs:
 
       - id: gcauth
         name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v1
+        uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCLOUD_AUTH }}
 
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@v2
-        with:
-          version: "337.0.0"
-          project_id: ${{ env.APP_ID }}
 
       - name: Deploy to Google Cloud
         uses: ./.github/actions/deploy_gcloud
