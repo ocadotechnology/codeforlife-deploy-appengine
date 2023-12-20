@@ -169,8 +169,7 @@ runs:
       shell: bash
 
     - name: "Get cluster credentials"
-      run: |
-        sudo apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
+      run: |-
         gcloud container clusters get-credentials "aimmo-$MODULE_NAME" --zone "$GKE_ZONE"
       env:
         MODULE_NAME: ${{ inputs.module-name }}
