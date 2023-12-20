@@ -39,11 +39,11 @@ jobs:
           python-version: "3.8.x"
           architecture: "x64"
 
-      - id: gcauth
-        name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.GCLOUD_AUTH }}
+#      - id: gcauth
+#        name: Authenticate to Google Cloud
+#        uses: google-github-actions/auth@v2
+#        with:
+#          credentials_json: ${{ secrets.GCLOUD_AUTH }}
 
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@v2
