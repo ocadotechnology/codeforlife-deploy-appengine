@@ -65,6 +65,7 @@ resource "google_container_cluster" "primary" {
   subnetwork = local.subnetwork
   enable_shielded_nodes = true
   enable_intranode_visibility = true
+  networking_mode = "VPC_NATIVE"
 
   release_channel {
     channel = local.releaseChannel
@@ -77,9 +78,15 @@ resource "google_container_cluster" "primary" {
     enabled = true
   }
 
+  ip_allocation_policy {}
+
   workload_identity_config {
     workload_pool = "decent-digit-629.svc.id.goog"
   }
+
+#  private_cluster_config {
+#    enable_private_nodes = true
+#  }
 
   binary_authorization {
     evaluation_mode = "PROJECT_SINGLETON_POLICY_ENFORCE"

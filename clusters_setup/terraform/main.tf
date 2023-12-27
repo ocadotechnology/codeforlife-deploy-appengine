@@ -28,7 +28,6 @@ provider "helm" {
 }
 
 provider "kubectl" {
-  load_config_file       = false
   host                   = module.gke_cluster.host
   token                  = module.gke_cluster.token
   cluster_ca_certificate = module.gke_cluster.cluster_ca_certificate
