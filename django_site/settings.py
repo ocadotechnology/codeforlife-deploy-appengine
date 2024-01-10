@@ -215,6 +215,7 @@ if os.getenv("GAE_APPLICATION", None):
 
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+    CSRF_USE_SESSIONS = True
 
     AIMMO_DJANGO_BASE_URL = f"https://{os.getenv('GAE_SERVICE')}-dot-decent-digit-629.appspot.com"
 
