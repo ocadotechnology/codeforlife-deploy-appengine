@@ -1,4 +1,6 @@
 # codeforlife-deploy-appengine
+[![Build Status](https://github.com/ocadotechnology/codeforlife-deploy-appengine/actions/workflows/deploy_dev.yml/badge.svg)](https://github.com/ocadotechnology/codeforlife-deploy-appengine/actions/workflows/deploy_dev.yml)
+[![Build Status](https://github.com/ocadotechnology/codeforlife-deploy-appengine/actions/workflows/deploy_staging.yml/badge.svg)](https://github.com/ocadotechnology/codeforlife-deploy-appengine/actions/workflows/deploy_staging.yml)
 [![Build Status](https://github.com/ocadotechnology/codeforlife-deploy-appengine/actions/workflows/deploy_default.yml/badge.svg)](https://github.com/ocadotechnology/codeforlife-deploy-appengine/actions/workflows/deploy_default.yml)
 
 ## LICENCE
