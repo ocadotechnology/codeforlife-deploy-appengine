@@ -42,7 +42,7 @@ requirements = "\n".join(
         "django-anymail[amazon_ses]==7.0.*",
         "google-python-cloud-debugger==2.*",
         "google-cloud-logging==1.*",
-        "google-auth==1.*",
+        "google-auth==2.*",
         "kubernetes",
         "google-cloud-container==2.3.0",
     ]

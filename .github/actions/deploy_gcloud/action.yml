@@ -121,7 +121,7 @@ runs:
         fi
 
         pip install -t lib django-anymail[amazon_ses]
-        pip install -t lib google-auth==1.*
+        pip install -t lib google-auth==2.*
 
         # Install aimmo
         if [[ $MODULE_NAME = "default" ]]; then
