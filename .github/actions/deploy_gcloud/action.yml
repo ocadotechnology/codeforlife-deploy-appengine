@@ -70,6 +70,12 @@ inputs:
   redis-port:
     description: Redis port
     required: true
+  gcp-kms-uri:
+    description: URI of the GCP KMS KEK for CSE
+    required: true
+  appengine-service-account-credentials:
+    description: Credentials for AppEngine service account
+    required: true
   react-app-kurono-badges-url:
     description: URL for Kurono badges service
     required: true
@@ -255,5 +261,7 @@ runs:
         RECAPTCHA_PRIVATE_KEY: ${{ inputs.recaptcha-private-key }}
         REDIS_IP: ${{ inputs.redis-ip }}
         REDIS_PORT: ${{ inputs.redis-port }}
+        APPENGINE_SERVICE_ACCOUNT_CREDENTIALS: ${{ inputs.appengine-service-account-credentials }}
+        GCP_KMS_URI: ${{ inputs.gcp-kms-uri }}
         REACT_APP_KURONO_BADGES_URL: ${{ inputs.react-app-kurono-badges-url }}
       shell: bash
