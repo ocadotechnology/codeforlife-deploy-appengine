@@ -58,6 +58,9 @@ inputs:
   dotmailer-default-preferences:
     description: Dotmailer default preferences
     required: true
+  dotdigital-auth:
+    description: Dotdigital access key
+    required: true
   recaptcha-public-key:
     description: Recaptcha public key
     required: true
@@ -251,6 +254,7 @@ runs:
         DOTMAILER_USER: ${{ inputs.dotmailer-user }}
         DOTMAILER_PASSWORD: ${{ inputs.dotmailer-password }}
         DOTMAILER_DEFAULT_PREFERENCES: ${{ inputs.dotmailer-default-preferences }}
+        DOTDIGITAL_AUTH: ${{ inputs.dotdigital-auth }}
         RECAPTCHA_PUBLIC_KEY: ${{ inputs.recaptcha-public-key }}
         RECAPTCHA_PRIVATE_KEY: ${{ inputs.recaptcha-private-key }}
         REDIS_IP: ${{ inputs.redis-ip }}

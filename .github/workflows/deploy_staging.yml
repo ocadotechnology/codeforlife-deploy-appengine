@@ -62,6 +62,7 @@ jobs:
           dotmailer-user: ${{ secrets.DOTMAILER_USER }}
           dotmailer-password: ${{ secrets.DOTMAILER_PASSWORD }}
           dotmailer-default-preferences: ${{ secrets.DOTMAILER_DEFAULT_PREFERENCES }}
+          dotdigital-auth: ${{ secrets.DOTDIGITAL_AUTH }}
           recaptcha-public-key: ${{ secrets.RECAPTCHA_PUBLIC_KEY }}
           recaptcha-private-key: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
           redis-ip: ${{ secrets.REDIS_IP }}
