@@ -187,6 +187,7 @@ DATABASES = {
         "HOST": os.getenv("DATABASE_HOST"),
         "NAME": os.getenv("DATABASE_NAME"),
         "USER": "root",
+        "ATOMIC_REQUESTS": True,
     }
 }
 
