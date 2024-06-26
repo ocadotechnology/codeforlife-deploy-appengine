@@ -39,11 +39,12 @@ jobs:
           python-version: "3.8.x"
           architecture: "x64"
 
-      - id: gcauth
-        name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
+      - id: auth
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v0.4.0'
         with:
-          credentials_json: ${{ secrets.GCLOUD_AUTH }}
+          workload_identity_provider: 'projects/354656325390/locations/global/workloadIdentityPools/test-wif-pool/providers/test-provider'
+          service_account: 'github-actions-34@decent-digit-629.iam.gserviceaccount.com'
 
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@v2
