@@ -15,6 +15,9 @@ jobs:
       MODULE_NAME: default
       VERSION: ${{ github.run_number }}
       DATABASE_POSTFIX: ${{ secrets.DATABASE_POSTFIX }}
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,17 +28,16 @@ jobs:
           python-version: "3.8.x"
           architecture: "x64"
 
-      - id: gcauth
+      - id: auth
         name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
-          credentials_json: ${{ secrets.GCLOUD_AUTH }}
+          project_id: 'decent-digit-629'
+          workload_identity_provider: 'projects/354656325390/locations/global/workloadIdentityPools/cfl-pool/providers/cfl-provider'
+          service_account: 'github-actions-34@decent-digit-629.iam.gserviceaccount.com'
 
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@v2
-
-      - name: GKE auth
-        uses: simenandre/setup-gke-gcloud-auth-plugin@v1
 
       - name: Deploy to Google Cloud
         uses: ./.github/actions/deploy_gcloud
