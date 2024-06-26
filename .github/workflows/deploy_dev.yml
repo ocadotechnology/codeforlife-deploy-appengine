@@ -43,11 +43,11 @@ jobs:
           architecture: "x64"
 
       - id: auth
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v2'
+        name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
         with:
           project_id: 'decent-digit-629'
-          workload_identity_provider: 'projects/354656325390/locations/global/workloadIdentityPools/test-wif-pool/providers/test-provider'
+          workload_identity_provider: 'projects/354656325390/locations/global/workloadIdentityPools/cfl-pool/providers/cfl-provider'
           service_account: 'github-actions-34@decent-digit-629.iam.gserviceaccount.com'
 
       - name: Setup gcloud CLI
