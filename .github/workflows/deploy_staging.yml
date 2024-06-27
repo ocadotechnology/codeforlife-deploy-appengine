@@ -16,7 +16,6 @@ jobs:
       VERSION: ${{ github.run_number }}
       DATABASE_POSTFIX: ${{ secrets.DATABASE_POSTFIX }}
     permissions:
-      contents: 'read'
       id-token: 'write'
     steps:
       - name: Checkout
