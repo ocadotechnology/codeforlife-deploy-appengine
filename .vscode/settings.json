@@ -63,6 +63,8 @@
   "python.defaultInterpreterPath": ".venv/bin/python",
   "python.testing.pytestArgs": [
     "-n=auto",
+    "--cov=.",
+    "--cov-report=html",
     "-c=pyproject.toml",
     "."
   ],
