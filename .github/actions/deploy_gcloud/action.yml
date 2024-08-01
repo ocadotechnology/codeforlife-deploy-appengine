@@ -1,5 +1,5 @@
 name: Deploy to Google Cloud
-description: Deploys portal, rapid-router and aimmo to Google Cloud
+description: Deploys portal and rapid-router to Google Cloud
 inputs:
   app-id:
     description: App ID
@@ -76,10 +76,6 @@ inputs:
   react-app-kurono-badges-url:
     description: URL for Kurono badges service
     required: true
-  aimmo-branch:
-    description: Optional rapid-router branch to deploy
-    default: ""
-    required: false
   portal-branch:
     description: Optional portal branch to deploy
     default: ""
@@ -125,34 +121,6 @@ runs:
 
         pip install -t lib django-anymail[amazon_ses]
         pip install -t lib google-auth==1.*
-
-        # Install aimmo
-        if [[ $MODULE_NAME = "default" ]]; then
-            pip install -t lib --upgrade --no-deps aimmo
-        else
-          if [[ -z $AIMMO_BRANCH ]]; then
-            pip install -t lib --pre --upgrade --no-deps aimmo
-          else
-            REQUIREMENTS_ARGS+="--aimmo-branch ${AIMMO_BRANCH} "
-
-            git clone --depth 1 --branch ${AIMMO_BRANCH} https://github.com/ocadotechnology/aimmo.git
-
-            pushd aimmo
-            pip install wheel
-            ./aimmo_runner/build_worker_wheel.sh
-            popd
-
-            pushd aimmo/game_frontend
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-            nvm install 12.20.2
-            nvm use 12.20.2
-            yarn --frozen-lockfile
-            NODE_ENV=production node djangoBundler.js
-            popd
-            pip install -t lib --pre --upgrade --no-deps ./aimmo
-          fi
-        fi
         
         # Install custom common package after everything else if deploying a specific portal branch to ensure the
         # changes from common come through
@@ -166,24 +134,8 @@ runs:
         ./manage.py collectstatic --noinput --settings django_site.pipeline_settings
       env:
         MODULE_NAME: ${{ inputs.module-name }}
-        AIMMO_BRANCH: ${{ inputs.aimmo-branch }}
         PORTAL_BRANCH: ${{ inputs.portal-branch }}
         RAPID_ROUTER_BRANCH: ${{ inputs.rapid-router-branch }}
-      shell: bash
-
-    - name: "Get cluster credentials"
-      run: |
-        gcloud components install gke-gcloud-auth-plugin
-        gcloud container clusters get-credentials "aimmo-$MODULE_NAME" --zone "$GKE_ZONE"
-      env:
-        MODULE_NAME: ${{ inputs.module-name }}
-        GKE_ZONE: ${{ inputs.gke-zone }}
-      shell: bash
-
-    - name: "Deploy k8s"
-      run: python clusters_setup/deploy.py $MODULE_NAME
-      env:
-        MODULE_NAME: ${{ inputs.module-name }}
       shell: bash
 
     - name: "Deploy"
@@ -214,7 +166,6 @@ runs:
           exit 1
         fi
 
-        envsubst <django_site/kubeconfig.yaml.tmpl >django_site/kubeconfig.yaml
         envsubst <app.yaml.tmpl >app.yaml
 
         ./manage.py migrate --no-input

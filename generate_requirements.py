@@ -1,7 +1,6 @@
 import argparse
 
-# Versions will be fetched from the init of each package (portal, aimmo, game) after they are installed in lib - this happens in the "Build" step.
-from lib.aimmo import __version__ as aimmo_version
+# Versions will be fetched from the init of each package (portal, game) after they are installed in lib - this happens in the "Build" step.
 from lib.game import __version__ as rapid_router_version
 from lib.portal import __version__ as portal_version
 
@@ -9,7 +8,6 @@ from lib.portal import __version__ as portal_version
 parser = argparse.ArgumentParser()
 parser.add_argument("--portal-branch")
 parser.add_argument("--rapid-router-branch")
-parser.add_argument("--aimmo-branch")
 args = parser.parse_args()
 
 if args.portal_branch:
@@ -24,17 +22,11 @@ if args.rapid_router_branch:
 else:
     rapid_router_requirement = f"rapid-router=={rapid_router_version}"
 
-if args.aimmo_branch:
-    aimmo_requirement = "./aimmo"
-else:
-    aimmo_requirement = f"aimmo=={aimmo_version}"
-
 requirements = "\n".join(
     [
         rapid_router_requirement,
         portal_requirement,
         common_requirement,
-        aimmo_requirement,
         "requests-toolbelt==0.9.*",
         "mysqlclient==2.1.*",
         "redis==3.3.*",

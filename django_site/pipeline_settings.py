@@ -22,7 +22,6 @@ DEBUG = True
 INSTALLED_APPS = (
     "anymail",
     "deploy",
-    "aimmo",
     "game",
     "pipeline",
     "portal",
