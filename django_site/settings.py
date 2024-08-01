@@ -62,7 +62,6 @@ DEBUG = False
 INSTALLED_APPS = (
     "anymail",
     "deploy",
-    "aimmo",
     "game",
     "pipeline",
     "portal",
@@ -104,7 +103,6 @@ MIDDLEWARE = [
     "preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware",
     "csp.middleware.CSPMiddleware",
     "deploy.middleware.screentime_warning.ScreentimeWarningMiddleware",
-    "aimmo.middleware.game_limit_exceeded.GameLimitExceededMiddleware",
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -219,16 +217,6 @@ if os.getenv("GAE_APPLICATION", None):
     CSRF_COOKIE_SECURE = True
     CSRF_USE_SESSIONS = False
 
-    AIMMO_DJANGO_BASE_URL = f"https://{os.getenv('GAE_SERVICE')}-dot-decent-digit-629.appspot.com"
-
-    AIMMO_GAME_SERVER_URL_FUNCTION = lambda game: (
-        f"{os.getenv('GAE_SERVICE')}-aimmo.codeforlife.education",
-        f"/game-{game}/socket.io",
-    )
-
-    AIMMO_GAME_SERVER_PORT_FUNCTION = lambda game: 0
-    AIMMO_GAME_SERVER_SSL_FLAG = True
-
 EMAIL_ADDRESS = "no-reply@codeforlife.education"
 
 LOCALE_PATHS = ("conf/locale",)
@@ -301,8 +289,6 @@ CSP_CONNECT_SRC = (
     "https://crowdin.com/",
     "https://o2.mouseflow.com/",
     "https://stats.g.doubleclick.net/",
-    f"wss://{MODULE_NAME}-aimmo.codeforlife.education/",
-    f"https://{MODULE_NAME}-aimmo.codeforlife.education/",
 )
 CSP_FONT_SRC = (
     "'self'",

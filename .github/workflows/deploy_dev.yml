@@ -3,10 +3,6 @@ name: Deploy to Dev
 on:
   workflow_dispatch:
     inputs:
-      aimmo-branch:
-        description: "aimmo branch"
-        required: false
-        default: ""
       portal-branch:
         description: "portal branch"
         required: false
@@ -83,7 +79,6 @@ jobs:
           redis-ip: ${{ secrets.REDIS_IP }}
           redis-port: ${{ secrets.REDIS_PORT }}
           react-app-kurono-badges-url: ${{ secrets.REACT_APP_KURONO_BADGES_URL }}
-          aimmo-branch: ${{ github.event.inputs.aimmo-branch }}
           portal-branch: ${{ github.event.inputs.portal-branch }}
           rapid-router-branch: ${{ github.event.inputs.rapid-router-branch }}
 
@@ -92,7 +87,6 @@ jobs:
         run: ./notify_deployment.py
         env:
           DEPLOY_NOTIFY_URL: ${{ secrets.DEPLOY_NOTIFY_URL }}
-          AIMMO_BRANCH: ${{ github.event.inputs.aimmo-branch }}
           PORTAL_BRANCH: ${{ github.event.inputs.portal-branch }}
           RAPID_ROUTER_BRANCH: ${{ github.event.inputs.rapid-router-branch }}
 
