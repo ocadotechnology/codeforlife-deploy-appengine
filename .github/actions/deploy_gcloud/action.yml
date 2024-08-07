@@ -73,9 +73,6 @@ inputs:
   redis-port:
     description: Redis port
     required: true
-  react-app-kurono-badges-url:
-    description: URL for Kurono badges service
-    required: true
   portal-branch:
     description: Optional portal branch to deploy
     default: ""
@@ -92,10 +89,6 @@ runs:
         sudo apt-get update
         sudo apt-get install libmysqlclient-dev
         pip install mysqlclient==2.1.*
-      shell: bash
-
-    - name: "Install kubernetes"
-      run: pip install kubernetes==26.1.0
       shell: bash
 
     - name: "Build"
@@ -211,5 +204,4 @@ runs:
         RECAPTCHA_PRIVATE_KEY: ${{ inputs.recaptcha-private-key }}
         REDIS_IP: ${{ inputs.redis-ip }}
         REDIS_PORT: ${{ inputs.redis-port }}
-        REACT_APP_KURONO_BADGES_URL: ${{ inputs.react-app-kurono-badges-url }}
       shell: bash
