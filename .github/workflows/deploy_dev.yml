@@ -32,7 +32,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.8.x"
           architecture: "x64"
@@ -78,7 +78,6 @@ jobs:
           recaptcha-private-key: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
           redis-ip: ${{ secrets.REDIS_IP }}
           redis-port: ${{ secrets.REDIS_PORT }}
-          react-app-kurono-badges-url: ${{ secrets.REACT_APP_KURONO_BADGES_URL }}
           portal-branch: ${{ github.event.inputs.portal-branch }}
           rapid-router-branch: ${{ github.event.inputs.rapid-router-branch }}
 

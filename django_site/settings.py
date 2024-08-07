@@ -40,10 +40,6 @@ DOTMAILER_PASSWORD = os.getenv("DOTMAILER_PASSWORD", "")
 DOTMAILER_DEFAULT_PREFERENCES = json.loads(os.getenv("DOTMAILER_DEFAULT_PREFERENCES", "[]") or "[]")
 DOTDIGITAL_AUTH = os.getenv("DOTDIGITAL_AUTH", "")
 
-REACT_APP_KURONO_BADGES_URL = os.getenv(
-    "REACT_APP_KURONO_BADGES_URL", "https://development-kurono-badges-dot-decent-digit-629.appspot.com"
-)
-
 SECURE_HSTS_SECONDS = 31536000  # One year
 SECURE_SSL_REDIRECT = True
 SECURE_REDIRECT_EXEMPT = [r"^mail/weekly/$", r"^cron/.*"]
@@ -60,7 +56,6 @@ DEBUG = False
 # Application definition
 
 INSTALLED_APPS = (
-    "anymail",
     "deploy",
     "game",
     "pipeline",
@@ -171,14 +166,6 @@ SITE_ID = 1
 
 ALLOWED_HOSTS = [".appspot.com", ".codeforlife.education"]
 
-ANYMAIL = {
-    "AMAZON_SES_CLIENT_PARAMS": {
-        "aws_access_key_id": os.getenv("AWS_ACCESS_KEY_ID"),
-        "aws_secret_access_key": os.getenv("AWS_SECRET_ACCESS_KEY"),
-        "region_name": "eu-west-1",
-    }
-}
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
@@ -205,8 +192,6 @@ if os.getenv("GAE_APPLICATION", None):
     lib_path = os.path.join(os.path.dirname(__file__), "lib")
     if lib_path not in sys.path:
         sys.path.append(lib_path)
-    # setup email on app engine
-    EMAIL_BACKEND = "anymail.backends.amazon_ses.EmailBackend"
 
     SOCIAL_AUTH_PANDASSO_KEY = "code-for-life"
     SOCIAL_AUTH_PANDASSO_SECRET = os.getenv("PANDASSO_SECRET")
@@ -285,7 +270,6 @@ CSP_CONNECT_SRC = (
     "https://api.unisvg.com/",
     "https://www.google-analytics.com/",
     "https://region1.google-analytics.com/g/",
-    "https://pyodide-cdn2.iodide.io/v0.15.0/full/",
     "https://crowdin.com/",
     "https://o2.mouseflow.com/",
     "https://stats.g.doubleclick.net/",
@@ -314,7 +298,6 @@ CSP_SCRIPT_SRC = (
     "https://www.google.com/recaptcha/",
     "https://www.gstatic.com/recaptcha/",
     "https://use.typekit.net/mrl4ieu.js",
-    "https://pyodide-cdn2.iodide.io/v0.15.0/full/",
     f"{domain()}/static/portal/",
     f"{domain()}/static/common/",
 )
