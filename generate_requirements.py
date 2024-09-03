@@ -31,7 +31,6 @@ requirements = "\n".join(
         "mysqlclient==2.1.*",
         "redis==3.3.*",
         "django-redis==4.11.*",
-        "google-python-cloud-debugger==2.*",
         "google-cloud-logging==1.*",
         "google-auth==1.*",
     ]

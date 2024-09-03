@@ -70,7 +70,7 @@ INSTALLED_APPS = (
     "django.contrib.messages",
     "django.contrib.sites",
     "django.contrib.staticfiles",
-    "django_js_reverse",
+    "django_reverse_js",
     "import_export",
     "rest_framework",
     "django_otp",
