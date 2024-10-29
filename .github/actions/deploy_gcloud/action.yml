@@ -157,7 +157,7 @@ runs:
         is_sql_proxy_ready=0
         for i in {1..30}; do
             echo "Waiting for cloudsql-proxy to be ready $i/30"
-            if pg_isready --host=/cloudsql/decent-digit-629:europe-west1:db_new --port=5432; then
+            if pg_isready --host=/cloudsql/decent-digit-629:europe-west1:db-new --port=5432; then
               echo "cloudsql-proxy is ready"
               is_sql_proxy_ready=1
               break
