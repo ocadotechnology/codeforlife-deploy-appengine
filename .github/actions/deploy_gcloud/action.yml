@@ -123,6 +123,7 @@ runs:
 
         pip install -t lib django-anymail[amazon_ses]
         pip install -t lib google-auth==1.*
+        pip install -t lib psycopg2
         
         # Install custom common package after everything else if deploying a specific portal branch to ensure the
         # changes from common come through
