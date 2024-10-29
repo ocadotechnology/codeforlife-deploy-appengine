@@ -22,6 +22,15 @@ inputs:
   database-host:
     description: Database host
     required: true
+  psql-database-host:
+    description: PSQL Database host
+    required: true
+  psql-database-name:
+    description: PSQL Database name
+    required: true
+  psql-database-password:
+    description: PSQL Database password
+    required: true
   django-secret:
     description: Django secret
     required: true
@@ -181,6 +190,9 @@ runs:
         CLOUDSDK_PYTHON_SITEPACKAGES: "1"
         DATABASE_NAME: cfl_${{env.DATABASE_POSTFIX}}
         DATABASE_HOST: ${{ inputs.database-host }}
+        PSQL_DATABASE_HOST: ${{ inputs.psql-database-host }}
+        PSQL_DATABASE_NAME: ${{ inputs.psql-database-name }}
+        PSQL_DATABASE_PASSWORD: ${{ inputs.psql-database-password }}
         CACHE_PREFIX: ${{ env.MODULE_NAME }}-
         AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
         AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}

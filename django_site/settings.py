@@ -168,10 +168,11 @@ ALLOWED_HOSTS = [".appspot.com", ".codeforlife.education"]
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "HOST": os.getenv("DATABASE_HOST"),
-        "NAME": os.getenv("DATABASE_NAME"),
-        "USER": "root",
+        "ENGINE": "django.db.backends.postgresql",
+        "HOST": os.getenv("PSQL_DATABASE_HOST"),
+        "NAME": os.getenv("PSQL_DATABASE_NAME"),
+        "USER": "postgres",
+        "PASSWORD": os.getenv("PSQL_DATABASE_PASSWORD"),
         "ATOMIC_REQUESTS": True,
     }
 }
