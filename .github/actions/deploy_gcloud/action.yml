@@ -155,6 +155,9 @@ runs:
         
         # Check PSQL status
         sudo systemctl status postgresql
+        
+        # Check PSQL port
+        sudo netstat -nl | grep postgres
 
         # Start Cloud SQL Proxy and migrate
         /tmp/cloud_sql_proxy -dir=/cloudsql &

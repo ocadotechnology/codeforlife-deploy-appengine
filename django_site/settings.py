@@ -173,7 +173,6 @@ DATABASES = {
         "NAME": os.getenv("PSQL_DATABASE_NAME"),
         "USER": "postgres",
         "PASSWORD": os.getenv("PSQL_DATABASE_PASSWORD"),
-        "SSLMODE": "require",
         "ATOMIC_REQUESTS": True,
     }
 }
