@@ -150,9 +150,11 @@ runs:
         sudo mkdir /cloudsql
         sudo chown runner:runner /cloudsql
         
+        # Start PSQL service
+        systemctl start postgresql
+        
         # Check PSQL status
-        systemctl status postgresql.service
-        pg_lsclusters
+        systemctl status postgresql
 
         # Start Cloud SQL Proxy and migrate
         /tmp/cloud_sql_proxy -dir=/cloudsql &
