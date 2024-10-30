@@ -121,9 +121,8 @@ runs:
           pip install -t lib --upgrade "git+https://github.com/ocadotechnology/rapid-router@${RAPID_ROUTER_BRANCH}#egg=rapid-router"
         fi
 
-        pip install -t lib django-anymail[amazon_ses]
         pip install -t lib google-auth==1.*
-        pip install -t lib psycopg2
+        pip install -t lib psycopg2==2.9.10
         
         # Install custom common package after everything else if deploying a specific portal branch to ensure the
         # changes from common come through
@@ -155,9 +154,6 @@ runs:
         
         # Check PSQL status
         sudo systemctl status postgresql
-        
-        # Check PSQL port
-        sudo netstat -nl | grep postgres
 
         # Start Cloud SQL Proxy and migrate
         /tmp/cloud_sql_proxy -dir=/cloudsql &
