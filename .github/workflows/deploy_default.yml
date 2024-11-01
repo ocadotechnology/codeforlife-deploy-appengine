@@ -48,6 +48,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           database-host: ${{ secrets.DATABASE_HOST }}
+          database-password: ${{ secrets.DATABASE_PASSWORD }}
           django-secret: ${{ secrets.DJANGO_SECRET }}
           django-portal-contact-form-email: ${{ secrets.DJANGO_PORTAL_CONTACT_FORM_EMAIL }}
           dotmailer-create-contact-url: ${{ secrets.DOTMAILER_CREATE_CONTACT_URL }}

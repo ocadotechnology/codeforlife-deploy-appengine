@@ -171,7 +171,8 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         "HOST": os.getenv("DATABASE_HOST"),
         "NAME": os.getenv("DATABASE_NAME"),
-        "USER": "root",
+        "USER": "readonly",
+        "PASSWORD": os.getenv("DATABASE_PASSWORD"),
         "ATOMIC_REQUESTS": True,
     }
 }
