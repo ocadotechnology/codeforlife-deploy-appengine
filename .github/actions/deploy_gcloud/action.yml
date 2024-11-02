@@ -22,6 +22,12 @@ inputs:
   database-host:
     description: Database host
     required: true
+  database-name:
+    description: Database name
+    required: true
+  database-password:
+    description: Database password
+    required: true
   django-secret:
     description: Django secret
     required: true
@@ -112,8 +118,8 @@ runs:
           pip install -t lib --upgrade "git+https://github.com/ocadotechnology/rapid-router@${RAPID_ROUTER_BRANCH}#egg=rapid-router"
         fi
 
-        pip install -t lib django-anymail[amazon_ses]
         pip install -t lib google-auth==1.*
+        pip install -t lib psycopg2==2.9.10
         
         # Install custom common package after everything else if deploying a specific portal branch to ensure the
         # changes from common come through
@@ -139,6 +145,12 @@ runs:
 
         sudo mkdir /cloudsql
         sudo chown runner:runner /cloudsql
+        
+        # Start PSQL service
+        sudo systemctl start postgresql
+        
+        # Check PSQL status
+        sudo systemctl status postgresql
 
         # Start Cloud SQL Proxy and migrate
         /tmp/cloud_sql_proxy -dir=/cloudsql &
@@ -147,7 +159,7 @@ runs:
         is_sql_proxy_ready=0
         for i in {1..30}; do
             echo "Waiting for cloudsql-proxy to be ready $i/30"
-            if mysqladmin -S /cloudsql/decent-digit-629:europe-west1:db ping; then
+            if pg_isready --host=/cloudsql/decent-digit-629:europe-west1:db-new --port=5432; then
               echo "cloudsql-proxy is ready"
               is_sql_proxy_ready=1
               break
@@ -179,8 +191,9 @@ runs:
         VERSION: ${{ inputs.version }}
         CLOUDSDK_CORE_DISABLE_PROMPTS: "1"
         CLOUDSDK_PYTHON_SITEPACKAGES: "1"
-        DATABASE_NAME: cfl_${{env.DATABASE_POSTFIX}}
+        DATABASE_NAME: ${{ inputs.database-name }}
         DATABASE_HOST: ${{ inputs.database-host }}
+        DATABASE_PASSWORD: ${{ inputs.database-password }}
         CACHE_PREFIX: ${{ env.MODULE_NAME }}-
         AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
         AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
