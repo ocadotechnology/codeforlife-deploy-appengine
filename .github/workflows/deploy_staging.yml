@@ -14,7 +14,6 @@ jobs:
       GKE_ZONE: europe-west1-b
       MODULE_NAME: staging
       VERSION: ${{ github.run_number }}
-      DATABASE_POSTFIX: ${{ secrets.DATABASE_POSTFIX }}
     permissions:
       id-token: 'write'
     steps:
