@@ -20,11 +20,10 @@ jobs:
     env:
       APP_ID: decent-digit-629
       NODE_ENV: production
-      DB_PORT: 3306
+      DB_PORT: 5432
       GKE_ZONE: europe-west1-b
       MODULE_NAME: dev
       VERSION: ${{ github.run_number }}
-      DATABASE_POSTFIX: ${{ secrets.DATABASE_POSTFIX }}
     permissions:
       id-token: 'write'
     steps:
@@ -58,9 +57,8 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           database-host: ${{ secrets.DATABASE_HOST }}
-          psql-database-host: ${{ secrets.PSQL_DATABASE_HOST }}
-          psql-database-name: ${{ secrets.PSQL_DATABASE_NAME }}
-          psql-database-password: ${{ secrets.PSQL_DATABASE_PASSWORD }}
+          database-name: ${{ secrets.DATABASE_NAME }}
+          database-password: ${{ secrets.DATABASE_PASSWORD }}
           django-secret: ${{ secrets.DJANGO_SECRET }}
           django-portal-contact-form-email: ${{ secrets.DJANGO_PORTAL_CONTACT_FORM_EMAIL }}
           dotmailer-create-contact-url: ${{ secrets.DOTMAILER_CREATE_CONTACT_URL }}
