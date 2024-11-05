@@ -29,8 +29,8 @@ requirements = "\n".join(
         common_requirement,
         "requests-toolbelt==0.9.*",
         "mysqlclient==2.1.*",
-        "redis==3.3.*",
-        "django-redis==4.11.*",
+        "redis==5.2.0",
+        "django-redis==5.4.0",
         "google-cloud-logging==1.*",
         "google-auth==1.*",
         "psycopg2==2.9.10"
