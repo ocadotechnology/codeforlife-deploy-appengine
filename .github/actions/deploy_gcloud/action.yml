@@ -130,7 +130,6 @@ runs:
         
         pip install -t lib google-auth==1.*
         pip install -t lib psycopg2==2.9.10
-        pip install -t lib django-pipeline==2.0.8
 
         python generate_requirements.py $REQUIREMENTS_ARGS
 

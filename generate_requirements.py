@@ -34,7 +34,6 @@ requirements = "\n".join(
         "google-cloud-logging==1.*",
         "google-auth==1.*",
         "psycopg2==2.9.10",
-        "django-pipeline==2.0.8"
     ]
 )
 
