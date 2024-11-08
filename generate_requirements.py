@@ -33,7 +33,8 @@ requirements = "\n".join(
         "django-redis==5.4.0",
         "google-cloud-logging==1.*",
         "google-auth==1.*",
-        "psycopg2==2.9.10"
+        "psycopg2==2.9.10",
+        "django-pipeline==2.0.8"
     ]
 )
 

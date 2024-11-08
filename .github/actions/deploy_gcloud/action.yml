@@ -122,6 +122,7 @@ runs:
 
         pip install -t lib google-auth==1.*
         pip install -t lib psycopg2==2.9.10
+        pip install -t lib django-pipeline==2.0.8
         
         # Install custom common package after everything else if deploying a specific portal branch to ensure the
         # changes from common come through
