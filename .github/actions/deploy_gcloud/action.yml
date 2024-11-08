@@ -113,7 +113,9 @@ runs:
         fi
 
         # Install rapid router
-        if [[ -n $RAPID_ROUTER_BRANCH ]]; then
+        if [[ -z $RAPID_ROUTER_BRANCH ]]; then
+          pip install -t lib --upgrade rapid-router
+        else
           REQUIREMENTS_ARGS+="--rapid-router-branch ${RAPID_ROUTER_BRANCH} "
           pip install -t lib --upgrade "git+https://github.com/ocadotechnology/rapid-router@${RAPID_ROUTER_BRANCH}#egg=rapid-router"
         fi
