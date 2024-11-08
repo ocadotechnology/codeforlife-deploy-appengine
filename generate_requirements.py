@@ -15,7 +15,7 @@ if args.portal_branch:
     common_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=cfl-common&subdirectory=cfl_common"
 else:
     portal_requirement = f"codeforlife-portal=={portal_version}"
-    common_requirement = ""
+    common_requirement = f"cfl-common=={portal_version}"
 
 if args.rapid_router_branch:
     rapid_router_requirement = f"git+https://github.com/ocadotechnology/rapid-router@{args.rapid_router_branch}#egg=rapid-router"
