@@ -5,7 +5,7 @@ on: workflow_dispatch
 jobs:
   deploy:
     name: Deploy
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     environment: default
     env:
       APP_ID: decent-digit-629
@@ -15,7 +15,7 @@ jobs:
       MODULE_NAME: default
       VERSION: ${{ github.run_number }}
     permissions:
-      id-token: 'write'
+      id-token: "write"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,9 +30,9 @@ jobs:
         name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
-          project_id: 'decent-digit-629'
-          workload_identity_provider: 'projects/354656325390/locations/global/workloadIdentityPools/cfl-pool/providers/cfl-provider'
-          service_account: 'github-actions-34@decent-digit-629.iam.gserviceaccount.com'
+          project_id: "decent-digit-629"
+          workload_identity_provider: "projects/354656325390/locations/global/workloadIdentityPools/cfl-pool/providers/cfl-provider"
+          service_account: "github-actions-34@decent-digit-629.iam.gserviceaccount.com"
 
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@v2
