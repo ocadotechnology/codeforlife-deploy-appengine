@@ -232,7 +232,6 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "sekizai.context_processors.sekizai",
                 "portal.context_processors.process_newsletter_form",
-                "portal.context_processors.process_donate_form",
                 "common.context_processors.module_name",
                 "common.context_processors.cookie_management_enabled",
             ],
