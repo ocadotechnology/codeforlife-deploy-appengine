@@ -177,6 +177,7 @@ runs:
 
         envsubst <app.yaml.tmpl >app.yaml
 
+        ./manage.py sqlmigrate admin 0001
         ./manage.py migrate --no-input
 
         gcloud app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote --no-cache
