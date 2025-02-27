@@ -273,7 +273,6 @@ CSP_CONNECT_SRC = (
     "https://www.google-analytics.com/",
     "https://region1.google-analytics.com/g/",
     "https://crowdin.com/",
-    "https://o2.mouseflow.com/",
     "https://stats.g.doubleclick.net/",
 )
 CSP_FONT_SRC = (
@@ -295,7 +294,6 @@ CSP_SCRIPT_SRC = (
     "https://code.iconify.design/2/2.0.3/iconify.min.js",
     "https://www.googletagmanager.com/",
     "https://www.google-analytics.com/analytics.js",
-    "https://cdn.mouseflow.com/",
     "https://www.recaptcha.net/",
     "https://www.google.com/recaptcha/",
     "https://www.gstatic.com/recaptcha/",
@@ -315,6 +313,7 @@ CSP_STYLE_SRC = (
 )
 CSP_FRAME_SRC = (
     "https://storage.googleapis.com/",
+    "https://2662351606-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/",
     "https://www.youtube-nocookie.com/",
     "https://www.recaptcha.net/",
     "https://www.google.com/recaptcha/",
