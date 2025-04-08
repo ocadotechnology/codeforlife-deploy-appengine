@@ -80,7 +80,12 @@ PIPELINE = {
 }
 
 STATICFILES_FINDERS = ["pipeline.finders.PipelineFinder"]
-STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {
+        "BACKEND": "pipeline.storage.PipelineManifestStorage",
+    },
+}
 
 # We only need to look into these 2 folders
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static/portal/"), os.path.join(BASE_DIR, "static/game/")]
