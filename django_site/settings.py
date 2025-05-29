@@ -298,6 +298,7 @@ CSP_SCRIPT_SRC = (
     "https://www.google.com/recaptcha/",
     "https://www.gstatic.com/recaptcha/",
     "https://use.typekit.net/mrl4ieu.js",
+    "https://editor-static.raspberrypi.org/releases/v0.29.1/web-component.js",
     f"{domain()}/static/portal/",
     f"{domain()}/static/common/",
 )
