@@ -274,6 +274,7 @@ CSP_CONNECT_SRC = (
     "https://region1.google-analytics.com/g/",
     "https://crowdin.com/",
     "https://stats.g.doubleclick.net/",
+    "https://o17504.ingest.sentry.io/api/4504055099621376/envelope/,"
 )
 CSP_FONT_SRC = (
     "'self'",
@@ -316,6 +317,7 @@ CSP_FRAME_SRC = (
     "https://storage.googleapis.com/",
     "https://2662351606-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/",
     "https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/",
+    "https://code-for-life.gitbook.io/",
     "https://www.recaptcha.net/",
     "https://www.google.com/recaptcha/",
     "https://crowdin.com/",
