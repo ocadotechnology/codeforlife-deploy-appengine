@@ -274,7 +274,7 @@ CSP_CONNECT_SRC = (
     "https://region1.google-analytics.com/g/",
     "https://crowdin.com/",
     "https://stats.g.doubleclick.net/",
-    "https://o17504.ingest.sentry.io/api/4504055099621376/envelope/,"
+    "https://o17504.ingest.sentry.io/api/4504055099621376/envelope/",
 )
 CSP_FONT_SRC = (
     "'self'",
