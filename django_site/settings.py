@@ -8,9 +8,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import json
 # Build paths inside the project like this: rel(rel_path)
 import os
-import json
 
 from .permissions import is_cloud_scheduler
 
@@ -29,24 +29,20 @@ DOTMAILER_CREATE_CONTACT_URL = os.getenv("DOTMAILER_CREATE_CONTACT_URL", "")
 DOTMAILER_MAIN_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_MAIN_ADDRESS_BOOK_URL", "")
 DOTMAILER_TEACHER_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_TEACHER_ADDRESS_BOOK_URL", "")
 DOTMAILER_STUDENT_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_STUDENT_ADDRESS_BOOK_URL", "")
-DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL = os.getenv(
-    "DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL", ""
-)
+DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL = os.getenv("DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL", "")
 DOTMAILER_GET_USER_BY_EMAIL_URL = os.getenv("DOTMAILER_GET_USER_BY_EMAIL_URL", "")
 DOTMAILER_DELETE_USER_BY_ID_URL = os.getenv("DOTMAILER_DELETE_USER_BY_ID_URL", "")
 DOTMAILER_PUT_CONSENT_DATA_URL = os.getenv("DOTMAILER_PUT_CONSENT_DATA_URL", "")
 DOTMAILER_SEND_CAMPAIGN_URL = os.getenv("DOTMAILER_SEND_CAMPAIGN_URL", "")
-DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID = os.getenv(
-    "DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID", ""
-)
+DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID = os.getenv("DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID", "")
 DOTMAILER_USER = os.getenv("DOTMAILER_USER", "")
 DOTMAILER_PASSWORD = os.getenv("DOTMAILER_PASSWORD", "")
-DOTMAILER_DEFAULT_PREFERENCES = json.loads(
-    os.getenv("DOTMAILER_DEFAULT_PREFERENCES", "[]") or "[]"
-)
+DOTMAILER_DEFAULT_PREFERENCES = json.loads(os.getenv("DOTMAILER_DEFAULT_PREFERENCES", "[]") or "[]")
+DOTDIGITAL_AUTH = os.getenv("DOTDIGITAL_AUTH", "")
 
 SECURE_HSTS_SECONDS = 31536000  # One year
 SECURE_SSL_REDIRECT = True
+SECURE_REDIRECT_EXEMPT = [r"^mail/weekly/$", r"^cron/.*"]
 
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
@@ -60,13 +56,11 @@ DEBUG = False
 # Application definition
 
 INSTALLED_APPS = (
-    "anymail",
     "deploy",
-    "aimmo",
     "game",
     "pipeline",
     "portal",
-    "captcha",
+    "django_recaptcha",
     "common",
     "django.contrib.admin",
     "django.contrib.admindocs",
@@ -76,7 +70,7 @@ INSTALLED_APPS = (
     "django.contrib.messages",
     "django.contrib.sites",
     "django.contrib.staticfiles",
-    "django_js_reverse",
+    "django_reverse_js",
     "import_export",
     "rest_framework",
     "django_otp",
@@ -104,6 +98,7 @@ MIDDLEWARE = [
     "preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware",
     "csp.middleware.CSPMiddleware",
     "deploy.middleware.screentime_warning.ScreentimeWarningMiddleware",
+    "deploy.middleware.maintenance.MaintenanceMiddleware",
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -172,20 +167,14 @@ SITE_ID = 1
 
 ALLOWED_HOSTS = [".appspot.com", ".codeforlife.education"]
 
-ANYMAIL = {
-    "AMAZON_SES_CLIENT_PARAMS": {
-        "aws_access_key_id": os.getenv("AWS_ACCESS_KEY_ID"),
-        "aws_secret_access_key": os.getenv("AWS_SECRET_ACCESS_KEY"),
-        "region_name": "eu-west-1",
-    }
-}
-
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
+        "ENGINE": "django.db.backends.postgresql",
         "HOST": os.getenv("DATABASE_HOST"),
         "NAME": os.getenv("DATABASE_NAME"),
-        "USER": "root",
+        "USER": "postgres",
+        "PASSWORD": os.getenv("DATABASE_PASSWORD"),
+        "ATOMIC_REQUESTS": True,
     }
 }
 
@@ -205,8 +194,6 @@ if os.getenv("GAE_APPLICATION", None):
     lib_path = os.path.join(os.path.dirname(__file__), "lib")
     if lib_path not in sys.path:
         sys.path.append(lib_path)
-    # setup email on app engine
-    EMAIL_BACKEND = "anymail.backends.amazon_ses.EmailBackend"
 
     SOCIAL_AUTH_PANDASSO_KEY = "code-for-life"
     SOCIAL_AUTH_PANDASSO_SECRET = os.getenv("PANDASSO_SECRET")
@@ -215,6 +202,7 @@ if os.getenv("GAE_APPLICATION", None):
 
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+    CSRF_USE_SESSIONS = False
 
 EMAIL_ADDRESS = "no-reply@codeforlife.education"
 
@@ -254,18 +242,6 @@ TEMPLATES = [
 
 CMS_TEMPLATES = (("portal/base.html", "Template One"),)
 
-
-AIMMO_GAME_SERVER_URL_FUNCTION = lambda game: (
-    f"{os.getenv('GAE_SERVICE')}-aimmo.codeforlife.education",
-    f"/game-{game}/socket.io",
-)
-
-
-AIMMO_GAME_SERVER_PORT_FUNCTION = lambda game: 0
-
-
-AIMMO_GAME_SERVER_SSL_FLAG = True
-
 IS_CLOUD_SCHEDULER_FUNCTION = is_cloud_scheduler
 CLOUD_STORAGE_PREFIX = "https://storage.googleapis.com/codeforlife-assets/"
 
@@ -288,18 +264,16 @@ CSP_DEFAULT_SRC = ("self",)
 CSP_CONNECT_SRC = (
     "'self'",
     "https://*.onetrust.com/",
+    "https://api.pwnedpasswords.com",
     "https://euc-widget.freshworks.com/",
     "https://codeforlife.freshdesk.com/",
     "https://api.iconify.design/",
     "https://api.simplesvg.com/",
     "https://api.unisvg.com/",
     "https://www.google-analytics.com/",
-    "https://pyodide-cdn2.iodide.io/v0.15.0/full/",
+    "https://region1.google-analytics.com/g/",
     "https://crowdin.com/",
-    "https://o2.mouseflow.com/",
     "https://stats.g.doubleclick.net/",
-    f"wss://{MODULE_NAME}-aimmo.codeforlife.education/",
-    f"https://{MODULE_NAME}-aimmo.codeforlife.education/",
 )
 CSP_FONT_SRC = (
     "'self'",
@@ -311,20 +285,19 @@ CSP_SCRIPT_SRC = (
     "'self'",
     "'unsafe-inline'",
     "'unsafe-eval'",
+    "https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js",
     "https://cdn.crowdin.com/",
     "https://*.onetrust.com/",
     "https://code.jquery.com/",
     "https://euc-widget.freshworks.com/",
     "https://cdn-ukwest.onetrust.com/",
     "https://code.iconify.design/2/2.0.3/iconify.min.js",
-    "https://www.googletagmanager.com/gtm.js",
-    "https://cdn.mouseflow.com/",
+    "https://www.googletagmanager.com/",
     "https://www.google-analytics.com/analytics.js",
     "https://www.recaptcha.net/",
     "https://www.google.com/recaptcha/",
     "https://www.gstatic.com/recaptcha/",
     "https://use.typekit.net/mrl4ieu.js",
-    "https://pyodide-cdn2.iodide.io/v0.15.0/full/",
     f"{domain()}/static/portal/",
     f"{domain()}/static/common/",
 )
@@ -340,7 +313,8 @@ CSP_STYLE_SRC = (
 )
 CSP_FRAME_SRC = (
     "https://storage.googleapis.com/",
-    "https://www.youtube-nocookie.com/",
+    "https://2662351606-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/",
+    "https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/",
     "https://www.recaptcha.net/",
     "https://www.google.com/recaptcha/",
     "https://crowdin.com/",
@@ -369,6 +343,7 @@ CSP_IMG_SRC = (
 )
 CSP_OBJECT_SRC = (f"{domain()}/static/common/img/", f"{domain()}/static/game/image/")
 CSP_MEDIA_SRC = (
+    "https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/",
     f"{domain()}/static/game/sound/",
     f"{domain()}/static/game/js/blockly/media/",
     f"{domain()}/static/portal/video/",

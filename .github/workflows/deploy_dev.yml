@@ -3,10 +3,6 @@ name: Deploy to Dev
 on:
   workflow_dispatch:
     inputs:
-      aimmo-branch:
-        description: "aimmo branch"
-        required: false
-        default: ""
       portal-branch:
         description: "portal branch"
         required: false
@@ -19,37 +15,37 @@ on:
 jobs:
   deploy:
     name: Deploy
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     environment: dev
     env:
       APP_ID: decent-digit-629
       NODE_ENV: production
-      DB_PORT: 3306
+      DB_PORT: 5432
       GKE_ZONE: europe-west1-b
       MODULE_NAME: dev
       VERSION: ${{ github.run_number }}
-      DATABASE_POSTFIX: ${{ secrets.DATABASE_POSTFIX }}
+    permissions:
+      id-token: "write"
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.7.x"
+          python-version: "3.12.x"
           architecture: "x64"
 
-      - id: gcauth
+      - id: auth
         name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v0
+        uses: google-github-actions/auth@v2
         with:
-          credentials_json: ${{ secrets.GCLOUD_AUTH }}
+          project_id: "decent-digit-629"
+          workload_identity_provider: "projects/354656325390/locations/global/workloadIdentityPools/cfl-pool/providers/cfl-provider"
+          service_account: "github-actions-34@decent-digit-629.iam.gserviceaccount.com"
 
       - name: Setup gcloud CLI
-        uses: google-github-actions/setup-gcloud@v0
-        with:
-          version: "337.0.0"
-          project_id: ${{ env.APP_ID }}
+        uses: google-github-actions/setup-gcloud@v2
 
       - name: Deploy to Google Cloud
         uses: ./.github/actions/deploy_gcloud
@@ -61,6 +57,8 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           database-host: ${{ secrets.DATABASE_CLONE_HOST }}
+          database-name: ${{ secrets.DATABASE_NAME }}
+          database-password: ${{ secrets.DATABASE_PASSWORD }}
           django-secret: ${{ secrets.DJANGO_SECRET }}
           django-portal-contact-form-email: ${{ secrets.DJANGO_PORTAL_CONTACT_FORM_EMAIL }}
           dotmailer-create-contact-url: ${{ secrets.DOTMAILER_CREATE_CONTACT_URL }}
@@ -76,11 +74,11 @@ jobs:
           dotmailer-user: ${{ secrets.DOTMAILER_USER }}
           dotmailer-password: ${{ secrets.DOTMAILER_PASSWORD }}
           dotmailer-default-preferences: ${{ secrets.DOTMAILER_DEFAULT_PREFERENCES }}
+          dotdigital-auth: ${{ secrets.DOTDIGITAL_AUTH }}
           recaptcha-public-key: ${{ secrets.RECAPTCHA_PUBLIC_KEY }}
           recaptcha-private-key: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
           redis-ip: ${{ secrets.REDIS_IP }}
           redis-port: ${{ secrets.REDIS_PORT }}
-          aimmo-branch: ${{ github.event.inputs.aimmo-branch }}
           portal-branch: ${{ github.event.inputs.portal-branch }}
           rapid-router-branch: ${{ github.event.inputs.rapid-router-branch }}
 
@@ -89,7 +87,6 @@ jobs:
         run: ./notify_deployment.py
         env:
           DEPLOY_NOTIFY_URL: ${{ secrets.DEPLOY_NOTIFY_URL }}
-          AIMMO_BRANCH: ${{ github.event.inputs.aimmo-branch }}
           PORTAL_BRANCH: ${{ github.event.inputs.portal-branch }}
           RAPID_ROUTER_BRANCH: ${{ github.event.inputs.rapid-router-branch }}
 

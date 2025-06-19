@@ -20,13 +20,11 @@ DEBUG = True
 # Application definition
 
 INSTALLED_APPS = (
-    "anymail",
     "deploy",
-    "aimmo",
     "game",
     "pipeline",
     "portal",
-    "captcha",
+    "django_recaptcha",
     "common",
     "django.contrib.admin",
     "django.contrib.admindocs",
@@ -36,7 +34,7 @@ INSTALLED_APPS = (
     "django.contrib.messages",
     "django.contrib.sites",
     "django.contrib.staticfiles",
-    "django_js_reverse",
+    "django_reverse_js",
     "rest_framework",
     "import_export",
     "django_otp",
@@ -69,12 +67,12 @@ PIPELINE = {
                 rel("static/game/css/level_selection.css"),
                 rel("static/game/css/backgrounds.css"),
             ),
-            "output_filename": "portal.css",
+            "output_filename": "portal/css/portal.css",
         },
-        "game-scss": {"source_filenames": (rel("static/game/sass/game.scss"),), "output_filename": "game.css"},
+        "game-scss": {"source_filenames": (rel("static/game/sass/game.scss"),), "output_filename": "game/css/gamestyles.css"},
         "popup": {
             "source_filenames": (rel("static/portal/sass/partials/_popup.scss"),),
-            "output_filename": "popup.css",
+            "output_filename": "portal/css/popup.css",
         },
     },
     "CSS_COMPRESSOR": None,
@@ -82,7 +80,12 @@ PIPELINE = {
 }
 
 STATICFILES_FINDERS = ["pipeline.finders.PipelineFinder"]
-STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {
+        "BACKEND": "pipeline.storage.PipelineManifestStorage",
+    },
+}
 
 # We only need to look into these 2 folders
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static/portal/"), os.path.join(BASE_DIR, "static/game/")]

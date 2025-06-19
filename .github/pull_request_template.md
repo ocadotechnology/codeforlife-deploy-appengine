@@ -1,5 +1,6 @@
 <!--- Provide a general summary of your changes in the Title above -->
-<!--- This template can be modified slighty to the needs of the pull request -->
+<!--- This template can be modified slightly to the needs of the pull 
+request -->
 
 ## Description
 <!--- Describe your changes in detail -->
