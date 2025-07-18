@@ -90,13 +90,6 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: "Setup MySQL"
-      run: |
-        sudo apt-get update
-        sudo apt-get install libmysqlclient-dev
-        pip install mysqlclient==2.1.*
-      shell: bash
-
     - name: "Build"
       run: |
         pip install requests
@@ -163,7 +156,7 @@ runs:
         is_sql_proxy_ready=0
         for i in {1..30}; do
             echo "Waiting for cloudsql-proxy to be ready $i/30"
-            if pg_isready --host=/cloudsql/decent-digit-629:europe-west1:db-new --port=5432; then
+            if pg_isready --host=${DATABASE_HOST} --port=5432; then
               echo "cloudsql-proxy is ready"
               is_sql_proxy_ready=1
               break
