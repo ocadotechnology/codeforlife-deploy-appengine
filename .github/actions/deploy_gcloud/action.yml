@@ -19,6 +19,9 @@ inputs:
   aws-secret-access-key:
     description: AWS secret access key
     required: true
+  encryption-key:
+    description: OAuth2 encryption key
+    required: true
   database-host:
     description: Database host
     required: true
@@ -194,6 +197,7 @@ runs:
         CACHE_PREFIX: ${{ env.MODULE_NAME }}-
         AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
         AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
+        ENCRYPTION_KEY: ${{ inputs.encryption-key }}
         DJANGO_SECRET: ${{ inputs.django-secret }}
         DJANGO_PORTAL_CONTACT_FORM_EMAIL: ${{ inputs.django-portal-contact-form-email }}
         DOTMAILER_CREATE_CONTACT_URL: ${{ inputs.dotmailer-create-contact-url }}
