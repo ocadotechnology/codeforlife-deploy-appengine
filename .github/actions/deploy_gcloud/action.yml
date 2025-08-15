@@ -135,6 +135,7 @@ runs:
         MODULE_NAME: ${{ inputs.module-name }}
         PORTAL_BRANCH: ${{ inputs.portal-branch }}
         RAPID_ROUTER_BRANCH: ${{ inputs.rapid-router-branch }}
+        ENCRYPTION_KEY: ${{ inputs.encryption-key }}
       shell: bash
 
     - name: "Deploy"
