@@ -15,6 +15,8 @@ rel = lambda rel_path: os.path.join(BASE_DIR, rel_path)
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("DJANGO_SECRET", "NOT A SECRET")
 
+ENCRYPTION_KEY = os.environ["ENCRYPTION_KEY"]
+
 DEBUG = True
 
 # Application definition
