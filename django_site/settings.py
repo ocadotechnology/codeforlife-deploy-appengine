@@ -276,6 +276,7 @@ CSP_CONNECT_SRC = (
     "https://region1.google-analytics.com/g/",
     "https://crowdin.com/",
     "https://stats.g.doubleclick.net/",
+    "https://o17504.ingest.sentry.io/api/4504055099621376/envelope/",
 )
 CSP_FONT_SRC = (
     "'self'",
@@ -300,6 +301,7 @@ CSP_SCRIPT_SRC = (
     "https://www.google.com/recaptcha/",
     "https://www.gstatic.com/recaptcha/",
     "https://use.typekit.net/mrl4ieu.js",
+    "https://editor-static.raspberrypi.org/releases/v0.29.1/web-component.js",
     f"{domain()}/static/portal/",
     f"{domain()}/static/common/",
 )
@@ -317,6 +319,7 @@ CSP_FRAME_SRC = (
     "https://storage.googleapis.com/",
     "https://2662351606-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/",
     "https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/",
+    "https://code-for-life.gitbook.io/",
     "https://www.recaptcha.net/",
     "https://www.google.com/recaptcha/",
     "https://crowdin.com/",
