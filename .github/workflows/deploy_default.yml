@@ -46,6 +46,7 @@ jobs:
           version: ${{ env.VERSION }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          encryption-key: ${{ secrets.ENCRYPTION_KEY }}
           database-host: ${{ secrets.DATABASE_HOST }}
           database-name: ${{ secrets.DATABASE_NAME }}
           database-password: ${{ secrets.DATABASE_PASSWORD }}
