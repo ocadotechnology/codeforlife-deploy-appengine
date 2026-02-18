@@ -174,10 +174,6 @@ runs:
 
         envsubst <app.yaml.tmpl >app.yaml
 
-        # ./manage.py migrate --no-input
-        ./manage.py migrate --fake common zero
-        ./manage.py migrate --fake portal zero
-        ./manage.py migrate --fake game zero
         ./manage.py migrate --fake-initial
 
         gcloud app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote --no-cache
