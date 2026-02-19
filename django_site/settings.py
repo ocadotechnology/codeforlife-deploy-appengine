@@ -80,6 +80,7 @@ INSTALLED_APPS = (
     "treebeard",
     "two_factor",
     "preventconcurrentlogins",
+    "codeforlife.user",
 )
 
 MIDDLEWARE = [
@@ -112,6 +113,8 @@ SESSION_SAVE_EVERY_REQUEST = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 ENCRYPTION_KEY = os.environ["ENCRYPTION_KEY"]
+
+AUTH_USER_MODEL = "user.User"
 
 ROOT_URLCONF = "django_site.urls"
 
