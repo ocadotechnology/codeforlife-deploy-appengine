@@ -179,16 +179,16 @@ runs:
         ./manage.py migrate --fake portal zero
         ./manage.py migrate --fake common zero
 
-        gcloud app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote --no-cache
+        # gcloud app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote --no-cache
 
-        # Test the site
-        curl -I https://${VERSION}-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"
+        # # Test the site
+        # curl -I https://${VERSION}-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"
 
-        # Promote
-        gcloud app services set-traffic --project ${APP_ID} --splits ${VERSION}=1 ${MODULE_NAME} --migrate
+        # # Promote
+        # gcloud app services set-traffic --project ${APP_ID} --splits ${VERSION}=1 ${MODULE_NAME} --migrate
 
-        # Test the site - again!
-        curl -I https://default-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"
+        # # Test the site - again!
+        # curl -I https://default-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"
       env:
         APP_ID: ${{ inputs.app-id }}
         MODULE_NAME: ${{ inputs.module-name }}
