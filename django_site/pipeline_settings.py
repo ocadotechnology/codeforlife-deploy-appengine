@@ -17,6 +17,8 @@ SECRET_KEY = os.getenv("DJANGO_SECRET", "NOT A SECRET")
 
 ENCRYPTION_KEY = os.environ["ENCRYPTION_KEY"]
 
+AUTH_USER_MODEL = "user.User"
+
 DEBUG = True
 
 # Application definition
@@ -46,6 +48,7 @@ INSTALLED_APPS = (
     "treebeard",
     "two_factor",
     "preventconcurrentlogins",
+    "codeforlife.user",
 )
 
 # Static files (CSS, JavaScript, Images)
