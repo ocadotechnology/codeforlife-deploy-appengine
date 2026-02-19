@@ -175,6 +175,14 @@ runs:
         envsubst <app.yaml.tmpl >app.yaml
 
         ./manage.py migrate --no-input
+        ./manage.py migrate --fake admin zero
+        ./manage.py migrate --fake auth zero
+        ./manage.py migrate --fake contenttypes zero
+        ./manage.py migrate --fake otp_static zero
+        ./manage.py migrate --fake preventconcurrentlogins zero
+        ./manage.py migrate --fake sessions zero
+        ./manage.py migrate --fake sites zero
+        ./manage.py migrate --fake two_factor zero
         ./manage.py migrate --fake game zero
         ./manage.py migrate --fake portal zero
         ./manage.py migrate --fake common zero
