@@ -81,6 +81,7 @@ INSTALLED_APPS = (
     "two_factor",
     "preventconcurrentlogins",
     "codeforlife.user",
+    "constance",
 )
 
 MIDDLEWARE = [
@@ -99,7 +100,7 @@ MIDDLEWARE = [
     "preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware",
     "csp.middleware.CSPMiddleware",
     "deploy.middleware.screentime_warning.ScreentimeWarningMiddleware",
-    "deploy.middleware.maintenance.MaintenanceMiddleware",
+    "deploy.middleware.MaintenanceModeMiddleware",
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -357,3 +358,8 @@ CSP_MEDIA_SRC = (
     f"{domain()}/static/portal/video/",
 )
 CSP_MANIFEST_SRC = (f"{domain()}/static/manifest.json",)
+
+CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
+CONSTANCE_CONFIG = {
+    "MAINTENANCE_MODE": (False, "Enable maintenance mode for the site", bool),
+}
