@@ -95,4 +95,6 @@ STORAGES = {
 # We only need to look into these 2 folders
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static/portal/"), os.path.join(BASE_DIR, "static/game/")]
 
+ENV = "local"
+
 from codeforlife.settings import GCP_KMS_KEY_URI
