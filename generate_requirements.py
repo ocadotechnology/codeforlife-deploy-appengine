@@ -12,7 +12,7 @@ args = parser.parse_args()
 
 if args.portal_branch:
     portal_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal.git@{args.portal_branch}#egg=codeforlife-portal"
-    common_requirement = "git+https://github.com/ocadotechnology/codeforlife-portal.git@553abd7556b6e8bf00622515b3d127e9fe68b859#egg=cfl-common&subdirectory=cfl_common"
+    common_requirement = "git+https://github.com/ocadotechnology/codeforlife-portal.git@96b5931fcaf4e91e10d88c8690b69cb778786d63#egg=cfl-common&subdirectory=cfl_common"
 else:
     portal_requirement = f"codeforlife-portal=={portal_version}"
     common_requirement = f"cfl-common=={portal_version}"
