@@ -33,7 +33,6 @@ requirements = "\n".join(
         "google-cloud-logging==3.*",
         "google-auth==2.*",
         "psycopg2==2.9.10",
-        "codeforlife @ git+https://github.com/ocadotechnology/codeforlife-package-python.git@c5b44ea762c9f8ee8739f1fb61ca4969da2d5a1c",
     ]
 )
 
