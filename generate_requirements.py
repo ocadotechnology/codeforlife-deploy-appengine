@@ -38,6 +38,7 @@ requirements = "\n".join(
         "google-cloud-logging==1.*",
         "google-auth==1.*",
         "psycopg2==2.9.10",
+        "codeforlife==0.32.0",
     ]
 )
 
