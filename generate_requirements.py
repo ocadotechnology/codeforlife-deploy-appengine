@@ -11,14 +11,14 @@ parser.add_argument("--rapid-router-branch")
 args = parser.parse_args()
 
 if args.portal_branch:
-    portal_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=codeforlife-portal"
-    common_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal@{args.portal_branch}#egg=cfl-common&subdirectory=cfl_common"
+    portal_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal.git@{args.portal_branch}#egg=codeforlife-portal"
+    common_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal.git@{args.portal_branch}#egg=cfl-common&subdirectory=cfl_common"
 else:
     portal_requirement = f"codeforlife-portal=={portal_version}"
     common_requirement = f"cfl-common=={portal_version}"
 
 if args.rapid_router_branch:
-    rapid_router_requirement = f"git+https://github.com/ocadotechnology/rapid-router@{args.rapid_router_branch}#egg=rapid-router"
+    rapid_router_requirement = f"git+https://github.com/ocadotechnology/rapid-router.git@{args.rapid_router_branch}#egg=rapid-router"
 else:
     rapid_router_requirement = f"rapid-router=={rapid_router_version}"
 
@@ -28,10 +28,10 @@ requirements = "\n".join(
         portal_requirement,
         common_requirement,
         "requests-toolbelt==1.0.0",
-        "redis==5.2.0",
+        "redis==5.2.1",
         "django-redis==5.4.0",
-        "google-cloud-logging==1.*",
-        "google-auth==1.*",
+        "google-cloud-logging==3.*",
+        "google-auth==2.*",
         "psycopg2==2.9.10",
     ]
 )
