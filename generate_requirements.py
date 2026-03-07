@@ -1,8 +1,8 @@
 import argparse
 
 # Versions will be fetched from the init of each package (portal, game) after they are installed in lib - this happens in the "Build" step.
-# from lib.game import __version__ as rapid_router_version
-# from lib.portal import __version__ as portal_version
+from lib.game import __version__ as rapid_router_version
+from lib.portal import __version__ as portal_version
 
 
 parser = argparse.ArgumentParser()
@@ -12,7 +12,7 @@ args = parser.parse_args()
 
 if args.portal_branch:
     portal_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal.git@{args.portal_branch}#egg=codeforlife-portal"
-    common_requirement = "git+https://github.com/ocadotechnology/codeforlife-portal.git@96b5931fcaf4e91e10d88c8690b69cb778786d63#egg=cfl-common&subdirectory=cfl_common"
+    common_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal.git@{args.portal_branch}#egg=cfl-common&subdirectory=cfl_common"
 else:
     portal_requirement = f"codeforlife-portal=={portal_version}"
     common_requirement = f"cfl-common=={portal_version}"
