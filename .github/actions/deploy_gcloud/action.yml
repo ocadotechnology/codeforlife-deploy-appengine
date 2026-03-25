@@ -175,6 +175,9 @@ runs:
         envsubst <app.yaml.tmpl >app.yaml
 
         ./manage.py migrate --no-input
+        
+        ./manage.py loaddata --app=user legacy.json
+        ./manage.py loaddata --app=game game.json
 
         gcloud app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote --no-cache
 
