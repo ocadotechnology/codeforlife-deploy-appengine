@@ -82,6 +82,9 @@ jobs:
           redis-port: ${{ secrets.REDIS_PORT }}
           portal-branch: ${{ github.event.inputs.portal-branch }}
           rapid-router-branch: ${{ github.event.inputs.rapid-router-branch }}
+          gcp-kms-key-ring-location: ${{ secrets.GCP_KMS_KEY_RING_LOCATION }}
+          gcp-kms-key-ring-name: ${{ secrets.GCP_KMS_KEY_RING_NAME }}
+          gcp-kms-key-name: ${{ secrets.GCP_KMS_KEY_NAME }}
 
       - name: Notify successful deployment
         if: ${{ success() }}

@@ -90,6 +90,15 @@ inputs:
     description: Optional rapid-router branch to deploy
     default: ""
     required: false
+  gcp-kms-key-ring-location:
+    description: GCP KMS key ring location
+    required: true
+  gcp-kms-key-ring-name:
+    description: GCP KMS key ring name
+    required: true
+  gcp-kms-key-name:
+    description: GCP KMS key name
+    required: true
 runs:
   using: composite
   steps:
@@ -219,4 +228,7 @@ runs:
         RECAPTCHA_PRIVATE_KEY: ${{ inputs.recaptcha-private-key }}
         REDIS_IP: ${{ inputs.redis-ip }}
         REDIS_PORT: ${{ inputs.redis-port }}
+        GCP_KMS_KEY_RING_LOCATION: ${{ inputs.gcp-kms-key-ring-location }}
+        GCP_KMS_KEY_RING_NAME: ${{ inputs.gcp-kms-key-ring-name }}
+        GCP_KMS_KEY_NAME: ${{ inputs.gcp-kms-key-name }}
       shell: bash

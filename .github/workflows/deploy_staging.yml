@@ -70,6 +70,9 @@ jobs:
           recaptcha-private-key: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
           redis-ip: ${{ secrets.REDIS_IP }}
           redis-port: ${{ secrets.REDIS_PORT }}
+          gcp-kms-key-ring-location: ${{ secrets.GCP_KMS_KEY_RING_LOCATION }}
+          gcp-kms-key-ring-name: ${{ secrets.GCP_KMS_KEY_RING_NAME }}
+          gcp-kms-key-name: ${{ secrets.GCP_KMS_KEY_NAME }}
 
       - name: Notify successful deployment
         if: ${{ success() }}
