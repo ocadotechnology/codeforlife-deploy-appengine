@@ -21,7 +21,6 @@ jobs:
       APP_ID: decent-digit-629
       NODE_ENV: production
       DB_PORT: 5432
-      GKE_ZONE: europe-west1-b
       MODULE_NAME: dev
       ENV: development
       VERSION: ${{ github.run_number }}
@@ -70,8 +69,8 @@ jobs:
           recaptcha-public-key: ${{ secrets.RECAPTCHA_PUBLIC_KEY }}
           portal-branch: ${{ github.event.inputs.portal-branch }}
           rapid-router-branch: ${{ github.event.inputs.rapid-router-branch }}
-          gcp-secret-manager-location: ${{ env.GCP_SECRET_MANAGER_LOCATION }}
-          google-cloud-project-id: ${{ env.GOOGLE_CLOUD_PROJECT_ID }}
+          gcp-secret-manager-location: ${{ vars.GCP_SECRET_MANAGER_LOCATION }}
+          google-cloud-project-id: ${{ vars.GOOGLE_CLOUD_PROJECT_ID }}
 
       - name: Notify successful deployment
         if: ${{ success() }}
