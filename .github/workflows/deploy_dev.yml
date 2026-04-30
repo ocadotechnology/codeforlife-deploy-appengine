@@ -23,6 +23,7 @@ jobs:
       DB_PORT: 5432
       GKE_ZONE: europe-west1-b
       MODULE_NAME: dev
+      ENV: development
       VERSION: ${{ github.run_number }}
     permissions:
       id-token: "write"
@@ -52,15 +53,8 @@ jobs:
         with:
           app-id: ${{ env.APP_ID }}
           module-name: ${{ env.MODULE_NAME }}
-          gke-zone: ${{ env.GKE_ZONE }}
+          env: ${{ env.ENV }}
           version: ${{ env.VERSION }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          encryption-key: ${{ secrets.ENCRYPTION_KEY }}
-          database-host: ${{ secrets.DATABASE_HOST }}
-          database-name: ${{ secrets.DATABASE_NAME }}
-          database-password: ${{ secrets.DATABASE_PASSWORD }}
-          django-secret: ${{ secrets.DJANGO_SECRET }}
           django-portal-contact-form-email: ${{ secrets.DJANGO_PORTAL_CONTACT_FORM_EMAIL }}
           dotmailer-create-contact-url: ${{ secrets.DOTMAILER_CREATE_CONTACT_URL }}
           dotmailer-main-address-book-url: ${{ secrets.DOTMAILER_MAIN_ADDRESS_BOOK_URL }}
@@ -72,19 +66,12 @@ jobs:
           dotmailer-put-consent-data-url: ${{ secrets.DOTMAILER_PUT_CONSENT_DATA_URL }}
           dotmailer-send-campaign-url: ${{ secrets.DOTMAILER_SEND_CAMPAIGN_URL }}
           dotmailer-thanks-for-staying-campaign-id: ${{ secrets.DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID }}
-          dotmailer-user: ${{ secrets.DOTMAILER_USER }}
-          dotmailer-password: ${{ secrets.DOTMAILER_PASSWORD }}
           dotmailer-default-preferences: ${{ secrets.DOTMAILER_DEFAULT_PREFERENCES }}
-          dotdigital-auth: ${{ secrets.DOTDIGITAL_AUTH }}
           recaptcha-public-key: ${{ secrets.RECAPTCHA_PUBLIC_KEY }}
-          recaptcha-private-key: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
-          redis-ip: ${{ secrets.REDIS_IP }}
-          redis-port: ${{ secrets.REDIS_PORT }}
           portal-branch: ${{ github.event.inputs.portal-branch }}
           rapid-router-branch: ${{ github.event.inputs.rapid-router-branch }}
-          gcp-kms-key-ring-location: ${{ secrets.GCP_KMS_KEY_RING_LOCATION }}
-          gcp-kms-key-ring-name: ${{ secrets.GCP_KMS_KEY_RING_NAME }}
-          gcp-kms-key-name: ${{ secrets.GCP_KMS_KEY_NAME }}
+          gcp-secret-manager-location: ${{ env.GCP_SECRET_MANAGER_LOCATION }}
+          google-cloud-project-id: ${{ env.GOOGLE_CLOUD_PROJECT_ID }}
 
       - name: Notify successful deployment
         if: ${{ success() }}
