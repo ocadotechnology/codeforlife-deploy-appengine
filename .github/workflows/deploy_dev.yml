@@ -50,27 +50,30 @@ jobs:
       - name: Deploy to Google Cloud
         uses: ./.github/actions/deploy_gcloud
         with:
+          # Local environment variables.
           app-id: ${{ env.APP_ID }}
           module-name: ${{ env.MODULE_NAME }}
           env: ${{ env.ENV }}
           version: ${{ env.VERSION }}
-          django-portal-contact-form-email: ${{ secrets.DJANGO_PORTAL_CONTACT_FORM_EMAIL }}
-          dotmailer-create-contact-url: ${{ secrets.DOTMAILER_CREATE_CONTACT_URL }}
-          dotmailer-main-address-book-url: ${{ secrets.DOTMAILER_MAIN_ADDRESS_BOOK_URL }}
-          dotmailer-teacher-address-book-url: ${{ secrets.DOTMAILER_TEACHER_ADDRESS_BOOK_URL }}
-          dotmailer-student-address-book-url: ${{ secrets.DOTMAILER_STUDENT_ADDRESS_BOOK_URL }}
-          dotmailer-no-account-address-book-url: ${{ secrets.DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL }}
-          dotmailer-get-user-by-email-url: ${{ secrets.DOTMAILER_GET_USER_BY_EMAIL_URL }}
-          dotmailer-delete-user-by-id-url: ${{ secrets.DOTMAILER_DELETE_USER_BY_ID_URL }}
-          dotmailer-put-consent-data-url: ${{ secrets.DOTMAILER_PUT_CONSENT_DATA_URL }}
-          dotmailer-send-campaign-url: ${{ secrets.DOTMAILER_SEND_CAMPAIGN_URL }}
-          dotmailer-thanks-for-staying-campaign-id: ${{ secrets.DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID }}
-          dotmailer-default-preferences: ${{ secrets.DOTMAILER_DEFAULT_PREFERENCES }}
-          recaptcha-public-key: ${{ secrets.RECAPTCHA_PUBLIC_KEY }}
-          portal-branch: ${{ github.event.inputs.portal-branch }}
-          rapid-router-branch: ${{ github.event.inputs.rapid-router-branch }}
+          # Repository environment variables.
+          django-portal-contact-form-email: ${{ vars.DJANGO_PORTAL_CONTACT_FORM_EMAIL }}
+          dotmailer-create-contact-url: ${{ vars.DOTMAILER_CREATE_CONTACT_URL }}
+          dotmailer-main-address-book-url: ${{ vars.DOTMAILER_MAIN_ADDRESS_BOOK_URL }}
+          dotmailer-teacher-address-book-url: ${{ vars.DOTMAILER_TEACHER_ADDRESS_BOOK_URL }}
+          dotmailer-student-address-book-url: ${{ vars.DOTMAILER_STUDENT_ADDRESS_BOOK_URL }}
+          dotmailer-no-account-address-book-url: ${{ vars.DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL }}
+          dotmailer-get-user-by-email-url: ${{ vars.DOTMAILER_GET_USER_BY_EMAIL_URL }}
+          dotmailer-delete-user-by-id-url: ${{ vars.DOTMAILER_DELETE_USER_BY_ID_URL }}
+          dotmailer-put-consent-data-url: ${{ vars.DOTMAILER_PUT_CONSENT_DATA_URL }}
+          dotmailer-send-campaign-url: ${{ vars.DOTMAILER_SEND_CAMPAIGN_URL }}
+          dotmailer-thanks-for-staying-campaign-id: ${{ vars.DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID }}
+          dotmailer-default-preferences: ${{ vars.DOTMAILER_DEFAULT_PREFERENCES }}
+          recaptcha-public-key: ${{ vars.RECAPTCHA_PUBLIC_KEY }}
           gcp-secret-manager-location: ${{ vars.GCP_SECRET_MANAGER_LOCATION }}
           google-cloud-project-id: ${{ vars.GOOGLE_CLOUD_PROJECT_ID }}
+          # GitHub workflow-dispatch inputs.
+          portal-branch: ${{ github.event.inputs.portal-branch }}
+          rapid-router-branch: ${{ github.event.inputs.rapid-router-branch }}
 
       - name: Notify successful deployment
         if: ${{ success() }}
