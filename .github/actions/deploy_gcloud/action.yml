@@ -144,16 +144,58 @@ runs:
 
         ./manage.py migrate --no-input
 
-        gcloud app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote --no-cache
+        PROJECT_ID="decent-digit-629"
+        REGION="europe-west2"
+        REPO="cloud-run-jobs"
+        IMAGE="django-backend"
+        TAG="$(git rev-parse --short HEAD)"
+        JOB_NAME="encrypt-plaintext-fields"
 
-        # Test the site
-        curl -I https://${VERSION}-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"
+        ENV_VARS="DJANGO_SETTINGS_MODULE=django_site.settings"
+        ENV_VARS+=",HTTPS=on"
+        ENV_VARS+=",ENV=${ENV}"
+        ENV_VARS+=",CACHE_PREFIX=${CACHE_PREFIX}"
+        ENV_VARS+=",RECAPTCHA_PUBLIC_KEY=${RECAPTCHA_PUBLIC_KEY}"
+        ENV_VARS+=",DJANGO_PORTAL_CONTACT_FORM_EMAIL=${DJANGO_PORTAL_CONTACT_FORM_EMAIL}"
+        ENV_VARS+=",DOTMAILER_CREATE_CONTACT_URL=${DOTMAILER_CREATE_CONTACT_URL}"
+        ENV_VARS+=",DOTMAILER_MAIN_ADDRESS_BOOK_URL=${DOTMAILER_MAIN_ADDRESS_BOOK_URL}"
+        ENV_VARS+=",DOTMAILER_TEACHER_ADDRESS_BOOK_URL=${DOTMAILER_TEACHER_ADDRESS_BOOK_URL}"
+        ENV_VARS+=",DOTMAILER_STUDENT_ADDRESS_BOOK_URL=${DOTMAILER_STUDENT_ADDRESS_BOOK_URL}"
+        ENV_VARS+=",DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL=${DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL}"
+        ENV_VARS+=",DOTMAILER_GET_USER_BY_EMAIL_URL=${DOTMAILER_GET_USER_BY_EMAIL_URL}"
+        ENV_VARS+=",DOTMAILER_DELETE_USER_BY_ID_URL=${DOTMAILER_DELETE_USER_BY_ID_URL}"
+        ENV_VARS+=",DOTMAILER_PUT_CONSENT_DATA_URL=${DOTMAILER_PUT_CONSENT_DATA_URL}"
+        ENV_VARS+=",DOTMAILER_SEND_CAMPAIGN_URL=${DOTMAILER_SEND_CAMPAIGN_URL}"
+        ENV_VARS+=",DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID=${DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID}"
+        ENV_VARS+=",DOTMAILER_DEFAULT_PREFERENCES=${DOTMAILER_DEFAULT_PREFERENCES}"
+        ENV_VARS+=",GCP_SECRET_MANAGER_LOCATION=${GCP_SECRET_MANAGER_LOCATION}"
+        ENV_VARS+=",GOOGLE_CLOUD_PROJECT_ID=${GOOGLE_CLOUD_PROJECT_ID}"
 
-        # Promote
-        gcloud app services set-traffic --project ${APP_ID} --splits ${VERSION}=1 ${MODULE_NAME} --migrate
+        gcloud builds submit --tag "$REGION-docker.pkg.dev/$PROJECT_ID/$REPO/$IMAGE:$TAG"
 
-        # Test the site - again!
-        curl -I https://default-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"
+        gcloud run jobs deploy "$JOB_NAME" \
+          --region="$REGION" \
+          --image="$REGION-docker.pkg.dev/$PROJECT_ID/$REPO/$IMAGE:$TAG" \
+          --tasks=1 \
+          --max-retries=3 \
+          --task-timeout=24h \
+          --memory=1Gi \
+          --cpu=1 \
+          --set-env-vars="$ENV_VARS" \
+          --set-cloudsql-instances="decent-digit-629:europe-west1:db-new-enc" \
+          --command="python" \
+          --args="manage.py,encrypt_plaintext_fields,user,game,--chunk-size=1000,--disable-styles"
+
+        # gcloud app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote --no-cache
+
+        # # Test the site
+        # curl -I https://${VERSION}-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"
+
+        # # Promote
+        # gcloud app services set-traffic --project ${APP_ID} --splits ${VERSION}=1 ${MODULE_NAME} --migrate
+
+        # # Test the site - again!
+        # curl -I https://default-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"
       env:
         APP_ID: ${{ inputs.app-id }}
         ENV: ${{ inputs.env }}
