@@ -99,7 +99,9 @@ runs:
         ./manage.py collectstatic --noinput
         ./manage.py collectstatic --noinput --settings django_site.pipeline_settings
       env:
-        MODULE_NAME: ${{ inputs.module-name }}
+        # Force local environment for collectstatic to ensure it runs without
+        # trying to connect to GCP services.
+        ENV: local
         PORTAL_BRANCH: ${{ inputs.portal-branch }}
         RAPID_ROUTER_BRANCH: ${{ inputs.rapid-router-branch }}
       shell: bash
