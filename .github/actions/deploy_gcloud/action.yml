@@ -173,18 +173,18 @@ runs:
 
         gcloud builds submit --tag "$REGION-docker.pkg.dev/$PROJECT_ID/$REPO/$IMAGE:$TAG"
 
-        gcloud run jobs deploy "$JOB_NAME" \
-          --region="$REGION" \
-          --image="$REGION-docker.pkg.dev/$PROJECT_ID/$REPO/$IMAGE:$TAG" \
-          --tasks=1 \
-          --max-retries=3 \
-          --task-timeout=24h \
-          --memory=1Gi \
-          --cpu=1 \
-          --set-env-vars="$ENV_VARS" \
-          --set-cloudsql-instances="decent-digit-629:europe-west1:db-new-enc" \
-          --command="python" \
-          --args="manage.py,encrypt_plaintext_fields,user,game,--chunk-size=1000,--disable-styles"
+        # gcloud run jobs deploy "$JOB_NAME" \
+        #   --region="$REGION" \
+        #   --image="$REGION-docker.pkg.dev/$PROJECT_ID/$REPO/$IMAGE:$TAG" \
+        #   --tasks=1 \
+        #   --max-retries=3 \
+        #   --task-timeout=24h \
+        #   --memory=1Gi \
+        #   --cpu=1 \
+        #   --set-env-vars="$ENV_VARS" \
+        #   --set-cloudsql-instances="decent-digit-629:europe-west1:db-new-enc" \
+        #   --command="python" \
+        #   --args="manage.py,encrypt_plaintext_fields,user,game,--chunk-size=1000,--disable-styles"
 
         # gcloud app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote --no-cache
 
