@@ -171,7 +171,7 @@ runs:
         ENV_VARS+=",GCP_SECRET_MANAGER_LOCATION=${GCP_SECRET_MANAGER_LOCATION}"
         ENV_VARS+=",GOOGLE_CLOUD_PROJECT_ID=${GOOGLE_CLOUD_PROJECT_ID}"
 
-        gcloud builds submit --tag "$REGION-docker.pkg.dev/$PROJECT_ID/$REPO/$IMAGE:$TAG"
+        gcloud builds submit --tag "$REGION-docker.pkg.dev/$PROJECT_ID/$REPO/$IMAGE:$TAG" .
 
         # gcloud app --quiet deploy app.yaml --project ${APP_ID} --version ${VERSION} --no-promote --no-cache
 
