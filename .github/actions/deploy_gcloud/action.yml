@@ -82,15 +82,7 @@ runs:
           REQUIREMENTS_ARGS+="--rapid-router-branch ${RAPID_ROUTER_BRANCH} "
           pip install -t lib --upgrade "git+https://github.com/ocadotechnology/rapid-router@${RAPID_ROUTER_BRANCH}#egg=rapid-router"
         fi
-        
-        # Install custom common package after everything else if deploying a specific portal branch to ensure the
-        # changes from common come through
-        if [[ -z $PORTAL_BRANCH ]]; then
-          pip install -t lib --upgrade cfl_common
-        else
-          pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=cfl-common&subdirectory=cfl_common"
-        fi
-        
+
         pip install -t lib google-auth==1.*
         pip install -t lib psycopg2==2.9.10
 
