@@ -62,7 +62,7 @@ INSTALLED_APPS = (
     "pipeline",
     "portal",
     "django_recaptcha",
-    "common",
+    "codeforlife.legacy",
     "django.contrib.admin",
     "django.contrib.admindocs",
     "django.contrib.auth",
@@ -238,8 +238,8 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "sekizai.context_processors.sekizai",
                 "portal.context_processors.process_newsletter_form",
-                "common.context_processors.env",
-                "common.context_processors.cookie_management_enabled",
+                "codeforlife.legacy.context_processors.env",
+                "codeforlife.legacy.context_processors.cookie_management_enabled",
             ],
         },
     }
@@ -305,7 +305,7 @@ CSP_SCRIPT_SRC = (
     "https://use.typekit.net/mrl4ieu.js",
     "https://editor-static.raspberrypi.org/releases/v0.29.1/web-component.js",
     f"{domain()}/static/portal/",
-    f"{domain()}/static/common/",
+    f"{domain()}/static/legacy/",
 )
 CSP_STYLE_SRC = (
     "'self'",
@@ -325,7 +325,7 @@ CSP_FRAME_SRC = (
     "https://www.recaptcha.net/",
     "https://www.google.com/recaptcha/",
     "https://crowdin.com/",
-    f"{domain()}/static/common/img/",
+    f"{domain()}/static/legacy/img/",
     f"{domain()}/static/game/image/",
 )
 CSP_IMG_SRC = (
@@ -348,7 +348,7 @@ CSP_IMG_SRC = (
     f"{domain()}/static/game/js/blockly/media/",
     f"{domain()}/static/icons/",
 )
-CSP_OBJECT_SRC = (f"{domain()}/static/common/img/", f"{domain()}/static/game/image/")
+CSP_OBJECT_SRC = (f"{domain()}/static/legacy/img/", f"{domain()}/static/game/image/")
 CSP_MEDIA_SRC = (
     "https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/",
     f"{domain()}/static/game/sound/",
