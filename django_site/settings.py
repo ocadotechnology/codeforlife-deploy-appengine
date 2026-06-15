@@ -12,16 +12,17 @@ import json
 # Build paths inside the project like this: rel(rel_path)
 import os
 
+from codeforlife.settings import get_secret, LatestSecret
+
 from .permissions import is_cloud_scheduler
 
-MODULE_NAME = os.getenv("MODULE_NAME")
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 rel = lambda rel_path: os.path.join(BASE_DIR, rel_path)
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("DJANGO_SECRET", "NOT A SECRET")
+SECRET_KEY = get_secret("SECRET_KEY", "NOT A SECRET")
 
-RECAPTCHA_PRIVATE_KEY = os.getenv("RECAPTCHA_PRIVATE_KEY", "NOT A SECRET")
+RECAPTCHA_PRIVATE_KEY = get_secret("RECAPTCHA_PRIVATE_KEY", "NOT A SECRET")
 RECAPTCHA_PUBLIC_KEY = os.getenv("RECAPTCHA_PUBLIC_KEY", "NOT A SECRET")
 NOCAPTCHA = True
 
@@ -35,10 +36,10 @@ DOTMAILER_DELETE_USER_BY_ID_URL = os.getenv("DOTMAILER_DELETE_USER_BY_ID_URL", "
 DOTMAILER_PUT_CONSENT_DATA_URL = os.getenv("DOTMAILER_PUT_CONSENT_DATA_URL", "")
 DOTMAILER_SEND_CAMPAIGN_URL = os.getenv("DOTMAILER_SEND_CAMPAIGN_URL", "")
 DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID = os.getenv("DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID", "")
-DOTMAILER_USER = os.getenv("DOTMAILER_USER", "")
-DOTMAILER_PASSWORD = os.getenv("DOTMAILER_PASSWORD", "")
+DOTMAILER_USER = LatestSecret("DOTMAILER_USER", "")
+DOTMAILER_PASSWORD = LatestSecret("DOTMAILER_PASSWORD", "")
 DOTMAILER_DEFAULT_PREFERENCES = json.loads(os.getenv("DOTMAILER_DEFAULT_PREFERENCES", "[]") or "[]")
-DOTDIGITAL_AUTH = os.getenv("DOTDIGITAL_AUTH", "")
+DOTDIGITAL_AUTH = LatestSecret("DOTDIGITAL_AUTH", "")
 
 SECURE_HSTS_SECONDS = 31536000  # One year
 SECURE_SSL_REDIRECT = True
@@ -61,7 +62,7 @@ INSTALLED_APPS = (
     "pipeline",
     "portal",
     "django_recaptcha",
-    "common",
+    "codeforlife.legacy",
     "django.contrib.admin",
     "django.contrib.admindocs",
     "django.contrib.auth",
@@ -112,8 +113,6 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_COOKIE_AGE = 60 * 60
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-
-ENCRYPTION_KEY = os.environ["ENCRYPTION_KEY"]
 
 AUTH_USER_MODEL = "user.User"
 
@@ -176,10 +175,10 @@ ALLOWED_HOSTS = [".appspot.com", ".codeforlife.education"]
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "HOST": os.getenv("DATABASE_HOST"),
-        "NAME": os.getenv("DATABASE_NAME"),
+        "HOST": get_secret("DATABASE_HOST"),
+        "NAME": get_secret("DATABASE_NAME"),
         "USER": "postgres",
-        "PASSWORD": os.getenv("DATABASE_PASSWORD"),
+        "PASSWORD": get_secret("DATABASE_PASSWORD"),
         "ATOMIC_REQUESTS": True,
     }
 }
@@ -189,7 +188,7 @@ if os.getenv("GAE_APPLICATION", None):
     CACHES = {
         "default": {
             "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": f"redis://{os.getenv('REDIS_IP')}:{os.getenv('REDIS_PORT')}/0",
+            "LOCATION": f"redis://{get_secret('REDIS_IP')}:{get_secret('REDIS_PORT')}/0",
             "KEY_PREFIX": os.getenv("CACHE_PREFIX"),
             "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
         }
@@ -239,8 +238,8 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "sekizai.context_processors.sekizai",
                 "portal.context_processors.process_newsletter_form",
-                "common.context_processors.module_name",
-                "common.context_processors.cookie_management_enabled",
+                "codeforlife.legacy.context_processors.env",
+                "codeforlife.legacy.context_processors.cookie_management_enabled",
             ],
         },
     }
@@ -253,17 +252,16 @@ CLOUD_STORAGE_PREFIX = "https://storage.googleapis.com/codeforlife-assets/"
 
 COOKIE_MANAGEMENT_ENABLED = True
 
+from codeforlife.settings import GCP_KMS_KEY_URI, ENV
 
 def domain():
     """Returns the full domain depending on whether it's local, dev, staging or prod."""
-    domain_name = "https://www.codeforlife.education"
-
-    if MODULE_NAME == "local":
-        domain_name = "localhost:8000"
-    elif MODULE_NAME == "staging" or MODULE_NAME == "dev":
-        domain_name = f"https://{MODULE_NAME}-dot-decent-digit-629.appspot.com"
-
-    return domain_name
+    return {
+        "local": "localhost:8000",
+        "development": "https://dev-dot-decent-digit-629.appspot.com",
+        "staging": "https://staging-dot-decent-digit-629.appspot.com",
+        "production": "https://www.codeforlife.education",
+    }[ENV]
 
 
 CSP_DEFAULT_SRC = ("self",)
@@ -307,7 +305,7 @@ CSP_SCRIPT_SRC = (
     "https://use.typekit.net/mrl4ieu.js",
     "https://editor-static.raspberrypi.org/releases/v0.29.1/web-component.js",
     f"{domain()}/static/portal/",
-    f"{domain()}/static/common/",
+    f"{domain()}/static/legacy/",
 )
 CSP_STYLE_SRC = (
     "'self'",
@@ -327,7 +325,7 @@ CSP_FRAME_SRC = (
     "https://www.recaptcha.net/",
     "https://www.google.com/recaptcha/",
     "https://crowdin.com/",
-    f"{domain()}/static/common/img/",
+    f"{domain()}/static/legacy/img/",
     f"{domain()}/static/game/image/",
 )
 CSP_IMG_SRC = (
@@ -350,7 +348,7 @@ CSP_IMG_SRC = (
     f"{domain()}/static/game/js/blockly/media/",
     f"{domain()}/static/icons/",
 )
-CSP_OBJECT_SRC = (f"{domain()}/static/common/img/", f"{domain()}/static/game/image/")
+CSP_OBJECT_SRC = (f"{domain()}/static/legacy/img/", f"{domain()}/static/game/image/")
 CSP_MEDIA_SRC = (
     "https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/",
     f"{domain()}/static/game/sound/",
@@ -363,7 +361,3 @@ CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
 CONSTANCE_CONFIG = {
     "MAINTENANCE_MODE": (False, "Enable maintenance mode for the site", bool),
 }
-
-ENV = MODULE_NAME
-
-from codeforlife.settings import GCP_KMS_KEY_URI

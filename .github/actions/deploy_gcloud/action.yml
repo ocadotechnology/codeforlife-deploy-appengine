@@ -7,32 +7,11 @@ inputs:
   module-name:
     description: The name of the module
     required: true
-  gke-zone:
-    description: GKE Zone
+  env:
+    description: The environment being deployed to
     required: true
   version:
     description: Version number to deploy
-    required: true
-  aws-access-key-id:
-    description: AWS access key ID
-    required: true
-  aws-secret-access-key:
-    description: AWS secret access key
-    required: true
-  encryption-key:
-    description: OAuth2 encryption key
-    required: true
-  database-host:
-    description: Database host
-    required: true
-  database-name:
-    description: Database name
-    required: true
-  database-password:
-    description: Database password
-    required: true
-  django-secret:
-    description: Django secret
     required: true
   django-portal-contact-form-email:
     description: Portal contact form email
@@ -58,29 +37,11 @@ inputs:
   dotmailer-thanks-for-staying-campaign-id:
     description: ID for Dotmailer thanks for staying campaign
     required: true
-  dotmailer-user:
-    description: Dotmailer user
-    required: true
-  dotmailer-password:
-    description: Dotmailer password
-    required: true
   dotmailer-default-preferences:
     description: Dotmailer default preferences
     required: true
-  dotdigital-auth:
-    description: Dotdigital access key
-    required: true
   recaptcha-public-key:
     description: Recaptcha public key
-    required: true
-  recaptcha-private-key:
-    description: Recaptcha private key
-    required: true
-  redis-ip:
-    description: Redis IP
-    required: true
-  redis-port:
-    description: Redis port
     required: true
   portal-branch:
     description: Optional portal branch to deploy
@@ -90,6 +51,12 @@ inputs:
     description: Optional rapid-router branch to deploy
     default: ""
     required: false
+  gcp-secret-manager-location:
+    description: GCP Secret Manager location
+    required: true
+  google-cloud-project-id:
+    description: Google Cloud project ID
+    required: true
 runs:
   using: composite
   steps:
@@ -115,15 +82,7 @@ runs:
           REQUIREMENTS_ARGS+="--rapid-router-branch ${RAPID_ROUTER_BRANCH} "
           pip install -t lib --upgrade "git+https://github.com/ocadotechnology/rapid-router@${RAPID_ROUTER_BRANCH}#egg=rapid-router"
         fi
-        
-        # Install custom common package after everything else if deploying a specific portal branch to ensure the
-        # changes from common come through
-        if [[ -z $PORTAL_BRANCH ]]; then
-          pip install -t lib --upgrade cfl_common
-        else
-          pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=cfl-common&subdirectory=cfl_common"
-        fi
-        
+
         pip install -t lib google-auth==1.*
         pip install -t lib psycopg2==2.9.10
 
@@ -132,10 +91,11 @@ runs:
         ./manage.py collectstatic --noinput
         ./manage.py collectstatic --noinput --settings django_site.pipeline_settings
       env:
-        MODULE_NAME: ${{ inputs.module-name }}
+        # Force local environment for collectstatic to ensure it runs without
+        # trying to connect to GCP services.
+        ENV: local
         PORTAL_BRANCH: ${{ inputs.portal-branch }}
         RAPID_ROUTER_BRANCH: ${{ inputs.rapid-router-branch }}
-        ENCRYPTION_KEY: ${{ inputs.encryption-key }}
       shell: bash
 
     - name: "Deploy"
@@ -191,18 +151,11 @@ runs:
         curl -I https://default-dot-${MODULE_NAME}-dot-${APP_ID}.appspot.com/ | grep "HTTP/2 200"
       env:
         APP_ID: ${{ inputs.app-id }}
-        MODULE_NAME: ${{ inputs.module-name }}
+        ENV: ${{ inputs.env }}
         VERSION: ${{ inputs.version }}
         CLOUDSDK_CORE_DISABLE_PROMPTS: "1"
         CLOUDSDK_PYTHON_SITEPACKAGES: "1"
-        DATABASE_NAME: ${{ inputs.database-name }}
-        DATABASE_HOST: ${{ inputs.database-host }}
-        DATABASE_PASSWORD: ${{ inputs.database-password }}
         CACHE_PREFIX: ${{ env.MODULE_NAME }}-
-        AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
-        AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
-        ENCRYPTION_KEY: ${{ inputs.encryption-key }}
-        DJANGO_SECRET: ${{ inputs.django-secret }}
         DJANGO_PORTAL_CONTACT_FORM_EMAIL: ${{ inputs.django-portal-contact-form-email }}
         DOTMAILER_CREATE_CONTACT_URL: ${{ inputs.dotmailer-create-contact-url }}
         DOTMAILER_MAIN_ADDRESS_BOOK_URL: ${{ inputs.dotmailer-main-address-book-url }}
@@ -214,12 +167,8 @@ runs:
         DOTMAILER_PUT_CONSENT_DATA_URL: ${{ inputs.dotmailer-put-consent-data-url }}
         DOTMAILER_SEND_CAMPAIGN_URL: ${{ inputs.dotmailer-send-campaign-url }}
         DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID: ${{ inputs.dotmailer-thanks-for-staying-campaign-id }}
-        DOTMAILER_USER: ${{ inputs.dotmailer-user }}
-        DOTMAILER_PASSWORD: ${{ inputs.dotmailer-password }}
         DOTMAILER_DEFAULT_PREFERENCES: ${{ inputs.dotmailer-default-preferences }}
-        DOTDIGITAL_AUTH: ${{ inputs.dotdigital-auth }}
         RECAPTCHA_PUBLIC_KEY: ${{ inputs.recaptcha-public-key }}
-        RECAPTCHA_PRIVATE_KEY: ${{ inputs.recaptcha-private-key }}
-        REDIS_IP: ${{ inputs.redis-ip }}
-        REDIS_PORT: ${{ inputs.redis-port }}
+        GCP_SECRET_MANAGER_LOCATION: ${{ inputs.gcp-secret-manager-location }}
+        GOOGLE_CLOUD_PROJECT_ID: ${{ inputs.google-cloud-project-id }}
       shell: bash
