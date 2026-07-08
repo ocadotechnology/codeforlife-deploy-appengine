@@ -72,7 +72,7 @@ runs:
           pip install -t lib --upgrade codeforlife-portal
         else
           REQUIREMENTS_ARGS+="--portal-branch ${PORTAL_BRANCH} "
-          pip install -t lib --upgrade "git+https://github.com/ocadotechnology/codeforlife-portal@${PORTAL_BRANCH}#egg=codeforlife-portal"
+          pip install -t lib --upgrade "git+https://github.com/codeforlife-education/codeforlife-portal@${PORTAL_BRANCH}#egg=codeforlife-portal"
         fi
 
         # Install rapid router
@@ -80,7 +80,7 @@ runs:
           pip install -t lib --upgrade rapid-router
         else
           REQUIREMENTS_ARGS+="--rapid-router-branch ${RAPID_ROUTER_BRANCH} "
-          pip install -t lib --upgrade "git+https://github.com/ocadotechnology/rapid-router@${RAPID_ROUTER_BRANCH}#egg=rapid-router"
+          pip install -t lib --upgrade "git+https://github.com/codeforlife-education/rapid-router@${RAPID_ROUTER_BRANCH}#egg=rapid-router"
         fi
 
         pip install -t lib google-auth==1.*

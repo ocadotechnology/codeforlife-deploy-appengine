@@ -5,4 +5,4 @@ on:
 
 jobs:
   validate-existing-contributors:
-    uses: ocadotechnology/codeforlife-workspace/.github/workflows/validate-existing-contributors.yaml@main
+    uses: codeforlife-education/codeforlife-workspace/.github/workflows/validate-existing-contributors.yaml@main

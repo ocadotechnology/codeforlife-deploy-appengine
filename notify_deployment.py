@@ -22,7 +22,7 @@ args = parser.parse_args()
 if args.success.lower() in ["false", "0"]:
     success = False
 
-message = f"<https://github.com/ocadotechnology/codeforlife-deploy-appengine/deployments|Deployment to {MODULE_NAME}> "
+message = f"<https://github.com/codeforlife-education/codeforlife-deploy-appengine/deployments|Deployment to {MODULE_NAME}> "
 if success:
     versions = defaultdict(lambda: "error")
     try:

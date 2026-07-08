@@ -11,12 +11,12 @@ parser.add_argument("--rapid-router-branch")
 args = parser.parse_args()
 
 if args.portal_branch:
-    portal_requirement = f"git+https://github.com/ocadotechnology/codeforlife-portal.git@{args.portal_branch}#egg=codeforlife-portal"
+    portal_requirement = f"git+https://github.com/codeforlife-education/codeforlife-portal.git@{args.portal_branch}#egg=codeforlife-portal"
 else:
     portal_requirement = f"codeforlife-portal=={portal_version}"
 
 if args.rapid_router_branch:
-    rapid_router_requirement = f"git+https://github.com/ocadotechnology/rapid-router.git@{args.rapid_router_branch}#egg=rapid-router"
+    rapid_router_requirement = f"git+https://github.com/codeforlife-education/rapid-router.git@{args.rapid_router_branch}#egg=rapid-router"
 else:
     rapid_router_requirement = f"rapid-router=={rapid_router_version}"
 
